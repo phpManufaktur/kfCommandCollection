@@ -1,0 +1,43 @@
+{
+  "name":"CommandCollection",
+  "guid":"9C4C9BDB-496E-463A-9107-4EB160A63B35",
+  "category":"extension",
+  "group":"phpManufaktur",
+  "vendor":"phpManufaktur",
+  "type":"library",
+  "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
+  "namespace": "phpManufaktur\\CommandCollection",
+  "release": {
+    "number" : "0.10",
+    "date" : "2013-08-23"
+  },
+  "description": {
+    "en": {
+      "title":"Collection of kitCommands for the kitFramework",
+      "short": "A collection of usefull kitCommands for the kitFramework",
+      "long": "A collection of usefull kitCommands for the kitFramework and for the parent Content Management System",
+      "url": "https:\/\/kit2.phpmanufaktur.de"
+    },
+    "de":{
+      "title":"Sammlung von kitCommands für das kitFramework",
+      "short":"Eine Sammlung von kitCommands für das kitFramework",
+      "long":"Eine Sammlung von kitCommands für das kitFramework sowie für die übergeordneten Content Management Systeme",
+      "url":"https:\/\/kit2.phpmanufaktur.de"
+    }
+  },
+  "require": {
+    "framework": {
+      "release": "0.20"
+    }
+  },
+  "license":"MIT License",
+  "download": {
+    "availability":"public",
+    "agreement":"free",
+    "github":{
+      "organization":"phpManufaktur",
+      "repository":"kfCommandCollection"
+    },
+    "url":"https:\/\/github.com\/phpManufaktur\/kfCommandCollection"
+  }
+}

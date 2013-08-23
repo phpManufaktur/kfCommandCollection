@@ -1,0 +1,46 @@
+{
+  "command":"LoremIpsum",
+  "vendor": {
+    "name":"phpManufaktur",
+    "url":"https://phpmanufaktur.de"
+    },
+  "name": {
+    "en":"Lorem Ipsum generator",
+    "de":"Lorem Ipsum Generator"
+  },
+  "description": {
+    "en":"Use LoremIpsum to generate blind text as place holder and for testing purpose.",
+    "de":"Verwenden Sie LoremIpsum um Blindtexte zu Testzwecken und als Platzhalter zu erzeugen."
+  },
+  "help": {
+    "en": {
+      "link":"https://gist.github.com/hertsch/6315586",
+      "gist_id":"6315586",
+      "file": {
+        "help":"kitcommand_loremipsum_en.md"
+      }
+    },
+    "de": {
+      "link":"https://gist.github.com/hertsch/6315612",
+      "gist_id":"6315612",
+      "file": {
+        "help":"kitcommand_loremipsum_de.md"
+      }
+    }
+  },
+  "info": {
+    "en": {
+      "link":"https://kit2.phpmanufaktur.de"
+    }
+  },
+  "issues": {
+    "en": {
+      "link":"https://github.com/phpManufaktur/kfCommandCollection/issues"
+    }
+  },
+  "support": {
+    "en": {
+      "link":"https://support.phpmanufaktur.de"
+    }
+  }
+}
