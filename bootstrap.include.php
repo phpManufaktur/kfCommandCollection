@@ -17,6 +17,7 @@ $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale'
 $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale/Custom');
 
 
+// Lorem Ipsum
 $app->post('/command/loremipsum',
     'phpManufaktur\CommandCollection\Control\LoremIpsum\LoremIpsum::exec')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.loremipsum.json');
