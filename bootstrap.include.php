@@ -21,3 +21,10 @@ $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale/
 $app->post('/command/loremipsum',
     'phpManufaktur\CommandCollection\Control\LoremIpsum\LoremIpsum::exec')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.loremipsum.json');
+
+// Excel Read
+$app->post('/command/excelread',
+    'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::InitFrame')
+    ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.excelread.json');
+$app->get('/excelread/exec',
+    'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::Exec');

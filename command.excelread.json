@@ -1,0 +1,38 @@
+{
+  "command":"ExcelRead",
+  "vendor": {
+    "name":"phpManufaktur",
+    "url":"https://phpmanufaktur.de"
+    },
+  "name": {
+    "en":"Excel Reader"
+  },
+  "description": {
+    "en":"Use the Excel Reader to read excel files and show them at your website."
+  },
+  "help": {
+    "en": {
+      "link": "https://gist.github.com/hertsch/6460548",
+      "gist_id": 6460548,
+      "file": {
+        "help":"kitcommand_excelread_en.md",
+        "welcome":"welcome.md"
+      }
+    }
+  },
+  "info": {
+    "en": {
+      "link":"https://kit2.phpmanufaktur.de"
+    }
+  },
+  "issues": {
+    "en": {
+      "link":"https://github.com/phpManufaktur/kfCommandCollection/issues"
+    }
+  },
+  "support": {
+    "en": {
+      "link":"https://support.phpmanufaktur.de"
+    }
+  }
+}
