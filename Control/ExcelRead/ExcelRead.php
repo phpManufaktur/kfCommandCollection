@@ -92,6 +92,7 @@ class ExcelRead extends Basic
             case 'media_protected':
                 $path = FRAMEWORK_MEDIA_PROTECTED_PATH.$file; break;
             case 'url':
+                $path = urlencode($file); break;
             case 'path':
                 $path = $file; break;
             default:
