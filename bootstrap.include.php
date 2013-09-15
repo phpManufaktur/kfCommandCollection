@@ -16,15 +16,38 @@ $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale'
 // scan the /Locale/Custom directory and add all available languages
 $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale/Custom');
 
+// use $collection for all CommandCollection routes
+$collection = $app['controllers_factory'];
+
+// Setup, Upgrade and Uninstall for the CommandCollection
+$admin->get('/collection/setup',
+    'phpManufaktur\CommandCollection\Data\Setup\Setup::exec');
+$admin->get('/collection/upgrade',
+    'phpManufaktur\CommandCollection\Data\Setup\Upgrade::exec');
+$admin->get('/collection/uninstall',
+    'phpManufaktur\CommandCollection\Data\Setup\Uninstall::exec');
 
 // Lorem Ipsum
-$app->post('/command/loremipsum',
+$command->post('/loremipsum',
     'phpManufaktur\CommandCollection\Control\LoremIpsum\LoremIpsum::exec')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.loremipsum.json');
 
 // Excel Read
-$app->post('/command/excelread',
+$command->post('/excelread',
     'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::InitFrame')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.excelread.json');
-$app->get('/excelread/exec',
-    'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::Exec');
+$collection->get('/excelread/exec',
+    'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::exec');
+
+// Rating
+$command->post('/rating',
+    'phpManufaktur\CommandCollection\Control\Rating\Rating::InitFrame')
+    ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.rating.json');
+$collection->get('/rating/exec',
+    'phpManufaktur\CommandCollection\Control\Rating\Rating::exec');
+$collection->post('/rating/response',
+    'phpManufaktur\CommandCollection\Control\Rating\Response::exec');
+
+
+// mount the controller factories
+$app->mount('/collection', $collection);

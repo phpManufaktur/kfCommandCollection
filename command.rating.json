@@ -1,0 +1,39 @@
+{
+  "command":"Rating",
+  "vendor": {
+    "name":"phpManufaktur",
+    "url":"https://phpmanufaktur.de"
+    },
+  "name": {
+    "en":"Rating for pages, articels and your applications",
+    "de":"Bewertungsfunktion für Seiten, Artikel, Blogbeiträge und Ihre Anwendungen"
+  },
+  "description": {
+    "en":"Use the kitCommand Rating to add a rating function to any page, article or application.",
+    "de":"Verwenden Sie das kitCommand Rating um eine Bewertungsfunktion zu beliebigen Seiten, Artikeln und Anwendungen einzufügen."
+  },
+  "help": {
+    "en": {
+      "link": "https://gist.github.com/hertsch/6568654",
+      "gist_id":"6568654",
+      "file": {
+        "help":"kitcommand_rating_en.md"
+      }
+    }
+  },
+  "info": {
+    "en": {
+      "link":"https://kit2.phpmanufaktur.de"
+    }
+  },
+  "issues": {
+    "en": {
+      "link":"https://github.com/phpManufaktur/kfCommandCollection/issues"
+    }
+  },
+  "support": {
+    "en": {
+      "link":"https://support.phpmanufaktur.de"
+    }
+  }
+}

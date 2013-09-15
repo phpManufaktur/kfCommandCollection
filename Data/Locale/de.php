@@ -15,5 +15,8 @@ if ('á' != "\xc3\xa1") {
 }
 
 return array(
-
+    'vote'
+        => 'Bewertung',
+    'votes'
+        => 'Bewertungen',
 );

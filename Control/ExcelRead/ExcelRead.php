@@ -38,7 +38,7 @@ class ExcelRead extends Basic
         }
         else {
             // execute ExcelRead within the iFrame
-            return $this->createIFrame('/excelread/exec');
+            return $this->createIFrame('/collection/excelread/exec');
         }
     }
 
@@ -49,7 +49,7 @@ class ExcelRead extends Basic
      * @throws \Exception
      * @return string rendered Excel file
      */
-    public function Exec(Application $app)
+    public function exec(Application $app)
     {
         // initialize the Basic class
         $this->initParameters($app);

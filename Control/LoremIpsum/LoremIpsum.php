@@ -14,7 +14,7 @@ namespace phpManufaktur\CommandCollection\Control\LoremIpsum;
 use phpManufaktur\Basic\Control\kitCommand\Basic;
 use Silex\Application;
 
-include_once MANUFAKTUR_PATH.'/CommandCollection/Control/LoremIpsum/lorem-phpsum.php';
+include_once MANUFAKTUR_PATH.'/CommandCollection/Control/LoremIpsum/LoremPHPsum/lorem-phpsum.php';
 
 class LoremIpsum extends Basic
 {
