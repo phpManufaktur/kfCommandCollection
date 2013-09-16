@@ -94,8 +94,6 @@ class Rating extends Basic
             }
         }
 
-        print_r($this->getBasicSettings());
-
         return $this->app['twig']->render($this->app['utils']->templateFile(
             '@phpManufaktur/CommandCollection/Template/Rating',
             "rating.twig",

@@ -66,7 +66,7 @@ class Response
             $app['monolog']->addInfo("[Rating] Insert the rating $rating_value for rating identifier ID $identifier_id.", array(__METHOD__, __LINE__));
         }
         else {
-            $app['monolog']->addInfo("DT: {$rating['rating_confirmation']}");
+            $app['monolog']->addInfo("DT: {$rating[0]['rating_confirmation']}");
             $Carbon = new Carbon($rating[0]['rating_confirmation']);
             $diff_hours = $Carbon->diffInHours();
             if ($diff_hours <= 24) {
