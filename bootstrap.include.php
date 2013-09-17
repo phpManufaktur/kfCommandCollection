@@ -34,19 +34,25 @@ $command->post('/loremipsum',
 
 // Excel Read
 $command->post('/excelread',
-    'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::InitFrame')
+    'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::initFrame')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.excelread.json');
 $collection->get('/excelread/exec',
     'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::exec');
 
 // Rating
 $command->post('/rating',
-    'phpManufaktur\CommandCollection\Control\Rating\Rating::InitFrame')
+    'phpManufaktur\CommandCollection\Control\Rating\Rating::initFrame')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.rating.json');
 $collection->get('/rating/exec',
     'phpManufaktur\CommandCollection\Control\Rating\Rating::exec');
 $collection->post('/rating/response',
     'phpManufaktur\CommandCollection\Control\Rating\Response::exec');
+
+// Comments
+$command->post('/comments',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::initFrame');
+$collection->get('/comments/view',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::view');
 
 
 // mount the controller factories

@@ -1,0 +1,43 @@
+{#
+  kitCommand: Rating
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
+{% block stylesheet %}
+  {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/jRating.jquery.css" media="screen, projection" />
+{% endblock stylesheet %}
+{% block jquery %}
+  {{ parent() }}
+  <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CKEditor/Source/ckeditor.js"></script>
+{% endblock jquery %}
+{% block content %}
+  <div class="comment container">
+    {% if isAuthenticated() %}
+      <p>Has access!</p>
+    {% else %}
+      <p>not authenticated</p>
+    {% endif %}
+    {{ getUserDisplayName() }}  
+    <p>sdfff</p>
+    <p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p>
+    <div class="comment editor">
+              {{ CKEditor(
+                    'cke',
+                    'cke_name',
+                    'Blubber...',
+                    '98%', '100px',
+                    MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/default/ckeditor.config.js'
+              ) }}
+            </div>
+  </div>
+{% endblock %}
+{% block footer %}
+  {% set iframe_add_height = 130 %}
+  {{ parent() }}
+{% endblock %}

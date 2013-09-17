@@ -15,6 +15,7 @@ use Silex\Application;
 use phpManufaktur\CommandCollection\Data\Rating\Rating;
 use phpManufaktur\CommandCollection\Data\Rating\RatingIdentifier;
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
+use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 
 class Uninstall
 {
@@ -26,6 +27,9 @@ class Uninstall
 
         $Rating = new Rating($app);
         $Rating->dropTable();
+
+        $CommentsIdentifier = new CommentsIdentifier($app);
+        $CommentsIdentifier->dropTable();
 
         $Comments = new Comments($app);
         $Comments->dropTable();

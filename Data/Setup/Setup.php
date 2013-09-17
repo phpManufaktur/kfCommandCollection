@@ -15,6 +15,7 @@ use Silex\Application;
 use phpManufaktur\CommandCollection\Data\Rating\Rating;
 use phpManufaktur\CommandCollection\Data\Rating\RatingIdentifier;
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
+use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 
 class Setup
 {
@@ -29,6 +30,9 @@ class Setup
 
             $Rating = new Rating($app);
             $Rating->createTable();
+
+            $CommentsIdentifier = new CommentsIdentifier($app);
+            $CommentsIdentifier->createTable();
 
             $Comments = new Comments($app);
             $Comments->createTable();
