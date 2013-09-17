@@ -38,7 +38,7 @@ class Rating
     CREATE TABLE IF NOT EXISTS `$table` (
         `rating_id` INT(11) NOT NULL AUTO_INCREMENT,
         `identifier_id` INT(11) NOT NULL DEFAULT '-1',
-        `rating_value` FLOAT NOT NULL DEFAULT '0',
+        `rating_value` INT(11) NOT NULL DEFAULT '0',
         `rating_checksum` VARCHAR(128) NOT NULL DEFAULT '',
         `rating_status` ENUM('CONFIRMED', 'PENDING') NOT NULL DEFAULT 'PENDING',
         `rating_guid` VARCHAR(128) NOT NULL DEFAULT '',
@@ -60,7 +60,7 @@ class Rating
 EOD;
         try {
             $this->app['db']->query($SQL);
-            $this->app['monolog']->addInfo("Created table 'rating'", array(__METHOD__, __LINE__));
+            $this->app['monolog']->addInfo("Created table 'collection_rating'", array(__METHOD__, __LINE__));
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
@@ -81,7 +81,7 @@ EOD;
     SET foreign_key_checks = 1;
 EOD;
             $this->app['db']->query($SQL);
-            $this->app['monolog']->addInfo("Drop table 'rating'", array(__METHOD__, __LINE__));
+            $this->app['monolog']->addInfo("Drop table 'collection_rating'", array(__METHOD__, __LINE__));
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }

@@ -50,7 +50,7 @@ class RatingIdentifier
 EOD;
         try {
             $this->app['db']->query($SQL);
-            $this->app['monolog']->addInfo("Created table 'rating_identifier'", array(__METHOD__, __LINE__));
+            $this->app['monolog']->addInfo("Created table 'collection_rating_identifier'", array(__METHOD__, __LINE__));
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
@@ -71,7 +71,7 @@ EOD;
     SET foreign_key_checks = 1;
 EOD;
             $this->app['db']->query($SQL);
-            $this->app['monolog']->addInfo("Drop table 'rating_identifier'", array(__METHOD__, __LINE__));
+            $this->app['monolog']->addInfo("Drop table 'collection_rating_identifier'", array(__METHOD__, __LINE__));
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
