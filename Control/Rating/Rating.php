@@ -39,7 +39,7 @@ class Rating extends Basic
      *
      * @param Application $app
      */
-    public function InitFrame(Application $app)
+    public function initFrame(Application $app)
     {
         // initialize only the Basic class, dont need additional initialisations
         parent::initParameters($app);

@@ -25,7 +25,7 @@ class ExcelRead extends Basic
      *
      * @param Application $app
      */
-    public function InitFrame(Application $app)
+    public function initFrame(Application $app)
     {
         // initialize the Basic class
         $this->initParameters($app);
