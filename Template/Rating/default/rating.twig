@@ -7,14 +7,14 @@
   @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
-{% extends template_file('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
+{% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
 {% block stylesheet %}
   {{ parent() }}
   <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/jRating.jquery.css" media="screen, projection" />
 {% endblock stylesheet %}
 {% block jquery %}
   {{ parent() }}
-  <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/jquery/jRating.jquery.js"></script> 
+  <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/jquery/jRating.jquery.js"></script>
 {% endblock jquery %}
 {% block content %}
   <div class="rating-container">
@@ -33,16 +33,16 @@
           bigStarsPath: '{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/icons/stars.png',
           smallStarsPath: '{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/icons/small.png',
           phpPath: '{{ FRAMEWORK_URL }}/collection/rating/response',
-          type:'{{ size }}', 
-          length : 5, 
+          type:'{{ size }}',
+          length : 5,
           step: true,
           rateMax: 5,
-          showRateInfo: false,        
+          showRateInfo: false,
           {% if is_disabled %}isDisabled: true,{% endif %}
         });
       });
     }
   </script>
   {{ parent() }}
-  
+
 {% endblock footer %}

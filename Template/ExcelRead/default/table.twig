@@ -7,7 +7,7 @@
   @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
-{% extends template_file('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
+{% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
 {% block stylesheet %}
   {{ parent() }}
   <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/ExcelRead/default/css/table.css" media="screen, projection" />
@@ -18,7 +18,7 @@
 {% block jquery %}
   {{ parent() }}
   {% if option.tablesorter %}
-    <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/ExcelRead/default/jquery/tablesorter/jquery.tablesorter.min.js"></script> 
+    <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/ExcelRead/default/jquery/tablesorter/jquery.tablesorter.min.js"></script>
   {% endif %}
 {% endblock jquery %}
 {% block content %}
@@ -32,20 +32,20 @@
         {% if option.header %}
           <thead>
         {% else %}
-          <tbody> 
+          <tbody>
         {% endif %}
         {% set row_count = 0 %}
-        {% for row in sheet.row %}          
+        {% for row in sheet.row %}
           <tr class="{{ cycle(['flip','flop'], row_count) }}">
-            {% set column_count = 1 %}  
+            {% set column_count = 1 %}
             {% for column in row %}
               {% if row_count == 0 and option.header %}
                 <th class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</th>
               {% else %}
-                <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>  
-              {% endif %}   
+                <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
+              {% endif %}
               {% set colum_count = column_count + 1 %}
-            {% endfor %}   
+            {% endfor %}
           </tr>
           {% if row_count == 0 and option.header %}
             </thead>
@@ -57,18 +57,18 @@
       </table>
       {% if option.tablesorter %}
         <script type="text/javascript">
-          $(document).ready(function() { 
-            $("#excel_sheet_{{ sheet_id }}").tablesorter(); 
+          $(document).ready(function() {
+            $("#excel_sheet_{{ sheet_id }}").tablesorter();
           });
-        </script>         
+        </script>
       {% endif %}
-      {% set sheet_id = sheet_id+1 %}          
+      {% set sheet_id = sheet_id+1 %}
     {% endfor %}
   </div>
 {% endblock %}
-    
+
 {% block footer %}
-  {% if option.tablesorter %}  
+  {% if option.tablesorter %}
     {# the tablesorter need some extra space! #}
     {% set iframe_add_height = 40  %}
   {% endif %}
