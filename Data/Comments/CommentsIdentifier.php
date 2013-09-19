@@ -96,16 +96,31 @@ EOD;
         );
     }
 
+    /**
+     * Select a comments identifier by the given type name and id
+     *
+     * @param string $type_name
+     * @param integer $type_id
+     * @throws \Exception
+     * @return Ambigous <boolean, array>
+     */
     public function selectByTypeID($type_name, $type_id) {
         try {
             $SQL = "SELECT * FROM `".self::$table_name."` WHERE `identifier_type_name`='$type_name' AND `identifier_type_id`='$type_id'";
             $result = $this->app['db']->fetchAssoc($SQL);
-            return (isset($result['identifier_id'])) ? $result : null;
+            return (isset($result['identifier_id'])) ? $result : false;
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
     }
 
+    /**
+     * Inser a new comments identifier
+     *
+     * @param array $data
+     * @param integer $identifier_id
+     * @throws \Exception
+     */
     public function insert($data, &$identifier_id=-1)
     {
         try {
@@ -116,12 +131,19 @@ EOD;
         }
     }
 
+    /**
+     * Select a comments identifier by the given identifier ID
+     *
+     * @param integer $identifier_id
+     * @throws \Exception
+     * @return Ambigous <boolean, array>
+     */
     public function select($identifier_id)
     {
         try {
             $SQL = "SELECT * FROM `".self::$table_name."` WHERE `identifier_id`='$identifier_id'";
             $result = $this->app['db']->fetchAssoc($SQL);
-            return (isset($result['identifier_id'])) ? $result : null;
+            return (isset($result['identifier_id'])) ? $result : false;
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }

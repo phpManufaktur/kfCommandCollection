@@ -1,0 +1,17 @@
+{#
+  CommandCollection: Comments
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% if app.translator.locale == 'dee' %}
+  {# GERMAN Version #}
+{% else %}
+  {# ENGLISH Version #}
+  <p>Hello {{ comment.contact_nick_name }},</p>
+  <p>your email address {{ comment.contact_email }} is activated for posting comments at <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a>.</p>
+  <p>At the moment the administrator is asked to confirm your comment "{{ comment.comment_headline }}", please be patient for a moment.</p>
+{% endif %}

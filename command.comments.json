@@ -1,0 +1,37 @@
+{
+  "command":"Comments",
+  "vendor": {
+    "name":"phpManufaktur",
+    "url":"https://phpmanufaktur.de"
+    },
+  "name": {
+    "en":"Enable Comments for any article or extension"
+  },
+  "description": {
+    "en":"Use Comments to enable a interaction with the visitors of your website. Place comments everywhere you need them."
+  },
+  "help": {
+    "en": {
+      "link": "https://gist.github.com/hertsch/6602781",
+      "gist_id": 6602781,
+      "file": {
+        "help":"kitcommand_comments_en.md"
+      }
+    }
+  },
+  "info": {
+    "en": {
+      "link":"https://kit2.phpmanufaktur.de"
+    }
+  },
+  "issues": {
+    "en": {
+      "link":"https://github.com/phpManufaktur/kfCommandCollection/issues"
+    }
+  },
+  "support": {
+    "en": {
+      "link":"https://support.phpmanufaktur.de"
+    }
+  }
+}

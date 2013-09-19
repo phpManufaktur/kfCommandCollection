@@ -15,8 +15,49 @@ if ('á' != "\xc3\xa1") {
 }
 
 return array(
+    'Comment'
+        => 'Kommentar',
+
+    'For the email address %email% exists a contact record, but the status does not allow you to post a comment. Please contact the <a href="mailto:%admin_email%">administrator</a>.'
+        => 'Für die E-Mail Adresse %email% existiert ein Datensatz, der Status erlaubt es Ihnen jedoch nicht einen Kommentar zu veröffentlichen. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.',
+
+    'Headline'
+        => 'Schlagzeile',
+
+    'Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).'
+        => 'Oh, Sie haben vergessen einen Kommentar zu übermitteln oder der Kommentar ist einfach zu kurz (Minimum: %length% Zeichen).',
+    'Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.'
+        => 'Oh, Ihr Kommentar ist leider etwas zu lang geworden, erlaubt sind %length% Zeichen, bitte kürzen Sie Ihren Beitrag.',
+
+    'send email at new comment'
+        => 'bei neuen Kommentaren per E-Mail benachrichtigen',
+
+    'Thank you for submitting the comment %headline%!'
+        => 'Vielen Dank für die Übermittlung des Kommentars "%headline%".',
+    'Thank you for the activation of your email address. You comment will be confirmed by the administrator and published as soon as possible.'
+        => 'Vielen Dank für die Aktivierung Ihrer E-Mail Adresse. Ihr Kommentar wird gerade von einem Administrator geprüft und so rasch wie möglich veröffentlicht.',
+    'Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.'
+        => 'Vielen Dank für Ihren Kommentar. Wir haben Ihnen einen Aktivierungslink gesendet um Ihre E-Mail Adresse zu bestätigen. Nach der Aktivierung veröffentlichen wir Ihren Kommentar.',
+    'The comment with the ID %id% has confirmed and published.'
+        => 'Der Kommentar mit der ID %id% wurde bestätigt und veröffentlicht.',
+    'The comment with the ID %id% is already marked as REJECTED!'
+        => 'Der Kommentar mit der ID %id% ist bereits als <b>REJECTED</b> gekennzeichnet!',
+    'The comment with the ID %id% is already published!'
+        => 'Der Kommentar mit der ID %id% wurde bereits veröffentlicht!',
+    'The comment with the ID %id% is REJECTED.'
+        => 'Der Kommentar mit der ID %id% wurde <b>zurückgewiesen</b>.',
+    'The comment with the ID %comment_id% is REJECTED and too, the contact with the ID %contact_id% has LOCKED.'
+        => 'Der Kommentar mit der ID %comment_id% wurde <b>zurückgewiesen</b> und darüber hinaus wurde der Kontakt mit der ID %contact_id% <b>gesperrt</b>.',
+    'The comment with the ID %id% is marked as REJECTED!!'
+        => 'Der Kommentar mit der ID %id% ist als <b>REJECTED</b> gekennzeichnet.',
+
     'vote'
         => 'Bewertung',
     'votes'
         => 'Bewertungen',
+
+    'Your comment "%headline% is already published, the activation link is no longer valid'
+        => 'Ihr Kommentar "%headline%" wurde bereits veröffentlich, der Aktivierungslink ist nicht mehr gültig.',
+    'Your contact status is not as expected PENDING - please contact the <a href="mailto:%admin_email%">administrator</a>.'
+        => 'Ihr Kontakt Status ist nicht wie erwartet auf <i>PENDING</i> gesetzt, das Programm kann ihre Anfrage nicht bearbeiten. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.'
 );

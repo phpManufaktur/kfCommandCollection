@@ -1,0 +1,24 @@
+{#
+  CommandCollection: Comments
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% if app.translator.locale == 'dee' %}
+  {# GERMAN Version #}
+{% else %}
+  {# ENGLISH Version #}
+  <p>Please check the the following comment;</p>
+  <p>Nickname: {{ comment.contact_nick_name }}<br />
+    E-Mail: {{ comment.contact_email }}<br />
+    Contact ID: {{ comment.contact_id }}</p>
+  <p>{{ comment.comment_headline }}</p>  
+  <div>{{ comment.comment_content }}</div>
+  <p>&nbsp;</p>
+  <p><a href="{{ link_publish_comment }}">Publish the comment</a></p>
+  <p><a href="{{ link_reject_comment }}">Reject the comment</a></p>
+  <p><a href="{{ link_lock_contact }}">Reject the comment and lock the contact</a></p>
+{% endif %}

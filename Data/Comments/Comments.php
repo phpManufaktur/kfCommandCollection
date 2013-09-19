@@ -40,15 +40,18 @@ class Comments
         `comment_id` INT(11) NOT NULL AUTO_INCREMENT,
         `identifier_id` INT(11) NOT NULL DEFAULT '-1',
         `comment_parent` INT(11) NOT NULL DEFAULT '0',
-        `comment_title` VARCHAR(64) NOT NULL DEFAULT '',
+        `comment_url` TEXT NOT NULL,
+        `comment_headline` VARCHAR(64) NOT NULL DEFAULT '',
         `comment_content` TEXT NOT NULL DEFAULT '',
-        `comment_status` ENUM ('CONFIRMED', 'PENDING') NOT NULL DEFAULT 'PENDING',
+        `comment_status` ENUM ('CONFIRMED', 'PENDING', 'REJECTED') NOT NULL DEFAULT 'PENDING',
         `comment_guid` VARCHAR(128) NOT NULL DEFAULT '',
+        `comment_guid_2` VARCHAR(128) NOT NULL DEFAULT '',
         `comment_confirmation` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `comment_update_info` TINYINT NOT NULL DEFAULT '0',
         `contact_id` INT(11) NOT NULL DEFAULT '-1',
-        `contact_nickname` VARCHAR(64) NOT NULL DEFAULT 'Anonymous',
+        `contact_nick_name` VARCHAR(64) NOT NULL DEFAULT 'Anonymous',
         `contact_email` VARCHAR(128) NOT NULL DEFAULT '',
-        `contact_homepage` VARCHAR(255) NOT NULL DEFAULT '',
+        `contact_url` TEXT NOT NULL,
         `comment_timestamp` TIMESTAMP,
         PRIMARY KEY (`comment_id`, `contact_id`),
         INDEX (`comment_parent`, `identifier_id`, `contact_id`),
@@ -96,7 +99,14 @@ EOD;
         }
     }
 
-    public function select($parent=0)
+    /**
+     * Select a comment by the given PARENT
+     *
+     * @param integer $parent
+     * @throws \Exception
+     * @return array
+     */
+    public function selectParent($parent=0)
     {
         try {
             $SQL = "SELECT * FROM `".self::$table_name."` a LEFT JOIN `".self::$table_name."` ".
@@ -108,18 +118,142 @@ EOD;
         }
     }
 
+    /**
+     * Get the complete comment thread
+     *
+     * @return array
+     */
     public function getThread()
     {
-        $threads = $this->select(0);
+        $threads = $this->selectParent(0);
 
         $result = array();
         foreach ($threads as $thread) {
-            $sub = $this->select($thread['comment_id']);
+            $sub = $this->selectParent($thread['comment_id']);
             $result[] = array(
                 'main' => $thread,
                 'sub' => $sub
             );
         }
         return $result;
+    }
+
+    /**
+     * Insert a new comment record
+     *
+     * @param array $data
+     * @param integer reference $comment_id
+     * @throws \Exception
+     */
+    public function insert($data, &$comment_id=-1)
+    {
+        try {
+            $insert = array();
+            foreach ($data as $key => $value) {
+                if (($key == 'comment_id') || ($key == 'comment_timestamp')) continue;
+                $insert[$key] = (is_string($value)) ? $this->app['utils']->sanitizeText($value) : $value;
+            }
+            $this->app['db']->insert(self::$table_name, $insert);
+            $comment_id = $this->app['db']->lastInsertId();
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Select the comment by the given comment ID
+     *
+     * @param integer $comment_id
+     * @throws \Exception
+     * @return boolean|multitype:unknown
+     */
+    public function select($comment_id)
+    {
+        try {
+            $SQL = "SELECT * FROM `".self::$table_name."` WHERE `comment_id`='$comment_id'";
+            $result = $this->app['db']->fetchAssoc($SQL);
+            if (!isset($result['comment_id'])) {
+                return false;
+            }
+            $comment = array();
+            foreach ($result as $key => $value) {
+                $comment[$key] = is_string($value) ? $this->app['utils']->unsanitizeText($value) : $value;
+            }
+            return $comment;
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Select a comment by the given GUID
+     *
+     * @param string $guid
+     * @throws \Exception
+     * @return boolean|multitype:unknown
+     */
+    public function selectGUID($guid)
+    {
+        try {
+            $SQL = "SELECT * FROM `".self::$table_name."` WHERE `comment_guid`='$guid'";
+            $result = $this->app['db']->fetchAssoc($SQL);
+            if (!isset($result['comment_id'])) {
+                return false;
+            }
+            $comment = array();
+            foreach ($result as $key => $value) {
+                $comment[$key] = is_string($value) ? $this->app['utils']->unsanitizeText($value) : $value;
+            }
+            return $comment;
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Select a comment by the given Administrator GUID
+     *
+     * @param string $guid
+     * @throws \Exception
+     * @return boolean|multitype:unknown
+     */
+    public function selectAdminGUID($guid)
+    {
+        try {
+            $SQL = "SELECT * FROM `".self::$table_name."` WHERE `comment_guid_2`='$guid'";
+            $result = $this->app['db']->fetchAssoc($SQL);
+            if (!isset($result['comment_id'])) {
+                return false;
+            }
+            $comment = array();
+            foreach ($result as $key => $value) {
+                $comment[$key] = is_string($value) ? $this->app['utils']->unsanitizeText($value) : $value;
+            }
+            return $comment;
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Update the comment record
+     *
+     * @param array $data
+     * @param integer $comment_id
+     * @throws \Exception
+     */
+    public function update($data, $comment_id)
+    {
+        try {
+            $update = array();
+            foreach ($data as $key => $value) {
+                if (($key == 'comment_id') || ($key == 'comment_timestamp')) continue;
+                $update[$key] = (is_string($value)) ? $this->app['utils']->sanitizeText($value) : $value;
+            }
+            $this->app['monolog']->addInfo('update', $update);
+            $this->app['db']->update(self::$table_name, $update, array('comment_id' => $comment_id));
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
     }
 }

@@ -1,0 +1,16 @@
+{#
+  CommandCollection: Comments
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% if app.translator.locale == 'dee' %}
+  {# GERMAN Version #}
+{% else %}
+  {# ENGLISH Version #}
+  <p>Hello {{ comment.contact_nick_name }},</p>
+  <p>the administrator has locked your email address, you are no longer allowed to publish comments at {{ comment.comment_url }} and other pages of our website.</p>
+{% endif %}

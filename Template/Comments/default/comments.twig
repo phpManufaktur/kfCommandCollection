@@ -1,5 +1,5 @@
 {#
-  kitCommand: Rating
+  CommandCollection: Comments
 
   @author Team phpManufaktur <team@phpmanufaktur.de>
   @link https://kit2.phpmanufaktur.de
@@ -10,31 +10,76 @@
 {% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
 {% block stylesheet %}
   {{ parent() }}
-  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/jRating.jquery.css" media="screen, projection" />
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Comments/default/css/comments.css" media="screen, projection" />
+  
 {% endblock stylesheet %}
 {% block jquery %}
   {{ parent() }}
   <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CKEditor/Source/ckeditor.js"></script>
 {% endblock jquery %}
 {% block content %}
-  <div class="comment container">
-    {% if isAuthenticated() %}
-      <p>Has access!</p>
-    {% else %}
-      <p>not authenticated</p>
-    {% endif %}
-    {{ getUserDisplayName() }}  
-    <p>sdfff</p>
-    <p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p><p>sdfff</p>
-    <div class="comment editor">
-              {{ CKEditor(
-                    'cke',
-                    'cke_name',
-                    'Blubber...',
-                    '98%', '100px',
-                    MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/default/ckeditor.config.js'
-              ) }}
-            </div>
+  <div class="comment submit"> 
+    {{ parent() }}
+    <form action="{{ FRAMEWORK_URL }}/collection/comments/submit?pid={{ basic.pid }}" method="post" {{ form_enctype(form) }}>
+      {{ form_errors(form) }}
+      {# hidden fields #}
+      {{ form_row(form.comment_id) }}
+      {{ form_row(form.identifier_id) }}
+      {{ form_row(form.contact_id) }}
+      {{ form_row(form.comment_parent) }}      
+      {{ form_row(form._token) }}
+      
+      {{ form_row(form.comment_headline) }}
+      <div>
+        {{ form_label(form.comment_content) }}
+        <div class="value">
+          {{ CKEditor(
+                      form.comment_content.vars.id,
+                      form.comment_content.vars.full_name,
+                      form.comment_content.vars.value,
+                      '100%', '100px',
+                      MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/default/ckeditor.config.js'
+                ) }}
+        </div>
+      </div>
+      {{ form_row(form.contact_nick_name) }}
+      {{ form_row(form.contact_email) }}
+      {{ form_row(form.contact_url) }}
+      <div>
+        <label>&nbsp;</label>
+        <div class="value">
+          {{ form_widget(form.comment_update_info) }}
+        </div>
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <div class="value hint">
+          {% if app.translator.locale == 'de' %}
+            {# german language #}
+            <p>Ihre E-Mail Adresse wird nicht veröffentlicht. Wenn Sie uns die URL Ihrer Website bzw. Homepage mitteilen, setzen wir automatisch einen Backlink für Sie!</p>
+            <p>Die Benachrichtigung bei neuen Kommentaren bezieht sich ausschließlich auf diese Seite und kann jederzeit wieder abbestellt werden.</p>
+          {% else %}
+            {# english language #}
+            <p>Your email address will not published. If you submit the URL of your website, we will create a backlink for you.</p>
+            <p>The notification of new comments is restricted to this page and can cancelled at any time.</p>
+          {% endif %}
+        </div>
+      </div>
+      {% if parameter.captcha and reCaptchaIsActive() %}
+        <div>
+          <label>&nbsp;</label>
+          <div class="value">
+            {{ reCaptcha() }}
+          </div>
+        </div>
+      {% endif %}
+      {#{ form_rest(form) }#}
+      <div>
+        <label for="submit">&nbsp;</label>
+        <input type="submit" name="submit" />
+      </div>
+      <div class="clear"></div>
+    </form>
   </div>
 {% endblock %}
 {% block footer %}

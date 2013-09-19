@@ -1,0 +1,19 @@
+{#
+  CommandCollection: Comments
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% if app.translator.locale == 'dee' %}
+  {# GERMAN Version #}
+{% else %}
+  {# ENGLISH Version #}
+  <p>Hello {{ comment.contact_nick_name }},</p>
+  <p>thank your for your comment "{{ comment.comment_headline }}" at <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a>.</p>
+  <p>Before we can publish your comment, please confirm us your email address with the following link:</p>  
+  <p><a href="{{ activation_link }}">Confirm email address</a></p>
+  <p>Thank you!</p>
+{% endif %}

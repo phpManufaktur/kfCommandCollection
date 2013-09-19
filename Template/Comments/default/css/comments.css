@@ -1,0 +1,66 @@
+/*
+  CommandCollection: Comments
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+*/
+
+.clear {
+  clear: both;
+  width: 0;
+  height: 0;
+}
+
+.comment.submit {
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  width: 98%;
+}
+
+.hint {
+  font-size: 9px;
+  color: #6E6E6E;
+}
+.cke_editable {
+  font-size: 11px !important;
+}
+.comment.submit label {
+  clear: both;
+  float: left;
+  width: 15%;
+  text-align: right;
+  margin: 0 0 2% 0;
+  padding: 1% 2% 0 0;
+}
+#form_comment_update_info label {
+  clear: none;
+  float: left;
+  width: 80%;
+  text-align: left;
+}
+.comment.submit label.required:after {
+  content: '*';
+  color: #da251d;
+  background-color: transparent;
+  font-weight: bold;
+}
+.value,
+.comment.submit input {
+  float: left;
+  width: 80%;
+  margin: 0 0 5px 0;
+}
+.comment.submit input[type=checkbox] {
+  width: 3%;
+  margin: 1% 10px 0 0;
+}
+
+.comment.submit input[type=submit] {
+  width: 30%;
+}
+
+  

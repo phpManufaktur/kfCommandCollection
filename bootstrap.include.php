@@ -50,10 +50,20 @@ $collection->post('/rating/response',
 
 // Comments
 $command->post('/comments',
-    'phpManufaktur\CommandCollection\Control\Comments\Comments::initFrame');
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerInitFrame')
+    ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.comments.json');
 $collection->get('/comments/view',
-    'phpManufaktur\CommandCollection\Control\Comments\Comments::view');
-
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerView');
+$collection->post('/comments/submit',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerSubmit');
+$collection->get('/comments/contact/confirm/{guid}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerConfirmContact');
+$collection->get('/comments/admin/confirm/{guid}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerConfirmComment');
+$collection->get('/comments/admin/reject/{guid}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerRejectComment');
+$collection->get('/comments/admin/lock/{guid}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerLockContact');
 
 // mount the controller factories
 $app->mount('/collection', $collection);
