@@ -63,4 +63,26 @@
   width: 30%;
 }
 
+.thread {
+  font-size: 11px;
+  color: #330000;
+  background-color: transparent;
+}
+.thread .comment.main {
+  padding: 0 2% 0 17%;
+}
+.thread .comment.main .headline {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+.thread .comment.main .footer {
+  text-align: right;
+}
+
+
+.thread .comment.main .content {
+  
+}
+
   

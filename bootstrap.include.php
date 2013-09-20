@@ -50,20 +50,36 @@ $collection->post('/rating/response',
 
 // Comments
 $command->post('/comments',
+    // kitCommand Comments
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerInitFrame')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.comments.json');
+
 $collection->get('/comments/view',
+    // default view for the comments
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerView');
 $collection->post('/comments/submit',
+    // new comment posted
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerSubmit');
+
 $collection->get('/comments/contact/confirm/{guid}',
-    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerConfirmContact');
+    // contact confirm the email address
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerContactConfirmContact');
+$collection->get('/comments/comment/confirm/{guid}',
+    // contact confirm the comment
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerContactConfirmComment');
+$collection->get('/comments/unsubscribe/{guid}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerContactUnsubscribeThread');
+
 $collection->get('/comments/admin/confirm/{guid}',
-    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerConfirmComment');
+    // admin confirm the comment
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerAdminConfirmComment');
 $collection->get('/comments/admin/reject/{guid}',
-    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerRejectComment');
+    // admin reject the comment
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerAdminRejectComment');
 $collection->get('/comments/admin/lock/{guid}',
-    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerLockContact');
+    // admin reject the comment and lock the contact
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerAdminLockContact');
+
 
 // mount the controller factories
 $app->mount('/collection', $collection);

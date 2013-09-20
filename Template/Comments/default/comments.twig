@@ -17,8 +17,23 @@
   {{ parent() }}
   <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CKEditor/Source/ckeditor.js"></script>
 {% endblock jquery %}
+  
 {% block content %}
-  <div class="comment submit"> 
+  {% if isAuthenticated() %}Yepp!{% else %}Nix!{%endif%}
+  <div class="thread">
+    {% for comment in thread %}
+      <div class="comment main">
+        <div class="headline">{{ comment.main.comment_headline }}</div>
+        <div class="content">{{ comment.main.comment_content }}</div>
+        <div class="footer">
+          <div class="reply"><a href="{{ FRAMEWORK_URL ~ '/collection/comments/reply/parent/' ~ comment.main.comment_parent ~ '?pid=' ~ basic.pid }}">{{ 'Reply'|trans }}</a></div>
+          {{ comment.main.contact_nick_name }} - {{ comment.main.comment_timestamp|date('d.m.Y H:i') }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div id="kf_submit" class="comment submit"> 
+    
     {{ parent() }}
     <form action="{{ FRAMEWORK_URL }}/collection/comments/submit?pid={{ basic.pid }}" method="post" {{ form_enctype(form) }}>
       {{ form_errors(form) }}
@@ -85,4 +100,6 @@
 {% block footer %}
   {% set iframe_add_height = 130 %}
   {{ parent() }}
+  
+  
 {% endblock %}

@@ -100,36 +100,47 @@ EOD;
     }
 
     /**
-     * Select a comment by the given PARENT
+     * Select the comments for the thread with the given identifier ID.
+     * By default select comments with no parent (0)
      *
+     * @param integer $identifier_id
      * @param integer $parent
      * @throws \Exception
-     * @return array
+     * @return array comments
      */
-    public function selectParent($parent=0)
+    public function selectComments($identifier_id, $parent=0)
     {
         try {
             $SQL = "SELECT * FROM `".self::$table_name."` a LEFT JOIN `".self::$table_name."` ".
-                "b ON a.comment_id = b.comment_id WHERE a.comment_parent = '$parent' ORDER BY a.comment_timestamp ASC";
-            $result = $this->app['db']->fetchAll($SQL);
-            return $result;
+                "b ON a.comment_id = b.comment_id WHERE a.comment_parent = '$parent'".
+                "AND a.identifier_id='$identifier_id' ORDER BY a.comment_timestamp ASC";
+            $results = $this->app['db']->fetchAll($SQL);
+            $comments = array();
+            foreach ($results as $result) {
+                $item = array();
+                foreach ($result as $key => $value) {
+                    $item[$key] = (is_string($value)) ? $this->app['utils']->unsanitizeText($value) : $value;
+                }
+                $comments[] = $item;
+            }
+            return $comments;
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
     }
 
     /**
-     * Get the complete comment thread
+     * Get the complete comment thread with all levels for the given identifier ID
      *
-     * @return array
+     * @return array comments
      */
-    public function getThread()
+    public function getThread($identifier_id)
     {
-        $threads = $this->selectParent(0);
+        $threads = $this->selectComments($identifier_id);
 
         $result = array();
         foreach ($threads as $thread) {
-            $sub = $this->selectParent($thread['comment_id']);
+            $sub = $this->selectComments($identifier_id, $thread['comment_id']);
             $result[] = array(
                 'main' => $thread,
                 'sub' => $sub
@@ -250,8 +261,41 @@ EOD;
                 if (($key == 'comment_id') || ($key == 'comment_timestamp')) continue;
                 $update[$key] = (is_string($value)) ? $this->app['utils']->sanitizeText($value) : $value;
             }
-            $this->app['monolog']->addInfo('update', $update);
             $this->app['db']->update(self::$table_name, $update, array('comment_id' => $comment_id));
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Select the subscribers of the thread with the given identifier
+     *
+     * @param integer $identifier_id
+     * @throws \Exception
+     */
+    public function selectSubscribers($identifier_id)
+    {
+        try {
+            $SQL = "SELECT DISTINCT `contact_email`, `contact_id`, `contact_nick_name`, `comment_guid` FROM `".
+                self::$table_name."` WHERE `identifier_id`='$identifier_id' AND `comment_status`='CONFIRMED' AND `comment_update_info`='1' GROUP BY `contact_email`";
+            return $this->app['db']->fetchAll($SQL);
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Unsubscribe the given contact ID from the thread
+     *
+     * @param integer $identifier_id
+     * @param integer $contact_id
+     * @throws \Exception
+     */
+    public function unsubscribeContactID($identifier_id, $contact_id)
+    {
+        try {
+            $this->app['db']->update(self::$table_name, array('comment_update_info' => '0'),
+                array('identifier_id' => $identifier_id, 'contact_id' => $contact_id));
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }

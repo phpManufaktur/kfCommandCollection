@@ -36,6 +36,8 @@ return array(
         => 'Vielen Dank für die Übermittlung des Kommentars "%headline%".',
     'Thank you for the activation of your email address. You comment will be confirmed by the administrator and published as soon as possible.'
         => 'Vielen Dank für die Aktivierung Ihrer E-Mail Adresse. Ihr Kommentar wird gerade von einem Administrator geprüft und so rasch wie möglich veröffentlicht.',
+    'Thank you for the comment!'
+        => 'Vielen Dank für den neuen Kommentar!',
     'Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.'
         => 'Vielen Dank für Ihren Kommentar. Wir haben Ihnen einen Aktivierungslink gesendet um Ihre E-Mail Adresse zu bestätigen. Nach der Aktivierung veröffentlichen wir Ihren Kommentar.',
     'The comment with the ID %id% has confirmed and published.'
@@ -56,8 +58,12 @@ return array(
     'votes'
         => 'Bewertungen',
 
+    'You are unsubscribed from this thread.'
+        => 'Sie erhalten keine Benachrichtigungen mehr über neue Kommentare.',
     'Your comment "%headline% is already published, the activation link is no longer valid'
         => 'Ihr Kommentar "%headline%" wurde bereits veröffentlich, der Aktivierungslink ist nicht mehr gültig.',
+    'Your comment will be checked and published as soon as possible.'
+        => 'Ihr Kommentar wird geprüft und so rasch wie möglich veröffentlicht.',
     'Your contact status is not as expected PENDING - please contact the <a href="mailto:%admin_email%">administrator</a>.'
         => 'Ihr Kontakt Status ist nicht wie erwartet auf <i>PENDING</i> gesetzt, das Programm kann ihre Anfrage nicht bearbeiten. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.'
 );

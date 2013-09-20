@@ -11,6 +11,10 @@
   {# GERMAN Version #}
 {% else %}
   {# ENGLISH Version #}
-  <p>Hello {{ comment.contact_nick_name }},</p>
-  <p>the administrator is asked to confirm your comment "{{ comment.comment_headline }}" as soon as possible.</p>
+  <p>Hello {{ subscriber.contact_nick_name }},</p>
+  <p>a new comment has published at <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a>:</p>
+  <h2>{{ comment.comment_headline }}</h2>
+  <div>{{ comment.comment_content }}</div>
+  <p>If you want to switch off the information about new comments, pleas use this link:</p>
+  <p><a href="{{ link_unsubscribe }}">Unsubscribe new comments</a></p>
 {% endif %}

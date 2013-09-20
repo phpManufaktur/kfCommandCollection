@@ -212,6 +212,10 @@ class Comments extends Basic
      */
     protected function promptForm($form)
     {
+        /*$test = $this->CommentsData->getThread(self::$identifier_id);
+        echo "<pre>";
+        print_r($test);
+        echo "</pre>";*/
         return $this->app['twig']->render($this->app['utils']->templateFile(
             '@phpManufaktur/CommandCollection/Template/Comments',
             "comments.twig",
@@ -219,7 +223,8 @@ class Comments extends Basic
             array(
                 'parameter' => self::$parameter,
                 'basic' => $this->getBasicSettings(),
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'thread' => $this->CommentsData->getThread(self::$identifier_id)
             ));
     }
 
@@ -227,10 +232,9 @@ class Comments extends Basic
      * If the double-opt-in feature for new contacts is enabled the submitter
      * must activate the contact before he can submit a comment
      *
-     * @param array $submit
      * @return string
      */
-    protected function contactConfirmContact($form) {
+    protected function contactConfirmContact() {
         // create a comment record
         $this->createCommentRecord();
 
@@ -254,6 +258,37 @@ class Comments extends Basic
         $this->app['mailer']->send($message);
 
         $this->setMessage('Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.');
+
+        return $this->ControllerView($this->app);
+    }
+
+    /**
+     * The contact must confirm the comment with an activation link
+     *
+     */
+    protected function contactConfirmComment()
+    {
+        $this->createCommentRecord();
+        $body = $this->app['twig']->render($this->app['utils']->getTemplateFile(
+            '@phpManufaktur/CommandCollection/Template/Comments',
+            'mail/contact/confirm.comment.twig',
+            $this->getPreferredTemplateStyle()),
+            array(
+                'comment' => self::$comment,
+                'activation_link' => FRAMEWORK_URL.'/collection/comments/comment/confirm/'.self::$comment['comment_guid']
+            ));
+
+        // send a email to the contact
+        $message = \Swift_Message::newInstance()
+        ->setSubject(self::$comment['comment_headline'])
+        ->setFrom(array(self::$configuration['administrator']['email']))
+        ->setTo(array(self::$comment['contact_email']))
+        ->setBody($body)
+        ->setContentType('text/html');
+        // send the message
+        $this->app['mailer']->send($message);
+
+        $this->setMessage('Thank you for your comment. We have send you an activation link to confirm the publishing of the comment.');
 
         return $this->ControllerView($this->app);
     }
@@ -371,18 +406,19 @@ class Comments extends Basic
     /**
      * Create a new comment record
      *
+     * @param $status set the status for the comment, default 'PENDING'
      */
-    protected function createCommentRecord() {
+    protected function createCommentRecord($status='PENDING') {
         $comment = array(
             'identifier_id' => self::$identifier_id,
             'comment_parent' => self::$submit['comment_parent'],
             'comment_url' => $this->getCMSpageURL(),
             'comment_headline' => self::$submit['comment_headline'],
             'comment_content' => self::$submit['comment_content'],
-            'comment_status' => 'PENDING',
+            'comment_status' => $status,
             'comment_guid' => $this->app['utils']->createGUID(),
             'comment_guid_2' => $this->app['utils']->createGUID(),
-            'comment_confirmation' => '0000-00-00 00:00:00',
+            'comment_confirmation' => ($status != 'PENDING') ? date('Y-m-d H:i:s') : '0000-00-00 00:00:00',
             'comment_update_info' => isset(self::$submit['comment_update_info'][0]) ? 1 : 0,
             'contact_id' => self::$contact_id,
             'contact_nick_name' => self::$submit['contact_nick_name'],
@@ -413,7 +449,6 @@ class Comments extends Basic
 
         $form = $this->getCommentForm();
 
-        $result = $this->CommentsData->getThread();
 
         return $this->promptForm($form);
     }
@@ -427,6 +462,8 @@ class Comments extends Basic
     public function controllerSubmit(Application $app)
     {
         $this->initParameters($app);
+
+        $this->setFrameScrollToID('kf_submit');
 
         $form = $this->getCommentForm();
 
@@ -497,7 +534,7 @@ class Comments extends Basic
             if (self::$configuration['contact']['confirmation']['double_opt_in'] &&
                 self::$contact['contact']['contact_status'] == 'PENDING') {
                 // the contact must be confirmed before the comment can be published
-                return $this->contactConfirmContact($form);
+                return $this->contactConfirmContact();
             }
 
             if (self::$contact['contact']['contact_status'] != 'ACTIVE') {
@@ -518,8 +555,30 @@ class Comments extends Basic
                 $this->ContactControl->update(self::$contact, self::$contact_id);
             }
 
-            print_r(self::$contact);
-            print_r(self::$submit);
+            // contact is checked and can post, now check the handling for new comments
+            if ((self::$idenfifier['identifier_publish'] == 'CONFIRM_EMAIL') ||
+                (self::$idenfifier['identifier_publish'] == 'CONFIRM_EMAIL_ADMIN')) {
+                // the contact must confirm the comment with an activation link
+                return $this->contactConfirmComment();
+            }
+            elseif (self::$idenfifier['identifier_publish'] == 'CONFIRM_ADMIN') {
+                // the administrator must confirm the comment
+                $this->createCommentRecord();
+                $this->adminConfirmComment();
+                $this->setMessage('Your comment will be checked and published as soon as possible.');
+                return $this->controllerView($this->app);
+            }
+            elseif (self::$idenfifier['identifier_publish'] == 'IMMEDIATE') {
+                // publish the comment immediate
+                $this->createCommentRecord('CONFIRMED');
+                $this->setMessage('Thank you for the comment!');
+                $this->infoCommentPublished();
+                return $this->controllerView($this->app);
+            }
+            else {
+                // Ooops, the handling is not defined?
+                throw new \Exception("Unknown handling for 'identifier_publish' => ".self::$idenfifier['identifier_publish']);
+            }
         }
         else {
             // the form check failed
@@ -571,7 +630,7 @@ class Comments extends Basic
      * @param string $guid
      * @throws \Exception
      */
-    public function controllerConfirmContact(Application $app, $guid)
+    public function controllerContactConfirmContact(Application $app, $guid)
     {
         $this->initParameters($app);
 
@@ -620,6 +679,59 @@ class Comments extends Basic
         self::$comment['comment_status'] = 'CONFIRMED';
         $this->CommentsData->update(self::$comment, self::$comment_id);
 
+        // info to the thread subscribers
+        $this->infoCommentPublished();
+
+        $message = $this->app['translator']->trans('Thank you for submitting the comment %headline%!',
+            array('%headline%' => self::$comment['comment_headline']));
+        return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
+    }
+
+    /**
+     * Teh contact confirm the publishing of the comment
+     *
+     * @param Application $app
+     * @param string $guid
+     * @throws \Exception
+     */
+    public function controllerContactConfirmComment(Application $app, $guid)
+    {
+        $this->initParameters($app);
+
+        // this controller is executed outside of the CMS and get no language info!
+        $this->app['translator']->setLocale($app['request']->getPreferredLanguage());
+
+        if (false === (self::$comment = $this->CommentsData->selectGUID($guid))) {
+            throw new \Exception("Invalid call, the GUID $guid does not exists.");
+        }
+        self::$comment_id = self::$comment['comment_id'];
+
+        if (self::$comment['comment_status'] == 'CONFIRMED') {
+            // the comment is already confirmed
+            $message = $this->app['translator']->trans('Your comment "%headline% is already published, the activation link is no longer valid',
+                array('%headline%' => self::$comment['comment_headline']));
+            return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
+        }
+
+        $identifier = $this->CommentsIdentifier->select(self::$comment['identifier_id']);
+        if ($identifier['identifier_publish'] == 'CONFIRM_EMAIL_ADMIN') {
+            // the comment must be also confirmed by the administrator
+            $this->adminConfirmComment();
+            // inform the contact
+            $this->contactPendingConfirmation();
+            // show a message
+            $message = $this->app['translator']->trans('You comment will be confirmed by the administrator and published as soon as possible.');
+            return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
+        }
+
+        // all done - publish the comment
+        self::$comment['comment_confirmation'] = date('Y-m-d H:i:s');
+        self::$comment['comment_status'] = 'CONFIRMED';
+        $this->CommentsData->update(self::$comment, self::$comment_id);
+
+        // info to the thread subscribers
+        $this->infoCommentPublished();
+
         $message = $this->app['translator']->trans('Thank you for submitting the comment %headline%!',
             array('%headline%' => self::$comment['comment_headline']));
         return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
@@ -632,7 +744,7 @@ class Comments extends Basic
      * @param string $guid
      * @throws \Exception
      */
-    public function controllerConfirmComment(Application $app, $guid)
+    public function controllerAdminConfirmComment(Application $app, $guid)
     {
         $this->initParameters($app);
 
@@ -665,6 +777,9 @@ class Comments extends Basic
         // send a information to the contact
         $this->contactPublishedComment();
 
+        // send info to the thread subscribers
+        $this->infoCommentPublished();
+
         $message = $this->app['translator']->trans('The comment with the ID %id% has confirmed and published.',
             array('%id%' => self::$comment['comment_id']));
         return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
@@ -677,7 +792,7 @@ class Comments extends Basic
      * @param string $guid
      * @throws \Exception
      */
-    public function controllerRejectComment(Application $app, $guid)
+    public function controllerAdminRejectComment(Application $app, $guid)
     {
         $this->initParameters($app);
 
@@ -717,7 +832,7 @@ class Comments extends Basic
      * @param string $guid
      * @throws \Exception
      */
-    public function controllerLockContact(Application $app, $guid)
+    public function controllerAdminLockContact(Application $app, $guid)
     {
         $this->initParameters($app);
 
@@ -750,4 +865,62 @@ class Comments extends Basic
             array('%comment_id%' => self::$comment['comment_id'], '%contact_id%' => self::$contact_id));
         return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
     }
+
+    /**
+     * Unsubscribe the contact from this thread
+     *
+     * @param Application $app
+     * @param string $guid
+     * @throws \Exception
+     */
+    public function controllerContactUnsubscribeThread(Application $app, $guid)
+    {
+        $this->initParameters($app);
+
+        // this controller is executed outside of the CMS and get no language info!
+        $this->app['translator']->setLocale($app['request']->getPreferredLanguage());
+
+        if (false === (self::$comment = $this->CommentsData->selectGUID($guid))) {
+            throw new \Exception("Invalid call, the GUID $guid does not exists.");
+        }
+
+        // unsubscribe the contact from the info about new comments
+        $this->CommentsData->unsubscribeContactID(self::$comment['identifier_id'], self::$comment['contact_id']);
+
+        $message = $this->app['translator']->trans('You are unsubscribed from this thread.');
+        return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
+    }
+
+    /**
+     * Send information about a new comment to the subscribers
+     *
+     */
+    protected function infoCommentPublished()
+    {
+        $subscribers = $this->CommentsData->selectSubscribers(self::$comment['identifier_id']);
+
+        foreach ($subscribers as $subscriber) {
+            $body = $this->app['twig']->render($this->app['utils']->getTemplateFile(
+                '@phpManufaktur/CommandCollection/Template/Comments',
+                'mail/subscriber/new.comment.twig',
+                $this->getPreferredTemplateStyle()),
+                array(
+                    'comment' => self::$comment,
+                    'subscriber' => $subscriber,
+                    'link_unsubscribe' => FRAMEWORK_URL.'/collection/comments/unsubscribe/'.$subscriber['comment_guid']
+                ));
+
+            // send a email to the subscribers
+            $message = \Swift_Message::newInstance()
+            ->setSubject(self::$comment['comment_headline'])
+            ->setFrom(array(self::$configuration['administrator']['email']))
+            ->setTo(array($subscriber['contact_email']))
+            ->setBody($body)
+            ->setContentType('text/html');
+            // send the message
+            $this->app['mailer']->send($message);
+            $this->app['monolog']->addInfo('Send info to: '.$subscriber['contact_email']);
+        }
+    }
+
 }

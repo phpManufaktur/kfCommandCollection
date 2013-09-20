@@ -12,5 +12,8 @@
 {% else %}
   {# ENGLISH Version #}
   <p>Hello {{ comment.contact_nick_name }},</p>
-  <p>the administrator is asked to confirm your comment "{{ comment.comment_headline }}" as soon as possible.</p>
+  <p>thank your for your comment "{{ comment.comment_headline }}" at <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a>.</p>
+  <p>Please activate the comment with the following link:</p>  
+  <p><a href="{{ activation_link }}">Publish comment</a></p>
+  <p>Thank you!</p>
 {% endif %}
