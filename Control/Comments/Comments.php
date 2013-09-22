@@ -16,6 +16,7 @@ use Silex\Application;
 use phpManufaktur\CommandCollection\Data\Comments\Comments as CommentsData;
 use phpManufaktur\Contact\Control\Contact;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
+use phpManufaktur\CommandCollection\Control\Comments\GravatarLib\Gravatar;
 
 class Comments extends Basic
 {
@@ -23,6 +24,7 @@ class Comments extends Basic
     protected $CommentsIdentifier = null;
     protected $ContactControl = null;
     protected $Configuration = null;
+    protected $Gravatar = null;
 
     protected static $parameter = null;
     protected static $configuration = null;
@@ -44,6 +46,9 @@ class Comments extends Basic
     protected function initParameters(Application $app, $parameter_id=-1)
     {
         parent::initParameters($app, $parameter_id);
+
+        // clear all messages
+        $this->clearMessage();
 
         $this->CommentsData = new CommentsData($app);
         $this->CommentsIdentifier = new CommentsIdentifier($app);
@@ -90,12 +95,28 @@ class Comments extends Basic
             }
         }
 
+        if (self::$configuration['gravatar']['enabled']) {
+            $use_gravatar = (isset($params['gravatar']) && (($params['gravatar'] == '0') || (strtolower(trim($params['gravatar'])) == 'false'))) ? false : true;
+        }
+        else {
+            $use_gravatar = false;
+        }
+
+        if (self::$configuration['rating']['enabled']) {
+            $use_rating = (isset($params['rating']) && (($params['rating'] == '0') || (strtolower(trim($params['rating'])) == 'false'))) ? false : true;
+        }
+        else {
+            $use_rating = false;
+        }
+
         // check the parameters and set defaults
         self::$parameter = array(
             'captcha' => (isset($params['captcha']) && (($params['captcha'] == '0') || (strtolower(trim($params['captcha'])) == 'false'))) ? false : true,
             'type' => (isset($params['type']) && !empty($params['type'])) ? strtoupper($params['type']) : 'PAGE',
             'id' => (isset($params['id']) && is_numeric($params['id'])) ? intval($params['id']) : $this->getCMSpageID(),
             'publish' => $publish,
+            'gravatar' => $use_gravatar,
+            'rating' => $use_rating
         );
 
         if (false === (self::$idenfifier = $this->CommentsIdentifier->selectByTypeID(self::$parameter['type'], self::$parameter['id']))) {
@@ -133,6 +154,15 @@ class Comments extends Basic
             $this->app['monolog']->addInfo('Created the Contact Tag Type COMMENTS', array(__METHOD__, __LINE__));
         }
 
+        if (self::$parameter['gravatar']) {
+            $this->Gravatar = new Gravatar();
+            $this->Gravatar->setDefaultImage(self::$configuration['gravatar']['default_image']);
+            $this->Gravatar->setAvatarSize(self::$configuration['gravatar']['size']);
+            $this->Gravatar->setMaxRating(self::$configuration['gravatar']['max_rating']);
+            if (self::$configuration['gravatar']['use_ssl']) {
+                $this->Gravatar->enableSecureImages();
+            }
+        }
     }
 
     /**
@@ -212,19 +242,19 @@ class Comments extends Basic
      */
     protected function promptForm($form)
     {
-        /*$test = $this->CommentsData->getThread(self::$identifier_id);
-        echo "<pre>";
-        print_r($test);
+        /*echo "<pre>";
+        print_r($this->CommentsData->getThread(self::$identifier_id, $this->Gravatar));
         echo "</pre>";*/
-        return $this->app['twig']->render($this->app['utils']->templateFile(
+        return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/Comments',
             "comments.twig",
             $this->getPreferredTemplateStyle()),
             array(
                 'parameter' => self::$parameter,
+                'configuration' => self::$configuration,
                 'basic' => $this->getBasicSettings(),
                 'form' => $form->createView(),
-                'thread' => $this->CommentsData->getThread(self::$identifier_id)
+                'thread' => $this->CommentsData->getThread(self::$identifier_id, $this->Gravatar, self::$parameter['rating'])
             ));
     }
 
@@ -257,9 +287,9 @@ class Comments extends Basic
         // send the message
         $this->app['mailer']->send($message);
 
-        $this->setMessage('Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.');
+        $msg = 'Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.';
 
-        return $this->ControllerView($this->app);
+        return $this->ControllerView($this->app, $msg);
     }
 
     /**
@@ -288,9 +318,8 @@ class Comments extends Basic
         // send the message
         $this->app['mailer']->send($message);
 
-        $this->setMessage('Thank you for your comment. We have send you an activation link to confirm the publishing of the comment.');
-
-        return $this->ControllerView($this->app);
+        $msg = 'Thank you for your comment. We have send you an activation link to confirm the publishing of the comment.';
+        return $this->ControllerView($this->app, $msg);
     }
 
     /**
@@ -430,30 +459,6 @@ class Comments extends Basic
     }
 
     /**
-     * Default Controller to view the comments for the given parameters and to
-     * show a dialog to submit a new comment.
-     *
-     * @param Application $app
-     * @return string
-     */
-    public function controllerView(Application $app)
-    {
-        // init parent and client
-        $this->initParameters($app);
-
-        $GET = $this->getCMSgetParameters();
-        if (isset($GET['message'])) {
-            // message submitted as CMS parameter
-            $this->setMessage(base64_decode($GET['message']));
-        }
-
-        $form = $this->getCommentForm();
-
-
-        return $this->promptForm($form);
-    }
-
-    /**
      * Controller to check the submission of new comment
      *
      * @param Application $app
@@ -463,7 +468,7 @@ class Comments extends Basic
     {
         $this->initParameters($app);
 
-        $this->setFrameScrollToID('kf_submit');
+        $this->setFrameScrollToID('comment_form');
 
         $form = $this->getCommentForm();
 
@@ -565,15 +570,15 @@ class Comments extends Basic
                 // the administrator must confirm the comment
                 $this->createCommentRecord();
                 $this->adminConfirmComment();
-                $this->setMessage('Your comment will be checked and published as soon as possible.');
-                return $this->controllerView($this->app);
+                $message = 'Your comment will be checked and published as soon as possible.';
+                return $this->controllerView($this->app, $message);
             }
             elseif (self::$idenfifier['identifier_publish'] == 'IMMEDIATE') {
                 // publish the comment immediate
                 $this->createCommentRecord('CONFIRMED');
-                $this->setMessage('Thank you for the comment!');
                 $this->infoCommentPublished();
-                return $this->controllerView($this->app);
+                $message = 'Thank you for the comment!';
+                return $this->controllerView($this->app, $message);
             }
             else {
                 // Ooops, the handling is not defined?
@@ -621,6 +626,34 @@ class Comments extends Basic
         ->setContentType('text/html');
         // send the message
         $this->app['mailer']->send($message);
+    }
+
+    /**
+     * Default Controller to view the comments for the given parameters and to
+     * show a dialog to submit a new comment.
+     *
+     * @param Application $app
+     * @return string
+     */
+    public function controllerView(Application $app, $message='')
+    {
+        // init parent and client
+        $this->initParameters($app);
+
+        if (!empty($message)) {
+            $this->setMessage($message);
+        }
+
+        $GET = $this->getCMSgetParameters();
+        if (isset($GET['message'])) {
+            // message submitted as CMS parameter
+            $this->setMessage(base64_decode($GET['message']));
+            // if a message is prompted, scroll to it
+            $this->setFrameScrollToID('comment_form');
+        }
+
+        $form = $this->getCommentForm();
+        return $this->promptForm($form);
     }
 
     /**
@@ -921,6 +954,25 @@ class Comments extends Basic
             $this->app['mailer']->send($message);
             $this->app['monolog']->addInfo('Send info to: '.$subscriber['contact_email']);
         }
+    }
+
+    public function controllerReply(Application $app, $comment_id)
+    {
+        $this->initParameters($app);
+
+        if (false === ($reply_data = $this->CommentsData->select($comment_id))) {
+            throw new \Exception("Can't create a reply, the commend ID $comment_id does not exists!");
+        }
+
+        $data = array(
+            'comment_parent' => $reply_data['comment_id'],
+            'comment_headline' => $reply_data['comment_headline']
+        );
+
+        $form = $this->getCommentForm($data);
+        $this->setFrameScrollToID('comment_form');
+        return $this->promptForm($form);
+
     }
 
 }

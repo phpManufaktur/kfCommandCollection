@@ -8,6 +8,22 @@
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 */
 
+a {
+  text-decoration: none;
+}
+a:link,
+a:visited {
+  color: #da251d;
+  background-color: transparent;
+  text-decoration: none;
+}
+a:hover,
+a:active {
+  color: #da251d;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
 .clear {
   clear: both;
   width: 0;
@@ -18,7 +34,7 @@
   margin: 0;
   padding: 0;
   font-size: 11px;
-  width: 98%;
+  width: 99%;
 }
 
 .hint {
@@ -58,7 +74,6 @@
   width: 3%;
   margin: 1% 10px 0 0;
 }
-
 .comment.submit input[type=submit] {
   width: 30%;
 }
@@ -67,22 +82,107 @@
   font-size: 11px;
   color: #330000;
   background-color: transparent;
-}
-.thread .comment.main {
-  padding: 0 2% 0 17%;
-}
-.thread .comment.main .headline {
-  font-weight: bold;
   margin: 0;
   padding: 0;
 }
-.thread .comment.main .footer {
+.thread p {
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+.sub-table,
+.main {
+  display: table;
+  width: 100%;
+  margin: 0;
+}
+.sub-table.add-space {
+  margin: 0 0 0 20px;
+}
+.headline {
+  display: table-caption;
+  font-weight: bold;
+  margin: 5px 0 10px 0;
+}
+
+.reply,
+.sub-row,
+.reply-to,
+.content,
+.footer {
+  clear: both;
+  display: table-row;
+  width: 100%;
+  padding: 0;
+}
+/*.reply-to.add-space {
+  padding: 0 0 0 20px;
+}
+*/
+.nick-name {
+  float: right;
+  margin: 0;
+  padding: 0;
+  width: 80%;
   text-align: right;
+  font-size: 10px;
+}
+.rating-container {
+   float: left;
+   width: 20%;
+   height: 20px;
+   margin: 0;
+   padding: 0;
+   text-align: right;
+}  
+
+.gravatar {
+  display: table-cell;
+  vertical-align: top;
+  padding: 0 10px 0 0;
+}
+.text {
+  display: table-cell;
+  width: 100%;
 }
 
 
-.thread .comment.main .content {
-  
+/*
+.thread .comment.main .reply-to {
+  clear: both;
+  font-size: 11px;
+  padding: 0 0 0 5%;
 }
 
-  
+.thread .reply {
+  clear: both;
+  color: #6e6e6e;
+  font-size: 10px;
+  padding: 0 0 0 5%;
+}
+.thread .reply .content {
+}
+*/
+
+
+
+ .jRatingAverage {
+	background-color: #cd853f;
+	position:relative;
+	top:0;
+	left:0;
+	z-index:2;
+	height:100%;
+}
+.jRatingColor {
+	background-color: #f4c239;
+	position:relative;
+	top:0;
+	left:0;
+	z-index:2;
+	height:100%;
+}
+.jStar {
+	position:relative;
+	left:0;
+	z-index:3;
+}

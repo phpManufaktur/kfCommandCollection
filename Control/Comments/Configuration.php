@@ -60,6 +60,39 @@ class Configuration
                     'double_opt_in' => false,
                     'administrator' => true
                 )
+            ),
+            'gravatar' => array(
+                'enabled' => true,
+                'size' => 40,
+                'max_rating' => 'pg',
+                'default_image' => 'mm',
+                'use_ssl' => false,
+                'comment' => array(
+                    'main' => array(
+                        'enabled' => true,
+                        'size' => 40
+                    ),
+                    'reply' => array(
+                        'enabled' => true,
+                        'size' => 30
+                    )
+                )
+            ),
+            'rating' => array(
+                'enabled' => true,
+                'type' => 'small',
+                'length' => 5,
+                'step' => true,
+                'rate_max' => 5,
+                'show_rate_info' => false,
+                'comment' => array(
+                    'main' => array(
+                        'enabled' => true
+                    ),
+                    'reply' => array(
+                        'enabled' => true
+                    )
+                )
             )
         );
         file_put_contents(MANUFAKTUR_PATH.'/CommandCollection/config.comments.json',

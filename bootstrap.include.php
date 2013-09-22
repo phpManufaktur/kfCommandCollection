@@ -9,7 +9,8 @@
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
-global $app;
+// not needed - use only for syntax check!
+global $app, $admin, $command, $collection;
 
 // scan the /Locale directory and add all available languages
 $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale');
@@ -44,7 +45,7 @@ $command->post('/rating',
     'phpManufaktur\CommandCollection\Control\Rating\Rating::initFrame')
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.rating.json');
 $collection->get('/rating/exec',
-    'phpManufaktur\CommandCollection\Control\Rating\Rating::exec');
+    'phpManufaktur\CommandCollection\Control\Rating\Rating::controllerView');
 $collection->post('/rating/response',
     'phpManufaktur\CommandCollection\Control\Rating\Response::exec');
 
@@ -57,6 +58,9 @@ $command->post('/comments',
 $collection->get('/comments/view',
     // default view for the comments
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerView');
+$collection->get('/comments/reply/id/{comment_id}',
+    // reply to an existing comment
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerReply');
 $collection->post('/comments/submit',
     // new comment posted
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerSubmit');

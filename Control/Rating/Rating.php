@@ -25,6 +25,11 @@ class Rating extends Basic
     protected static $allowed_modes = array('IP', 'EMAIL');
     protected static $allowed_sizes = array('big', 'small');
 
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \phpManufaktur\Basic\Control\kitCommand\Basic::initParameters()
+     */
     protected function initParameters(Application $app, $parameter_id=-1)
     {
         parent::initParameters($app, $parameter_id);
@@ -48,7 +53,14 @@ class Rating extends Basic
         return $this->createIFrame('/collection/rating/exec');
     }
 
-    public function exec(Application $app)
+    /**
+     * Controller for the kitCommand Rating
+     *
+     * @param Application $app
+     * @throws \Exception
+     * @return string Rating Stars
+     */
+    public function controllerView(Application $app)
     {
         $this->initParameters($app);
 
@@ -94,7 +106,7 @@ class Rating extends Basic
             }
         }
 
-        return $this->app['twig']->render($this->app['utils']->templateFile(
+        return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/Rating',
             "rating.twig",
             $this->getPreferredTemplateStyle()),

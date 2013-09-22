@@ -17,6 +17,8 @@ if ('á' != "\xc3\xa1") {
 return array(
     'Comment'
         => 'Kommentar',
+    'Create a new comment'
+        => 'Einen neuen Kommentar erstellen',
 
     'For the email address %email% exists a contact record, but the status does not allow you to post a comment. Please contact the <a href="mailto:%admin_email%">administrator</a>.'
         => 'Für die E-Mail Adresse %email% existiert ein Datensatz, der Status erlaubt es Ihnen jedoch nicht einen Kommentar zu veröffentlichen. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.',
@@ -24,10 +26,16 @@ return array(
     'Headline'
         => 'Schlagzeile',
 
+    'jump to this comment'
+        => 'zu diesem Kommentar springen',
+
     'Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).'
         => 'Oh, Sie haben vergessen einen Kommentar zu übermitteln oder der Kommentar ist einfach zu kurz (Minimum: %length% Zeichen).',
     'Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.'
         => 'Oh, Ihr Kommentar ist leider etwas zu lang geworden, erlaubt sind %length% Zeichen, bitte kürzen Sie Ihren Beitrag.',
+
+    'Reply to this comment'
+        => 'Auf diesen Kommentar antworten',
 
     'send email at new comment'
         => 'bei neuen Kommentaren per E-Mail benachrichtigen',
@@ -57,9 +65,15 @@ return array(
         => 'Bewertung',
     'votes'
         => 'Bewertungen',
+    'Votes: %count% - Average: %average%'
+        => 'Bewertungen: %count% - Durchschnitt: %average%',
 
+    'You are replying to the comment <i>%headline%</i>'
+        => 'Sie antworten auf den Kommentar <i>%headline%</i>',
     'You are unsubscribed from this thread.'
         => 'Sie erhalten keine Benachrichtigungen mehr über neue Kommentare.',
+    'Your comment'
+        => 'Ihr Kommentar',
     'Your comment "%headline% is already published, the activation link is no longer valid'
         => 'Ihr Kommentar "%headline%" wurde bereits veröffentlich, der Aktivierungslink ist nicht mehr gültig.',
     'Your comment will be checked and published as soon as possible.'

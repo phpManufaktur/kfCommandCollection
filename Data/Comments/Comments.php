@@ -12,16 +12,23 @@
 namespace phpManufaktur\CommandCollection\Data\Comments;
 
 use Silex\Application;
+use phpManufaktur\CommandCollection\Data\Rating\Rating as RatingData;
+use phpManufaktur\CommandCollection\Data\Rating\RatingIdentifier;
+use Carbon\Carbon;
 
 class Comments
 {
     protected $app = null;
     protected static $table_name = null;
+    protected $RatingIdentifier = null;
+    protected $RatingData = null;
 
     public function __construct(Application $app)
     {
        $this->app = $app;
        self::$table_name = FRAMEWORK_TABLE_PREFIX.'collection_comments';
+       $this->RatingData = new RatingData($app);
+       $this->RatingIdentifier = new RatingIdentifier($app);
     }
 
     /**
@@ -99,6 +106,41 @@ EOD;
         }
     }
 
+    protected function getRatingData($comment_id)
+    {
+        if (null === ($identifier = $this->RatingIdentifier->selectByTypeID('COMMENTS', $comment_id))) {
+            // create new record
+            $data = array(
+                'identifier_type_name' => 'COMMENTS',
+                'identifier_type_id' => $comment_id,
+                'identifier_mode' => 'IP'
+            );
+            $identifier_id = -1;
+            $this->RatingIdentifier->insert($data, $identifier_id);
+            $identifier = $this->RatingIdentifier->select($identifier_id);
+        }
+
+        $average = $this->RatingData->getAverage($identifier['identifier_id']);
+
+        $is_disabled = false;
+
+        $checksum = md5($this->app['request']->getClientIP());
+        if (false !== ($check = $this->RatingData->selectByChecksum($identifier['identifier_id'], $checksum))) {
+            $Carbon = new Carbon($check[0]['rating_confirmation']);
+            if ($Carbon->diffInHours() <= 24) {
+                // this IP has rated within the last 24 hours, so we lock it.
+                $is_disabled = true;
+            }
+        }
+
+        return array(
+            'identifier_id' => $identifier['identifier_id'],
+            'is_disabled' => $is_disabled,
+            'average' => isset($average['average']) ? $average['average'] : 0,
+            'count' => isset($average['count']) ? $average['count'] : 0
+        );
+    }
+
     /**
      * Select the comments for the thread with the given identifier ID.
      * By default select comments with no parent (0)
@@ -108,12 +150,12 @@ EOD;
      * @throws \Exception
      * @return array comments
      */
-    public function selectComments($identifier_id, $parent=0)
+    public function selectComments($identifier_id, $parent=0, $gravatar=null, $rating=true)
     {
         try {
             $SQL = "SELECT * FROM `".self::$table_name."` a LEFT JOIN `".self::$table_name."` ".
                 "b ON a.comment_id = b.comment_id WHERE a.comment_parent = '$parent'".
-                "AND a.identifier_id='$identifier_id' ORDER BY a.comment_timestamp ASC";
+                "AND a.identifier_id='$identifier_id' AND a.comment_status='CONFIRMED' ORDER BY a.comment_timestamp ASC";
             $results = $this->app['db']->fetchAll($SQL);
             $comments = array();
             foreach ($results as $result) {
@@ -121,6 +163,12 @@ EOD;
                 foreach ($result as $key => $value) {
                     $item[$key] = (is_string($value)) ? $this->app['utils']->unsanitizeText($value) : $value;
                 }
+                // get the URL for a Gravatar fitting to the email address
+                $item['gravatar'] = (!is_null($gravatar)) ? $gravatar->buildGravatarURL($item['contact_email']) : null;
+
+                // rating is enabled, get the data
+                $item['rating'] = ($rating) ? $this->getRatingData($item['comment_id']) : null;
+
                 $comments[] = $item;
             }
             return $comments;
@@ -134,13 +182,13 @@ EOD;
      *
      * @return array comments
      */
-    public function getThread($identifier_id)
+    public function getThread($identifier_id, $gravatar=null, $rating=true)
     {
-        $threads = $this->selectComments($identifier_id);
+        $threads = $this->selectComments($identifier_id, 0, $gravatar, $rating);
 
         $result = array();
         foreach ($threads as $thread) {
-            $sub = $this->selectComments($identifier_id, $thread['comment_id']);
+            $sub = $this->selectComments($identifier_id, $thread['comment_id'], $gravatar, $rating);
             $result[] = array(
                 'main' => $thread,
                 'sub' => $sub

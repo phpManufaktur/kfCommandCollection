@@ -283,7 +283,7 @@ class ExcelRead extends Basic
         }
 
         // return the excel file
-        return $this->app['twig']->render($this->app['utils']->templateFile(
+        return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/ExcelRead',
             "table.twig",
             $this->getPreferredTemplateStyle()),
