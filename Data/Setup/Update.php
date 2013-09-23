@@ -12,14 +12,14 @@
 namespace phpManufaktur\CommandCollection\Data\Setup;
 
 use Silex\Application;
-use phpManufaktur\CommandCollection\Data\Rating\Rating;
 
-class Upgrade
+class Update
 {
 
     public function exec(Application $app)
     {
 
-        return 'The Upgrade for the CommandCollection was successfull';
+        return $app['translator']->trans('Successfull updated the extension %extension%.',
+            array('%extension%' => 'CommandCollection'));
     }
 }

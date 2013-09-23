@@ -20,11 +20,11 @@ $app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale/
 // use $collection for all CommandCollection routes
 $collection = $app['controllers_factory'];
 
-// Setup, Upgrade and Uninstall for the CommandCollection
+// Setup, Update and Uninstall for the CommandCollection
 $admin->get('/collection/setup',
     'phpManufaktur\CommandCollection\Data\Setup\Setup::exec');
-$admin->get('/collection/upgrade',
-    'phpManufaktur\CommandCollection\Data\Setup\Upgrade::exec');
+$admin->get('/collection/update',
+    'phpManufaktur\CommandCollection\Data\Setup\Update::exec');
 $admin->get('/collection/uninstall',
     'phpManufaktur\CommandCollection\Data\Setup\Uninstall::exec');
 
