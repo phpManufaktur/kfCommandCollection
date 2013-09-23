@@ -44,6 +44,7 @@ class Setup
             $app['db']->rollback();
             throw $e;
         }
-        return 'The Setup for the CommandCollection was successfull';
+        return $app['translator']->trans('Successfull installed the extension %extension%.',
+            array('%extension%' => 'CommandCollection'));
     }
 }

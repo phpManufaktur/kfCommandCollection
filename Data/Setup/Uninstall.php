@@ -34,6 +34,7 @@ class Uninstall
         $Comments = new Comments($app);
         $Comments->dropTable();
 
-        return 'The Uninstall for the CommandCollection was successfull';
+        return $app['translator']->trans('Successfull uninstalled the extension %extension%.',
+            array('%extension%' => 'CommandCollection'));
     }
 }
