@@ -124,7 +124,7 @@ EOD;
 
         $is_disabled = false;
 
-        $checksum = md5($this->app['request']->getClientIP());
+        $checksum = md5($_SERVER['REMOTE_ADDR']);
         if (false !== ($check = $this->RatingData->selectByChecksum($identifier['identifier_id'], $checksum))) {
             $Carbon = new Carbon($check[0]['rating_confirmation']);
             if ($Carbon->diffInHours() <= 24) {

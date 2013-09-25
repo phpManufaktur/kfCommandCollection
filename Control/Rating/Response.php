@@ -46,7 +46,7 @@ class Response
             return 'error';
         }
 
-        $ip = $app['request']->getClientIP();
+        $ip = $_SERVER['REMOTE_ADDR'];
         $checksum = md5($ip);
         $app['monolog']->addInfo("IP: $ip - Checksum: $checksum");
 

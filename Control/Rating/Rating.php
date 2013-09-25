@@ -24,6 +24,9 @@ class Rating extends Basic
     protected $RatingIdentifier = null;
     protected static $allowed_modes = array('IP', 'EMAIL');
     protected static $allowed_sizes = array('big', 'small');
+    protected static $stars = null;
+    protected static $maximum_rate = null;
+    protected static $step = null;
 
     /**
      * (non-PHPdoc)
@@ -78,7 +81,7 @@ class Rating extends Basic
         }
         else {
             // logical problem
-            throw new \Exception("Set parameter `type` and `id`, where `type` describe your application and `id` is an integer identifier.");
+            throw new \Exception("Set parameter `type` and `id`, where `type` describe your application (string) and `id` is an identifier (integer).");
         }
 
         if (null === ($identifier = $this->RatingIdentifier->selectByTypeID($type, $id))) {
@@ -97,7 +100,7 @@ class Rating extends Basic
 
         $is_disabled = false;
 
-        $checksum = md5($app['request']->getClientIP());
+        $checksum = md5($_SERVER['REMOTE_ADDR']);
         if (false !== ($check = $this->RatingData->selectByChecksum($identifier['identifier_id'], $checksum))) {
             $Carbon = new Carbon($check[0]['rating_confirmation']);
             if ($Carbon->diffInHours() <= 24) {
@@ -105,6 +108,13 @@ class Rating extends Basic
                 $is_disabled = true;
             }
         }
+
+        self::$stars = (isset($param['stars'])) ? (int) $param['stars'] : 5;
+        self::$maximum_rate = (isset($param['maximum_rate'])) ? (int) $param['maximum_rate'] : self::$stars;
+        self::$step = (isset($param['step']) && (($param['step'] == 0) || (strtolower($param['step']) == 'false'))) ? false : true;
+
+        // no addition to the iFrame!
+        $this->setFrameAdd(0);
 
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/Rating',
@@ -117,7 +127,10 @@ class Rating extends Basic
                 'identifier_id' => $identifier['identifier_id'],
                 'is_disabled' => $is_disabled,
                 'guid' => $app['utils']->createGUID(),
-                'size' => (isset($param['size']) && in_array(strtolower($param['size']), self::$allowed_sizes)) ? $param['size'] : 'big'
+                'size' => (isset($param['size']) && in_array(strtolower($param['size']), self::$allowed_sizes)) ? $param['size'] : 'big',
+                'stars' => self::$stars,
+                'maximum_rate' => self::$maximum_rate,
+                'step' => self::$step
             ));
     }
 }

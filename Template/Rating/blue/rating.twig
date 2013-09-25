@@ -10,11 +10,11 @@
 {% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
 {% block stylesheet %}
   {{ parent() }}
-  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/jRating.jquery.css" media="screen, projection" />
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/blue/css/jRating.jquery.css" media="screen, projection" />
 {% endblock stylesheet %}
 {% block jquery %}
   {{ parent() }}
-  <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/jquery/jRating.jquery.js"></script>
+  <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/blue/jquery/jRating.jquery.js"></script>
 {% endblock jquery %}
 {% block content %}
   <div class="rating-container">
@@ -27,19 +27,21 @@
   <div class="clear"></div>
 {% endblock %}
 {% block footer %}
+  {#% set iframe_add_height = 0 %#}
   <script type="text/javascript">
     if (typeof 'jQuery' !== 'undefined') {
       $(document).ready(function() {
         $(".rating-{{ guid }}").jRating({
-          bigStarsPath: '{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/icons/stars.png',
-          smallStarsPath: '{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/icons/small.png',
+          bigStarsPath: '{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/blue/css/icons/stars.png',
+          smallStarsPath: '{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/blue/css/icons/small.png',
           phpPath: '{{ FRAMEWORK_URL }}/collection/rating/response',
           type:'{{ size }}',
           length : {{ stars }},
           step: {%if step %}true{% else %}false{% endif %},
           rateMax: {{ maximum_rate }},
           showRateInfo: false,
-          isDisabled: {% if is_disabled %}true{% else %}false{% endif %},          
+          isDisabled: {% if is_disabled %}true{% else %}false{% endif %},
+          
         });
       });
     }
