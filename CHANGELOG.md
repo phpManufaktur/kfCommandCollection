@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.15** - 2013-09-25
+
+* completed the kitCommand `Rating`
+
 **0.14** - 2013-09-23
 
 * prepared for beta test
