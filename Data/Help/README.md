@@ -1,1 +1,0 @@
-Images for the GIST helpfile are placed in the repository
