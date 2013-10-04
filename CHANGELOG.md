@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.16** - 2013-10-04
+
+* extended `ExcelRead` with formatting parameter
+
 **0.15** - 2013-09-25
 
 * completed the kitCommand `Rating`

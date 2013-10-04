@@ -42,7 +42,24 @@
               {% if row_count == 0 and option.header %}
                 <th class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</th>
               {% else %}
-                <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
+                {% if column.format|length > 0 %}
+                  {# use formatting #}
+                  {% if column.format == 'translate' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|trans }}</td>
+                  {% elseif column.format == 'currency' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(2, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }} {{ 'CURRENCY_SYMBOL'|trans }}</td>
+                  {% elseif column.format == 'decimal' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(2, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td>
+                  {% elseif column.format == 'integer' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(0, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td>  
+                  {% else %}
+                    {# formatting is not defined ... #}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
+                  {% endif %}
+                {%else %}
+                  {# unformatted column content #}
+                  <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
+                {% endif %}
               {% endif %}
               {% set colum_count = column_count + 1 %}
             {% endfor %}

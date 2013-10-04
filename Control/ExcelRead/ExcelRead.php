@@ -198,6 +198,19 @@ class ExcelRead extends Basic
             }
         }
 
+        // format of the columns
+        $columns_format = array();
+        if (isset($parameter['format']) && !empty($parameter['format'])) {
+            $format_array = explode(',', $parameter['format']);
+            foreach ($format_array as $item) {
+                if (strpos($item, '|')) {
+                    list($column, $format) = explode('|', strtolower(trim($item)));
+                    $columns_format[$column-1] = $format;
+                }
+            }
+        }
+
+
         // create new Excel Document from the given file
         $doc = new \CompoundDocument('utf-8');
         $doc->parse(file_get_contents($path));
@@ -205,6 +218,7 @@ class ExcelRead extends Basic
         $xls->parse();
 
         $excel = array();
+
 
         $i=0;
         foreach ($xls->sheets as $sheetName => $sheet) {
@@ -230,6 +244,7 @@ class ExcelRead extends Basic
                 }
                 // new row
                 $add_row = array();
+                $column_count = 0;
                 for ($col = 0; $col < $sheet->cols(); $col++) {
                     if ($include_columns && !in_array($col, $include_columns_array)) {
                         // use only the specified columns
@@ -271,8 +286,10 @@ class ExcelRead extends Basic
                         // add the row content
                         $add_row[] = array(
                             'content' => $row_content,
-                            'style' => isset($columns_style[$col]) ? $columns_style[$col] : ''
+                            'style' => isset($columns_style[$column_count]) ? $columns_style[$column_count] : '',
+                            'format' => isset($columns_format[$column_count]) ? $columns_format[$column_count] : ''
                         );
+                        $column_count++;
                     }
                 }
                 // add the row to the sheet
@@ -282,6 +299,7 @@ class ExcelRead extends Basic
             $excel[] = $add_sheet;
         }
 
+
         // return the excel file
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/ExcelRead',
@@ -290,11 +308,16 @@ class ExcelRead extends Basic
             array(
                 'basic' => $this->getBasicSettings(),
                 'excel' => $excel,
+                'count' => array(
+                    'columns' => $column_count,
+                    'rows' => count($excel)
+                ),
                 'option' => array(
                     'title' => (isset($parameter['title']) && (empty($parameter['title']) || (trim($parameter['title']) == 1) || (strtolower(trim($parameter['title'])) == 'true'))) ? true : false,
                     'header' => $show_header,
                     'tablesorter' => (isset($parameter['tablesorter']) && (empty($parameter['tablesorter']) || (trim($parameter['tablesorter']) == 1) || (strtolower(trim($parameter['tablesorter'])) == 'true'))) ? true : false,
-                    )
+                    ),
+                'format' => $columns_format
             ));
     }
 }
