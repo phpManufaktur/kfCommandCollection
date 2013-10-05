@@ -39,6 +39,8 @@ $command->post('/excelread',
     ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.excelread.json');
 $collection->get('/excelread/exec',
     'phpManufaktur\CommandCollection\Control\ExcelRead\ExcelRead::exec');
+$app->post('/search/command/excelread',
+    'phpManufaktur\CommandCollection\Control\ExcelRead\Search::controllerSearch');
 
 // Rating
 $command->post('/rating',
