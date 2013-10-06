@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.17** - 2013-10-06
+
+* added search function to the kitCommand `ExcelRead`
+
 **0.16** - 2013-10-04
 
 * extended `ExcelRead` with formatting parameter
