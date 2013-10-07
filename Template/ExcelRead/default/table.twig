@@ -51,7 +51,9 @@
                   {% elseif column.format == 'decimal' %}
                     <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(2, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td>
                   {% elseif column.format == 'integer' %}
-                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(0, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td>  
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(0, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td> 
+                  {% elseif column.format.date is defined %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|date(column.format.date.format) }}</td> 
                   {% else %}
                     {# formatting is not defined ... #}
                     <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>

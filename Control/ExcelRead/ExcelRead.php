@@ -204,12 +204,23 @@ class ExcelRead extends Basic
             $format_array = explode(',', $parameter['format']);
             foreach ($format_array as $item) {
                 if (strpos($item, '|')) {
-                    list($column, $format) = explode('|', strtolower(trim($item)));
-                    $columns_format[$column-1] = $format;
+                    list($column, $format) = explode('|', trim($item));
+                    if ((false !== ($pos = stripos(trim($format), 'date'))) && ($pos == 0)) {
+                        if ((false !== ($start = stripos($format, '('))) && (false !== ($end = stripos($format, ')')))) {
+                            $date_format = trim(substr($format, $start+1, $end-($start+1)));
+                            $date_format = str_ireplace('comma', ',', $date_format);
+                        }
+                        else {
+                            $date_format = $app['translator']->trans('DATE_FORMAT');
+                        }
+                        $columns_format[trim($column-1)]['date']['format'] = $date_format;
+                    }
+                    else {
+                        $columns_format[trim($column-1)] = strtolower(trim($format));
+                    }
                 }
             }
         }
-
 
         // create new Excel Document from the given file
         $doc = new \CompoundDocument('utf-8');
@@ -257,7 +268,8 @@ class ExcelRead extends Basic
                     if (!isset($sheet->cells[$row][$col])) {
                         $add_row[] = array(
                             'content' => null,
-                            'style' => isset($columns_style[$col]) ? $columns_style[$col] : ''
+                            'style' => isset($columns_style[$col]) ? $columns_style[$col] : '',
+                            'format' => isset($columns_format[$column_count]) ? $columns_format[$column_count] : ''
                         );
                     }
                     else {
@@ -283,6 +295,12 @@ class ExcelRead extends Basic
                                 $row_content = str_replace($match[0], sprintf('<a href="mailto:%1$s">%1$s</a>', $match[0]), $row_content);
                             }
                         }
+                        if (isset($columns_format[$column_count]['date']['format'])) {
+                            if (is_int($sheet->cells[$row][$col]->value) && ($sheet->cells[$row][$col]->value < 100000)) {
+                                // date is a Excel serial number date, convert it to a unix timestamp
+                                $row_content = mktime(0, 0, 0, 1, $sheet->cells[$row][$col]->value-1, 1900);
+                            }
+                        }
                         // add the row content
                         $add_row[] = array(
                             'content' => $row_content,
@@ -298,7 +316,6 @@ class ExcelRead extends Basic
             // add the sheet
             $excel[] = $add_sheet;
         }
-
 
         // return the excel file
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
