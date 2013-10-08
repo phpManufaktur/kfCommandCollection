@@ -1,0 +1,32 @@
+{#
+  CommandCollection
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de/contact
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% extends getTemplateFile('@phpManufaktur/Basic/Template', 'framework/body.twig') %}
+{% block stylesheet %}
+    {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Comments/default/import/css/feedbackmodule.css" media="screen, projection" />
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <h1>{{ 'Import comments from the FeedbackModule'|trans }}</h1>
+  
+  {% if message|length > 0 %}
+    <div class="message">{{ message }}</div>
+  {% endif %}  
+
+  {% if import_is_possible %}
+    <div class="import">
+      <p>{{ 'There exists %count% records of the FeedbackModule which can be imported into the Comments.'|trans({'%count%':count}) }}</p>
+      {% if count > 0 %}
+        <p><i class="icon-puzzle-piece icon-3x pull-left"></i>&nbsp;<a href="{{ FRAMEWORK_URL }}/admin/comments/import/feedbackmodule/execute">{{ 'Start import from FeedbackModule'|trans }}</a></p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+{% endblock content %}

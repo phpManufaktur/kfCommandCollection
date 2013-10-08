@@ -26,6 +26,11 @@ return array(
     'Headline'
         => 'Schlagzeile',
 
+    'Import comments from the FeedbackModule'
+        => 'Kommentare aus dem FeedbackModule importieren',
+    'Imported %feedbacks% records and %comments% administrative comments from FeedbackModule'
+        => 'Es wurden %feedbacks% Feedbacks sowie %comments% administrative Kommentare aus dem FeedbackModule in <i>Comments</i> importiert.',
+
     'jump to this comment'
         => 'zu diesem Kommentar springen',
 
@@ -39,6 +44,8 @@ return array(
 
     'send email at new comment'
         => 'bei neuen Kommentaren per E-Mail benachrichtigen',
+    'Start import from FeedbackModule'
+        => 'Import aus dem FeedbackModule starten',
 
     'Thank you for submitting the comment %headline%!'
         => 'Vielen Dank für die Übermittlung des Kommentars "%headline%".',
@@ -60,6 +67,10 @@ return array(
         => 'Der Kommentar mit der ID %comment_id% wurde <b>zurückgewiesen</b> und darüber hinaus wurde der Kontakt mit der ID %contact_id% <b>gesperrt</b>.',
     'The comment with the ID %id% is marked as REJECTED!!'
         => 'Der Kommentar mit der ID %id% ist als <b>REJECTED</b> gekennzeichnet.',
+    'There exists %count% records of the FeedbackModule which can be imported into the Comments.'
+        => 'Es existieren %count% Datensätze des FeedbackModule die in <i>Comments</i> importiert werden können.',
+    'There exists no FeedbackModule table for import!'
+        => 'Es existiert keine FeedbackModule Tabelle, ein Import ist nicht möglich.',
 
     'vote'
         => 'Bewertung',

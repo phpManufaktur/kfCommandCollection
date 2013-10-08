@@ -51,6 +51,12 @@ $collection->get('/rating/exec',
 $collection->post('/rating/response',
     'phpManufaktur\CommandCollection\Control\Rating\Response::exec');
 
+// Import Comments from FeedbackModule
+$admin->get('/comments/import/feedbackmodule',
+    'phpManufaktur\CommandCollection\Control\Comments\Import\FeedbackModule::controllerStart');
+$admin->get('/comments/import/feedbackmodule/execute',
+    'phpManufaktur\CommandCollection\Control\Comments\Import\FeedbackModule::controllerExecute');
+
 // Comments
 $command->post('/comments',
     // kitCommand Comments

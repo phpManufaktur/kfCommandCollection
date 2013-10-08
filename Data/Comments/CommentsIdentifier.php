@@ -126,6 +126,7 @@ EOD;
         try {
             $this->app['db']->insert(self::$table_name, $data);
             $identifier_id = $this->app['db']->lastInsertId();
+            return $identifier_id;
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }

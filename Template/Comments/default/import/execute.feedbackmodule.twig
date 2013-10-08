@@ -1,0 +1,23 @@
+{#
+  CommandCollection
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de/contact
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% extends getTemplateFile('@phpManufaktur/Basic/Template', 'framework/body.twig') %}
+{% block stylesheet %}
+    {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Comments/default/import/css/feedbackmodule.css" media="screen, projection" />
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <h1>{{ 'Import comments from the FeedbackModule'|trans }}</h1>
+  
+  {% if message|length > 0 %}
+    <div class="message">{{ message }}</div>
+  {% endif %}   
+
+{% endblock content %}
