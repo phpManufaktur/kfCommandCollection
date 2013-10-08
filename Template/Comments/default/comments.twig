@@ -92,7 +92,7 @@
                         </div>
                       {% endif %}
                       <div class="nick-name">
-                        {{ reply.contact_nick_name }} - {{ reply.comment_timestamp|date('d.m.Y H:i') }}
+                        {% if reply.contact_url|length > 0 %}<a href="" target="_blank">{{ reply.contact_nick_name }}</a>{% else %}{{ reply.contact_nick_name }}{% endif %} - {{ reply.comment_timestamp|date('d.m.Y H:i') }}
                       </div>
                     </div>
                   </div>
@@ -199,7 +199,7 @@
   </div>
 {% endblock %}
 {% block footer %}
-  {% set iframe_add_height = 130 %}
+  {% set iframe_add_height = 90 %}
   {{ parent() }} 
   {% if parameter.rating %}
     <script type="text/javascript">
