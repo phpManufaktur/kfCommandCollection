@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.19** - 2013-10-08
+
+* added import for the feedbacks of FeedbackModule into *Comments*, use `/kit2/admin/comments/import/feedbackmodule` to start the import
+
 **0.18** - 2013-10-07
 
 * fixed: [issue #1](https://github.com/phpManufaktur/kfCommandCollection/issues/1), added an extra day to dates ...
