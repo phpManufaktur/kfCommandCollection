@@ -242,9 +242,6 @@ class Comments extends Basic
      */
     protected function promptForm($form)
     {
-        /*echo "<pre>";
-        print_r($this->CommentsData->getThread(self::$identifier_id, $this->Gravatar));
-        echo "</pre>";*/
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/Comments',
             "comments.twig",
@@ -437,13 +434,29 @@ class Comments extends Basic
      *
      * @param $status set the status for the comment, default 'PENDING'
      */
-    protected function createCommentRecord($status='PENDING') {
+    protected function createCommentRecord($status='PENDING')
+    {
+        $content = self::$submit['comment_content'];
+
+        // check links in the comment content, we have to add a target="_blank" if missing!
+        preg_match_all('%<a[^>]*>(.*?)</a>%si', $content, $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            $expression = $match[0];
+            $first_tag = substr($expression, 0, strpos($expression, '>')+1);
+            if (false === ($pos = stripos($first_tag, 'target'))) {
+                // add 'target="_blank"' to the link
+                $replace = str_replace('>', ' target="_blank">', $first_tag);
+                $replace = str_replace($first_tag, $replace, $expression);
+                $content = str_replace($expression, $replace, $content);
+            }
+        }
+
         $comment = array(
             'identifier_id' => self::$identifier_id,
             'comment_parent' => self::$submit['comment_parent'],
             'comment_url' => $this->getCMSpageURL(),
             'comment_headline' => self::$submit['comment_headline'],
-            'comment_content' => self::$submit['comment_content'],
+            'comment_content' => $content,
             'comment_status' => $status,
             'comment_guid' => $this->app['utils']->createGUID(),
             'comment_guid_2' => $this->app['utils']->createGUID(),
@@ -481,14 +494,14 @@ class Comments extends Basic
                 strlen(self::$submit['comment_content']) < self::$configuration['comments']['length']['minimum']) {
                 // empty comment or comment too short
                 $this->setMessage('Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).',
-                    array('%length%', self::$configuration['comments']['length']['minimum']));
-                $this->promptForm($form);
+                    array('%length%' => self::$configuration['comments']['length']['minimum']));
+                return $this->promptForm($form);
             }
             if (strlen(self::$submit['comment_content']) > self::$configuration['comments']['length']['maximum']) {
                 // comment exceed the maximum length
                 $this->setMessage('Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.',
                     array('%length%' => self::$configuration['comments']['length']['maximum']));
-                $this->promptForm($form);
+                return $this->promptForm($form);
             }
             // comment is valid
             if (false !== (self::$contact_id = $this->ContactControl->existsLogin(self::$submit['contact_email']))) {
