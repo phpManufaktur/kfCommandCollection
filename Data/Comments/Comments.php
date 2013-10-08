@@ -214,6 +214,7 @@ EOD;
             }
             $this->app['db']->insert(self::$table_name, $insert);
             $comment_id = $this->app['db']->lastInsertId();
+            return $comment_id;
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
@@ -344,6 +345,27 @@ EOD;
         try {
             $this->app['db']->update(self::$table_name, array('comment_update_info' => '0'),
                 array('identifier_id' => $identifier_id, 'contact_id' => $contact_id));
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Check with identifier ID, contact ID and date of comment confirmation if a comment already exists
+     *
+     * @param integer $identifier_id
+     * @param integer $contact_id
+     * @param date $comment_confirmation
+     * @throws \Exception
+     * @return boolean
+     */
+    public function commentAlreadyExists($identifier_id, $contact_id, $comment_confirmation)
+    {
+        try {
+            $SQL = "SELECT `contact_id` FROM `".self::$table_name."` WHERE `identifier_id`='$identifier_id' ".
+                "AND `contact_id`='$contact_id' AND `comment_confirmation`='$comment_confirmation'";
+            $result = $this->app['db']->fetchColumn($SQL);
+            return ($result == $contact_id);
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
         }
