@@ -1,0 +1,95 @@
+{#
+  kitCommand: ExcelRead
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
+{% block stylesheet %}
+  {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/ExcelRead/white/css/table.css" media="screen, projection" />
+  {% if option.tablesorter %}
+    <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/ExcelRead/default/jquery/tablesorter/themes/default/style.css" media="screen, projection" />
+  {% endif %}
+{% endblock stylesheet %}
+{% block jquery %}
+  {{ parent() }}
+  {% if option.tablesorter %}
+    <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/ExcelRead/default/jquery/tablesorter/jquery.tablesorter.min.js"></script>
+  {% endif %}
+{% endblock jquery %}
+{% block content %}
+  <div id="excel_container" >
+    {% set sheet_id = 1 %}
+    {% for sheet in excel %}
+      {% if option.title %}
+        <h2>{{ sheet.name }}</h2>
+      {% endif %}
+      <table id="excel_sheet_{{ sheet_id }}"{% if option.tablesorter %} class="tablesorter"{% endif %}>
+        {% if option.header %}
+          <thead>
+        {% else %}
+          <tbody>
+        {% endif %}
+        {% set row_count = 0 %}
+        {% for row in sheet.row %}
+          <tr class="{{ cycle(['flip','flop'], row_count) }}">
+            {% set column_count = 1 %}
+            {% for column in row %}
+              {% if row_count == 0 and option.header %}
+                <th class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</th>
+              {% else %}
+                {% if column.format|length > 0 %}
+                  {# use formatting #}
+                  {% if column.format == 'translate' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|trans }}</td>
+                  {% elseif column.format == 'currency' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(2, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }} {{ 'CURRENCY_SYMBOL'|trans }}</td>
+                  {% elseif column.format == 'decimal' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(2, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td>
+                  {% elseif column.format == 'integer' %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|number_format(0, 'DECIMAL_SEPARATOR'|trans, 'THOUSAND_SEPARATOR'|trans) }}</td> 
+                  {% elseif column.format.date is defined %}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content|date(column.format.date.format) }}</td> 
+                  {% else %}
+                    {# formatting is not defined ... #}
+                    <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
+                  {% endif %}
+                {%else %}
+                  {# unformatted column content #}
+                  <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
+                {% endif %}
+              {% endif %}
+              {% set colum_count = column_count + 1 %}
+            {% endfor %}
+          </tr>
+          {% if row_count == 0 and option.header %}
+            </thead>
+            <tbody>
+          {% endif %}
+          {% set row_count = row_count+1 %}
+        {% endfor %}
+        </tbody>
+      </table>
+      {% if option.tablesorter %}
+        <script type="text/javascript">
+          $(document).ready(function() {
+            $("#excel_sheet_{{ sheet_id }}").tablesorter();
+          });
+        </script>
+      {% endif %}
+      {% set sheet_id = sheet_id+1 %}
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% if option.tablesorter %}
+    {# the tablesorter need some extra space! #}
+    {% set iframe_add_height = 40  %}
+  {% endif %}
+  {{ parent() }}
+{% endblock %}

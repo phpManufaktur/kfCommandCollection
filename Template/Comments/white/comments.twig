@@ -10,7 +10,7 @@
 {% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
 {% block stylesheet %}
   {{ parent() }}
-  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Comments/default/css/comments.css" media="screen, projection" />
+  <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Comments/white/css/comments.css" media="screen, projection" />
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 {% endblock stylesheet %}
 {% block jquery %}
@@ -52,11 +52,11 @@
                 <div class="rating-stars rating_{{ comment.main.rating.identifier_id }}" 
                      data-average="{{ comment.main.rating.average }}" 
                      data-id="{{ comment.main.rating.identifier_id }}" 
-                     title="{{ 'Votes: %count% - Average: %average%'|trans({'%count%':comment.main.rating.count,'%average%':comment.main.rating.average|number_format(2,'DECIMAL_SEPARATOR'|trans,'THOUSAND_SEPARATOR'|trans)}) }}"></div>
+                     title="{{ 'Votes: %count% - Average: %average%'|trans({'%count%':comment.main.rating.count,'%average%':comment.main.rating.average|number_format(2,',','.')}) }}"></div>
               </div>
             {% endif %}
             <div class="nick-name">
-              {% if comment.main.contact_url|length > 0 %}<a href="{{ comment.main.contact_url }}" target="_blank">{{ comment.main.contact_nick_name }}</a>{% else %}{{ comment.main.contact_nick_name }}{% endif %} - {{ comment.main.comment_timestamp|date('DATETIME_FORMAT'|trans) }}
+              {% if comment.main.contact_url|length > 0 %}<a href="{{ comment.main.contact_url }}" target="_blank">{{ comment.main.contact_nick_name }}</a>{% else %}{{ comment.main.contact_nick_name }}{% endif %} - {{ comment.main.comment_timestamp|date('d.m.Y H:i') }}
             </div>
           </div>  
         </div>
@@ -88,11 +88,11 @@
                           <div class="rating-stars rating_{{ reply.rating.identifier_id }}" 
                                data-average="{{ reply.rating.average }}" 
                                data-id="{{ reply.rating.identifier_id }}" 
-                               title="{{ 'Votes: %count% - Average: %average%'|trans({'%count%':reply.rating.count,'%average%':reply.rating.average|number_format(2,'DEZIMAL_SEPARATOR'|trans,'THOUSAND_SEPARATOR'|trans)}) }}"></div>
+                               title="{{ 'Votes: %count% - Average: %average%'|trans({'%count%':reply.rating.count,'%average%':reply.rating.average|number_format(2,',','.')}) }}"></div>
                         </div>
                       {% endif %}
                       <div class="nick-name">
-                        {% if reply.contact_url|length > 0 %}<a href="{{ reply.contact_url }}" target="_blank">{{ reply.contact_nick_name }}</a>{% else %}{{ reply.contact_nick_name }}{% endif %} - {{ reply.comment_timestamp|date('DATETIME_FORMAT'|trans) }}
+                        {% if reply.contact_url|length > 0 %}<a href="{{ reply.contact_url }}" target="_blank">{{ reply.contact_nick_name }}</a>{% else %}{{ reply.contact_nick_name }}{% endif %} - {{ reply.comment_timestamp|date('d.m.Y H:i') }}
                       </div>
                     </div>
                   </div>
