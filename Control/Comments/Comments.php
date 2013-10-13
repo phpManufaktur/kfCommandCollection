@@ -109,11 +109,56 @@ class Comments extends Basic
             $use_rating = false;
         }
 
+        if (isset($params['id']) && isset($params['type'])) {
+            if (is_numeric($params['id'])) {
+                $id = intval($params['id']);
+            }
+            elseif (strtoupper($params['id']) == 'TOPIC_ID') {
+                $info = $this->getCMSinfoArray();
+                if (!is_null($info['special']['topic_id'])) {
+                    $id = $info['special']['topic_id'];
+                }
+                else {
+                    $id = -1;
+                    $this->setMessage('This is no TOPICS article, please check the usage of the magic TOPIC_ID.', array(), true);
+                }
+            }
+            elseif (strtoupper($params['id']) == 'POST_ID') {
+                $info = $this->getCMSinfoArray();
+                if (!is_null($info['special']['post_id'])) {
+                    $id = $info['special']['post_id'];
+                }
+                else {
+                    $id = -1;
+                    $this->setMessage('This is no NEWS article, please check the usage of the magic POST_ID.', array(), true);
+                }
+            }
+            elseif (strtoupper($params['id']) == 'EVENT_ID') {
+                if (null == ($id = $this->app['session']->get('EVENT_ID'))) {
+                    $id = -1;
+                    $this->setMessage('The magic EVENT_ID is missing the session variable EVENT_ID (must be set by Event)', array(), true);
+                }
+            }
+            else {
+                $id = -1;
+                $this->setMessage("Don't know how to handle the magic ID %magic_id%.", array('%magic_id%' => $params['id']), array(), true);
+            }
+        }
+        elseif (isset($params['id'])) {
+            // missing the parameter 'type'
+            $id = -1;
+            $this->setMessage('If you are using the parameter id[] you must also use type[]!', array(), true);
+        }
+        else {
+            // use the page ID as indicator
+            $id = $this->getCMSpageID();
+        }
+
         // check the parameters and set defaults
         self::$parameter = array(
             'captcha' => (isset($params['captcha']) && (($params['captcha'] == '0') || (strtolower(trim($params['captcha'])) == 'false'))) ? false : true,
             'type' => (isset($params['type']) && !empty($params['type'])) ? strtoupper($params['type']) : 'PAGE',
-            'id' => (isset($params['id']) && is_numeric($params['id'])) ? intval($params['id']) : $this->getCMSpageID(),
+            'id' => $id,
             'publish' => $publish,
             'gravatar' => $use_gravatar,
             'rating' => $use_rating
@@ -806,12 +851,14 @@ class Comments extends Basic
             // the comment is already confirmed
             $message = $this->app['translator']->trans('The comment with the ID %id% is already published!',
                 array('%id%' => self::$comment['comment_id']));
+            $this->app['monolog']->addDebug($message, array(__METHOD__, __LINE__));
             return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
         }
 
         if (self::$comment['comment_status'] == 'REJECTED') {
             $message = $this->app['translator']->trans('The comment with the ID %id% is already marked as REJECTED!',
                 array('%id%' => self::$comment['comment_id']));
+            $this->app['monolog']->addDebug($message, array(__METHOD__, __LINE__));
             return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
         }
 
@@ -828,6 +875,7 @@ class Comments extends Basic
 
         $message = $this->app['translator']->trans('The comment with the ID %id% has confirmed and published.',
             array('%id%' => self::$comment['comment_id']));
+        $this->app['monolog']->addDebug($message, array(__METHOD__, __LINE__));
         return $this->app->redirect(self::$comment['comment_url'].'?message='.base64_encode($message));
     }
 
