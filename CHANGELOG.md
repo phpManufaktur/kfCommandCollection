@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.20** - 2013-10-14
+
+* introduce "magic identifiers": `POST_ID`, `TOPIC_ID`, `EVENT_ID` for *Comments* (see help for more information) 
+* Introduce the standard template 'white' with a white background, the 'default' template now uses a transparent background
+
 **0.19** - 2013-10-08
 
 * added import for the feedbacks of FeedbackModule into *Comments*, use `/kit2/admin/comments/import/feedbackmodule` to start the import
