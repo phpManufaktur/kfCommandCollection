@@ -147,7 +147,7 @@
                       form.comment_content.vars.id,
                       form.comment_content.vars.full_name,
                       form.comment_content.vars.value,
-                      '100%', '100px',
+                      '100%', '150px',
                       MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/default/ckeditor.config.js'
                 ) }}          
         </div>
@@ -199,7 +199,7 @@
   </div>
 {% endblock %}
 {% block footer %}
-  {% set iframe_add_height = 90 %}
+  {% set iframe_add_height = 130 %}
   {{ parent() }} 
   {% if parameter.rating %}
     <script type="text/javascript">
