@@ -20,18 +20,19 @@ CKEDITOR.editorConfig = function( config ) {
     config.removeDialogTabs = 'image:advanced;link:advanced;link:target';
 
     config.DefaultLinkTarget = '_blank' ;
-    
+
     // utf8 need no entities!
     config.entities = false;
     config.basicEntities = false;
     config.entities_greek = false;
     config.entities_latin = false;
-    
+
     // remove html tags from the footer
     config.removePlugins = 'elementspath';
     // disable resize and remove the footer bar
     config.resize_enabled = false;
-    
+
+
 };
 
 CKEDITOR.on( 'dialogDefinition', function( ev )
