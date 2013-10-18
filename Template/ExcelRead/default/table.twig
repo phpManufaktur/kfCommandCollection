@@ -63,7 +63,7 @@
                   <td class="cell_{{ column_count }} {{ column.style }}">{{ column.content }}</td>
                 {% endif %}
               {% endif %}
-              {% set colum_count = column_count + 1 %}
+              {% set column_count = column_count + 1 %}
             {% endfor %}
           </tr>
           {% if row_count == 0 and option.header %}
