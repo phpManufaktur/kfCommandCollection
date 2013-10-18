@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.21** - 2013-10-18
+
+* fixed a typo which suppress the correct CSS classes generation for the table cells in *ExcelRead*
+* increased the default editor height in *Comments* from `100px` to `150px`
+
 **0.20** - 2013-10-14
 
 * introduce "magic identifiers": `POST_ID`, `TOPIC_ID`, `EVENT_ID` for *Comments* (see help for more information) 
