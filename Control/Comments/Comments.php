@@ -109,6 +109,14 @@ class Comments extends Basic
             $use_rating = false;
         }
 
+        // check if ID and TYPE are set via CMS GET parameter
+        $GET = $this->getCMSgetParameters();
+        if (isset($GET['comment']) && is_numeric($GET['comment']) && isset($GET['type'])) {
+            // the $_GET parameter overwrites all other!
+            $params['id'] = $GET['comment'];
+            $params['type'] = $GET['type'];
+        }
+
         if (isset($params['id']) && isset($params['type'])) {
             if (is_numeric($params['id'])) {
                 $id = intval($params['id']);
