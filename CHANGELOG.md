@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.22** - 2013-10-24
+
+* the comment ID and the TYPE can now also submitted as CMS URL GET parameter, use ?comment=ID&type=EVENT (for example)
+
 **0.21** - 2013-10-18
 
 * fixed a typo which suppress the correct CSS classes generation for the table cells in *ExcelRead*
