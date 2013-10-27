@@ -35,6 +35,7 @@ class Comments extends Basic
     protected static $submit = null;
     protected static $comment = null;
     protected static $comment_id = -1;
+    protected static $hide_iframe = null;
 
     protected static $publish_methods = array('EMAIL', 'ADMIN', 'IMMEDIATE');
 
@@ -46,6 +47,9 @@ class Comments extends Basic
     protected function initParameters(Application $app, $parameter_id=-1)
     {
         parent::initParameters($app, $parameter_id);
+
+        // initially we want to show the iframe
+        self::$hide_iframe = false;
 
         // clear all messages
         $this->clearMessage();
@@ -144,7 +148,10 @@ class Comments extends Basic
             elseif (strtoupper($params['id']) == 'EVENT_ID') {
                 if (null == ($id = $this->app['session']->get('EVENT_ID'))) {
                     $id = -1;
-                    $this->setMessage('The magic EVENT_ID is missing the session variable EVENT_ID (must be set by Event)', array(), true);
+                    $app['monolog']->addInfo('The magic EVENT_ID is missing the session variable EVENT_ID (must be set by Event)',
+                        array(__METHOD__, __LINE__));
+                    // hide the iframe in this situation!
+                    self::$hide_iframe = true;
                 }
             }
             else {
@@ -705,6 +712,12 @@ class Comments extends Basic
     {
         // init parent and client
         $this->initParameters($app);
+
+        if (self::$hide_iframe) {
+            // we dont want to show the iFrame and hide it!
+            return $app['twig']->render($app['utils']->getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/null.twig'),
+                array('basic' => $this->getBasicSettings()));
+        }
 
         if (!empty($message)) {
             $this->setMessage($message);
