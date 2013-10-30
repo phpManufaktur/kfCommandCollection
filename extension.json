@@ -8,8 +8,8 @@
   "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
   "namespace":"phpManufaktur\\CommandCollection",
   "release":{
-    "number":"0.22",
-    "date":"2013-10-24",
+    "number":"0.23",
+    "date":"2013-10-30",
     "status":"beta"
   },
   "description":{

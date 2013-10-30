@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.23** - 2013-10-30
+
+* hide the iframe of *Comments* if the magic `EVENT_ID` is missing (possible if Event answers to response actions)
+
 **0.22** - 2013-10-24
 
 * the comment ID and the TYPE can now also submitted as CMS URL GET parameter, use ?comment=ID&type=EVENT (for example)
