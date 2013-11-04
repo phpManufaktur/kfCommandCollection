@@ -3,13 +3,24 @@
   "guid":"9C4C9BDB-496E-463A-9107-4EB160A63B35",
   "category":"extension",
   "group":"phpManufaktur",
-  "vendor":"phpManufaktur",
+  "vendor":{
+      "name":"phpManufaktur",
+      "url":"https:\/\/phpmanufaktur.de",
+      "mail":"team@phpmanufaktur.de",
+      "address":{
+          "street":"Stockholmer Straße 31",
+          "zip":"13359",
+          "city":"Berlin",
+          "country":"Germany"
+      },
+      "phone":"+49 30 68813647"
+  },
   "type":"library",
   "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
   "namespace":"phpManufaktur\\CommandCollection",
   "release":{
-    "number":"0.23",
-    "date":"2013-10-30",
+    "number":"0.24",
+    "date":"2013-11-04",
     "status":"beta"
   },
   "description":{

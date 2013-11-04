@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.24** - 2013-11-04
+
+* added support for additional vendor information
+* 
 **0.23** - 2013-10-30
 
 * hide the iframe of *Comments* if the magic `EVENT_ID` is missing (possible if Event answers to response actions)
