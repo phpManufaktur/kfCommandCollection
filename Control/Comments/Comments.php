@@ -202,7 +202,8 @@ class Comments extends Basic
                 'identifier_comments_type' => 'HTML', // actual the only supported mode
             );
             // insert the new identifier
-            $this->CommentsIdentifier->insert($data, self::$idenfifier);
+            $this->CommentsIdentifier->insert($data, self::$identifier_id);
+            self::$idenfifier = $this->CommentsIdentifier->select(self::$identifier_id);
         }
         self::$identifier_id = self::$idenfifier['identifier_id'];
 
