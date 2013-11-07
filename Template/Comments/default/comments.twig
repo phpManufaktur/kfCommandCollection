@@ -88,7 +88,7 @@
                           <div class="rating-stars rating_{{ reply.rating.identifier_id }}" 
                                data-average="{{ reply.rating.average }}" 
                                data-id="{{ reply.rating.identifier_id }}" 
-                               title="{{ 'Votes: %count% - Average: %average%'|trans({'%count%':reply.rating.count,'%average%':reply.rating.average|number_format(2,'DEZIMAL_SEPARATOR'|trans,'THOUSAND_SEPARATOR'|trans)}) }}"></div>
+                               title="{{ 'Votes: %count% - Average: %average%'|trans({'%count%':reply.rating.count,'%average%':reply.rating.average|number_format(2,'DECIMAL_SEPARATOR'|trans,'THOUSAND_SEPARATOR'|trans)}) }}"></div>
                         </div>
                       {% endif %}
                       <div class="nick-name">
