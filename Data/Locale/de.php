@@ -39,6 +39,8 @@ return array(
     'Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.'
         => 'Oh, Ihr Kommentar ist leider etwas zu lang geworden, erlaubt sind %length% Zeichen, bitte kürzen Sie Ihren Beitrag.',
 
+    'Rating'
+        => 'Bewertung',
     'Reply to this comment'
         => 'Auf diesen Kommentar antworten',
 
