@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.25** - 2013-11-07
+
+* initializing of Comments was not every time complete
+* fixed a typo in Rating hover
+
 **0.24** - 2013-11-04
 
 * added support for additional vendor information
