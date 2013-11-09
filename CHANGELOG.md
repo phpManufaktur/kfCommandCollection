@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.26** - 2013-11-08
+
+* changed license information and handling in `extension.json`
+
 **0.25** - 2013-11-07
 
 * initializing of Comments was not every time complete

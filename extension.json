@@ -19,8 +19,8 @@
   "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
   "namespace":"phpManufaktur\\CommandCollection",
   "release":{
-    "number":"0.25",
-    "date":"2013-11-07",
+    "number":"0.26",
+    "date":"2013-11-09",
     "status":"beta"
   },
   "description":{
@@ -60,7 +60,10 @@
       "update":"\/admin\/collection\/update",
       "uninstall":"\/admin\/collection\/uninstall"
   },
-  "license":"MIT License",
+  "license": {
+    "name":"MIT License",
+    "url":"https:\/\/github.com\/phpManufaktur\/kfCommandCollection\/raw\/master\/LICENSE.md"
+  },
   "download": {
     "availability":"public",
     "agreement":"free",
