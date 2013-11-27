@@ -1,0 +1,36 @@
+{#
+  RAL
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% spaceless %}
+{% if parameter.css %}
+  <script type="text/javascript">
+    var fileref = document.createElement("link");
+    fileref.setAttribute("rel", "stylesheet");
+    fileref.setAttribute("type", "text/css");
+    fileref.setAttribute("href", '{{ MANUFAKTUR_URL ~ '/CommandCollection/Template/RAL/default/css/ral.css' }}');
+    document.getElementsByTagName("head")[0].appendChild(fileref);
+  </script>          
+{% endif %}
+
+<div class="clear"></div>  
+{% for color in colors %}  
+  {% if attribute(color.name, app.translator.locale) is defined %}
+    {# use the the existing localization of the RAL color name #}
+    {% set name = attribute(color.name, app.translator.locale) %}
+  {% else %}
+    {# use the english name instead #}
+    {% set name = color.name.en %}
+  {% endif %}
+  {% if color.link|length > 0 %}<a href="{{ color.link }}">{% endif %}
+  <div class="color-container" style="color:#000;background-color:{{ color.hex }};width:{{ size.width|default(150) }}px;height:{{ size.height|default(100) }}px;" title="{{ 'RAL ' ~ color.number ~ ' - ' ~ name }}">
+    <div class="color-number {{ color.contrast }}">RAL {{ color.number }}</div>
+  </div>
+  {% if color.link|length > 0 %}</a>{% endif %}
+{% endfor %}  
+<div class="clear"></div>
+{% endspaceless %}

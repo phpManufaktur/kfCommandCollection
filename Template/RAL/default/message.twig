@@ -1,0 +1,22 @@
+{#
+  RAL
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+{% spaceless %}
+{% if parameter.css %}
+  <script type="text/javascript">
+    var fileref = document.createElement("link");
+    fileref.setAttribute("rel", "stylesheet");
+    fileref.setAttribute("type", "text/css");
+    fileref.setAttribute("href", '{{ MANUFAKTUR_URL ~ '/CommandCollection/Template/RAL/default/css/ral.css' }}');
+    document.getElementsByTagName("head")[0].appendChild(fileref);
+  </script>          
+{% endif %}
+<div class="ral_container">
+  <div class="message">{{ message }}</div>  
+</div>
+{% endspaceless %}

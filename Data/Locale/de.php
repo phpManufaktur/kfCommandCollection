@@ -34,6 +34,9 @@ return array(
     'jump to this comment'
         => 'zu diesem Kommentar springen',
 
+    'No hits for the color(s) %colors%!'
+        => 'Kein(e) Treffer für die Farbe(n) %colors%!',
+
     'Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).'
         => 'Oh, Sie haben vergessen einen Kommentar zu übermitteln oder der Kommentar ist einfach zu kurz (Minimum: %length% Zeichen).',
     'Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.'
@@ -69,10 +72,13 @@ return array(
         => 'Der Kommentar mit der ID %comment_id% wurde <b>zurückgewiesen</b> und darüber hinaus wurde der Kontakt mit der ID %contact_id% <b>gesperrt</b>.',
     'The comment with the ID %id% is marked as REJECTED!!'
         => 'Der Kommentar mit der ID %id% ist als <b>REJECTED</b> gekennzeichnet.',
+    'The RAL number %number% does not exists!'
+        => 'Die RAL Nummer %number% wurde nicht gefunden!',
     'There exists %count% records of the FeedbackModule which can be imported into the Comments.'
         => 'Es existieren %count% Datensätze des FeedbackModule die in <i>Comments</i> importiert werden können.',
     'There exists no FeedbackModule table for import!'
         => 'Es existiert keine FeedbackModule Tabelle, ein Import ist nicht möglich.',
+
 
     'vote'
         => 'Bewertung',

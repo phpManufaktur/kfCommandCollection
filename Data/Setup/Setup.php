@@ -16,6 +16,7 @@ use phpManufaktur\CommandCollection\Data\Rating\Rating;
 use phpManufaktur\CommandCollection\Data\Rating\RatingIdentifier;
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
+use phpManufaktur\CommandCollection\Data\RAL\RAL;
 
 class Setup
 {
@@ -36,6 +37,10 @@ class Setup
 
             $Comments = new Comments($app);
             $Comments->createTable();
+
+            $RAL = new RAL($app);
+            $RAL->createTable();
+            $RAL->importCSV(MANUFAKTUR_PATH.'/CommandCollection/Data/RAL/csv/ral_standard.csv');
 
             // COMMIT TRANSACTION
             $app['db']->commit();

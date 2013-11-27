@@ -92,6 +92,10 @@ $collection->get('/comments/admin/lock/{guid}',
     // admin reject the comment and lock the contact
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerAdminLockContact');
 
+// RAL colors
+$command->post('/ral',
+    'phpManufaktur\CommandCollection\Control\RAL\RAL::controllerRAL')
+    ->setOption('info', MANUFAKTUR_PATH.'/CommandCollection/command.ral.json');
 
 // mount the controller factories
 $app->mount('/collection', $collection);

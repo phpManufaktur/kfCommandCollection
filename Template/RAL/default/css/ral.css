@@ -1,0 +1,50 @@
+.ral_container a {
+  text-decoration: none;
+}
+.ral_container a:link,
+.ral_container a:visited {
+  color: #da251d;
+  background-color: transparent;
+  text-decoration: none;
+}
+.ral_container a:hover,
+.ral_container a:active {
+  color: #da251d;
+  background-color: transparent;
+  text-decoration: underline;
+}
+.black {
+  color: #000;
+  background-color: transparent;
+}
+.white {
+  color: #fff;
+  background-color: transparent;
+}
+.color-container {
+  float: left;
+  position: relative;
+  margin: 0 5px 5px 0;
+  padding: 0;
+  border: 1px solid #d3d3d3;
+}
+.color-name {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -moz-binding: url(../xml/ellipsis.xml#ellipsis);
+}
+.color-number {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+.clear {
+  clear: both;
+  width: 0;
+  height: 0;
+}

@@ -1,0 +1,39 @@
+{
+  "command":"RAL",
+  "vendor": {
+    "name":"phpManufaktur",
+    "url":"https://phpmanufaktur.de"
+    },
+  "name": {
+    "en":"RAL color palette",
+    "de":"RAL Farbtablle"
+  },
+  "description": {
+    "en":"Use the kitCommand to show or select specific RAL colors or complete palettes",
+    "de":"Verwenden Sie das kitCommand RAL um einzelne RAL Farben oder Paletten anzuzeigen und auszuwählen"
+  },
+  "help": {
+    "en": {
+      "link":"https://gist.github.com/hertsch/7675780",
+      "gist_id":"7675780",
+      "file": {
+        "help":"kitcommand_ral_en.md"
+      }
+    }
+  },
+  "info": {
+    "en": {
+      "link":"https://kit2.phpmanufaktur.de"
+    }
+  },
+  "issues": {
+    "en": {
+      "link":"https://github.com/phpManufaktur/kfCommandCollection/issues"
+    }
+  },
+  "support": {
+    "en": {
+      "link":"https://support.phpmanufaktur.de"
+    }
+  }
+}
