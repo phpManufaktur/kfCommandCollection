@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.27** - 2013-11-27
+
+* added kitCommand `~~ ral ~~` to the collection
+
 **0.26** - 2013-11-08
 
 * changed license information and handling in `extension.json`
