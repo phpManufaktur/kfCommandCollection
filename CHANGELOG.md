@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.28**
+
+* bugfix: update does not initialize RAL table
+
 **0.27** - 2013-11-27
 
 * added kitCommand `~~ ral ~~` to the collection
