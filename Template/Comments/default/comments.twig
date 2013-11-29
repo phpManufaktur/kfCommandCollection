@@ -28,6 +28,7 @@
 {% endblock jquery %}
   
 {% block content %}
+  <div id="thread_start"></div>
   <div class="thread">
     {% for comment in thread %}
       <div class="main" id="comment_id_{{ comment.main.comment_id }}">
