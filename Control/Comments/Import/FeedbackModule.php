@@ -13,7 +13,6 @@ namespace phpManufaktur\CommandCollection\Control\Comments\Import;
 
 use Silex\Application;
 use phpManufaktur\CommandCollection\Data\Comments\Import\FeedbackModule as FeedbackModuleData;
-use phpManufaktur\Contact\Control\Contact;
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 use phpManufaktur\Basic\Data\CMS\Page;
@@ -22,7 +21,6 @@ class FeedbackModule extends Dialog
 {
     protected static $import_is_possible = false;
     protected $FeedbackModuleData = null;
-    protected $Contact = null;
     protected $Comments = null;
     protected $CommentsIdentifier = null;
     protected $Page = null;
@@ -38,7 +36,6 @@ class FeedbackModule extends Dialog
         $this->FeedbackModuleData = new FeedbackModuleData($app);
         self::$import_is_possible = $this->FeedbackModuleData->existsFeedbackModule();
 
-        $this->Contact = new Contact($app);
         $this->Comments = new Comments($app);
         $this->CommentsIdentifier = new CommentsIdentifier($app);
         $this->Page = new Page($app);
@@ -114,8 +111,8 @@ class FeedbackModule extends Dialog
         );
         // insert the contact data
         $contact_id = -1;
-        if (!$this->Contact->insert($data, $contact_id)) {
-            self::$message = $this->Contact->getMessage();
+        if (!$this->app['contact']->insert($data, $contact_id)) {
+            self::$message = $this->app['contact']->getMessage();
             return false;
         }
         return true;
@@ -142,7 +139,7 @@ class FeedbackModule extends Dialog
         $feedbacks = $this->FeedbackModuleData->getRecords();
         foreach ($feedbacks as $feedback) {
             // loop through the feedbacks
-            if (false === ($contact_id = $this->Contact->existsLogin($feedback['email']))) {
+            if (false === ($contact_id = $this->app['contact']->existsLogin($feedback['email']))) {
                 // add a new contact
                 if (false === ($this->addContact(
                     $feedback['email'],
@@ -153,9 +150,9 @@ class FeedbackModule extends Dialog
                     break;
                 }
             }
-            elseif (!$this->Contact->issetContactTag('COMMENTS', $contact_id)) {
+            elseif (!$this->app['contact']->issetContactTag('COMMENTS', $contact_id)) {
                 // set the COMMENTS tag for the already existing contact
-                $this->Contact->setContactTag('COMMENTS', $contact_id);
+                $this->app['contact']->setContactTag('COMMENTS', $contact_id);
             }
 
             // get the comments identifier for the page ID
@@ -199,7 +196,7 @@ class FeedbackModule extends Dialog
                 // now check for a comment to the feedback
                 if (!empty($feedback['comment'])) {
                     // there exists a 'comment' (reply) to the feedback
-                    if (false === ($contact_id = $this->Contact->existsLogin($feedback['comment_mail']))) {
+                    if (false === ($contact_id = $this->app['contact']->existsLogin($feedback['comment_mail']))) {
                         // add a new contact
                         if (false === ($this->addContact(
                             $feedback['comment_mail'],
@@ -210,9 +207,9 @@ class FeedbackModule extends Dialog
                             break;
                         }
                     }
-                    elseif (!$this->Contact->issetContactTag('COMMENTS', $contact_id)) {
+                    elseif (!$this->app['contact']->issetContactTag('COMMENTS', $contact_id)) {
                         // set the COMMENTS tag for the already existing contact
-                        $this->Contact->setContactTag('COMMENTS', $contact_id);
+                        $this->app['contact']->setContactTag('COMMENTS', $contact_id);
                     }
                     if (!$this->Comments->commentAlreadyExists($identifier_id, $contact_id, date('Y-m-d H:i:s', $feedback['comment_date']))) {
                         $this->Comments->insert(array(

@@ -14,7 +14,6 @@ namespace phpManufaktur\CommandCollection\Control\Comments;
 use phpManufaktur\Basic\Control\kitCommand\Basic;
 use Silex\Application;
 use phpManufaktur\CommandCollection\Data\Comments\Comments as CommentsData;
-use phpManufaktur\Contact\Control\Contact;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 use phpManufaktur\CommandCollection\Control\Comments\GravatarLib\Gravatar;
 
@@ -22,7 +21,6 @@ class Comments extends Basic
 {
     protected $CommentsData = null;
     protected $CommentsIdentifier = null;
-    protected $ContactControl = null;
     protected $Configuration = null;
     protected $Gravatar = null;
 
@@ -56,7 +54,6 @@ class Comments extends Basic
 
         $this->CommentsData = new CommentsData($app);
         $this->CommentsIdentifier = new CommentsIdentifier($app);
-        $this->ContactControl = new Contact($app);
 
         $this->Configuration = new Configuration($app);
         self::$configuration = $this->Configuration->getConfiguration();
@@ -208,9 +205,9 @@ class Comments extends Basic
         self::$identifier_id = self::$idenfifier['identifier_id'];
 
         // check if the contact tag type 'COMMENTS' exists
-        if (!$this->ContactControl->existsTagName('COMMENTS')) {
+        if (!$this->app['contact']->existsTagName('COMMENTS')) {
             // create the tag type 'COMMENTS'
-            $this->ContactControl->createTagName('COMMENTS',
+            $this->app['contact']->createTagName('COMMENTS',
                 "This Tag type is created by the kitCommand 'Comments' and will be set for persons who leave a comment.");
             $this->app['monolog']->addInfo('Created the Contact Tag Type COMMENTS', array(__METHOD__, __LINE__));
         }
@@ -565,9 +562,9 @@ class Comments extends Basic
                 return $this->promptForm($form);
             }
             // comment is valid
-            if (false !== (self::$contact_id = $this->ContactControl->existsLogin(self::$submit['contact_email']))) {
+            if (false !== (self::$contact_id = $this->app['contact']->existsLogin(self::$submit['contact_email']))) {
                 // contact already exists, get the contact data
-                self::$contact = $this->ContactControl->select(self::$contact_id);
+                self::$contact = $this->app['contact']->select(self::$contact_id);
             }
             else {
                 // create a new contact
@@ -602,12 +599,12 @@ class Comments extends Basic
                     )
                 );
                 self::$contact_id = -1;
-                if (!$this->ContactControl->insert($person, self::$contact_id)) {
+                if (!$this->app['contact']->insert($person, self::$contact_id)) {
                     // something went wrong, return with a message
-                    $this->setMessage($this->ContactControl->getMessage());
+                    $this->setMessage($this->app['contact']->getMessage());
                     return $this->promptForm($form);
                 }
-                self::$contact = $this->ContactControl->select(self::$contact_id);
+                self::$contact = $this->app['contact']->select(self::$contact_id);
             }
 
             if (self::$configuration['contact']['confirmation']['double_opt_in'] &&
@@ -624,14 +621,14 @@ class Comments extends Basic
             }
 
             // set the tag COMMENTS if not exists
-            $this->ContactControl->setContactTag('COMMENTS', self::$contact_id);
+            $this->app['contact']->setContactTag('COMMENTS', self::$contact_id);
 
             if ((self::$contact['contact']['contact_type'] == 'PERSON') &&
                 (empty(self::$contact['person'][0]['contact_nick_name']) ||
                     (self::$contact['person'][0]['person_nick_name'] != self::$submit['contact_nick_name']))) {
                 // add or update the nickname to the contact
                 self::$contact['person'][0]['person_nick_name'] = self::$submit['contact_nick_name'];
-                $this->ContactControl->update(self::$contact, self::$contact_id);
+                $this->app['contact']->update(self::$contact, self::$contact_id);
             }
 
             // contact is checked and can post, now check the handling for new comments
@@ -764,7 +761,7 @@ class Comments extends Basic
 
         // select the contact
         self::$contact_id = self::$comment['contact_id'];
-        self::$contact = $this->ContactControl->select(self::$contact_id);
+        self::$contact = $this->app['contact']->select(self::$contact_id);
 
         if ((self::$contact['contact']['contact_status'] != 'PENDING') && (self::$contact['contact']['contact_status'] != 'ACTIVE')) {
             // unclear status
@@ -774,7 +771,7 @@ class Comments extends Basic
 
         // update the contact status to ACTIVE
         self::$contact['contact']['contact_status'] = 'ACTIVE';
-        $this->ContactControl->update(self::$contact, self::$contact_id);
+        $this->app['contact']->update(self::$contact, self::$contact_id);
 
         $identifier = $this->CommentsIdentifier->select(self::$comment['identifier_id']);
         if (($identifier['identifier_publish'] == 'CONFIRM_ADMIN') || ($identifier['identifier_publish'] == 'CONFIRM_EMAIL_ADMIN')) {
@@ -966,12 +963,12 @@ class Comments extends Basic
         $this->CommentsData->update(self::$comment, self::$comment_id);
 
         // ... and LOCK the contact!
-        self::$contact = $this->ContactControl->select(self::$comment['contact_id']);
+        self::$contact = $this->app['contact']->select(self::$comment['contact_id']);
         self::$contact_id = self::$contact['contact']['contact_id'];
 
         self::$contact['contact']['contact_status'] = 'LOCKED';
-        $this->ContactControl->update(self::$contact, self::$contact_id);
-        $this->ContactControl->addProtocolInfo(self::$contact_id,
+        $this->app['contact']->update(self::$contact, self::$contact_id);
+        $this->app['contact']->addProtocolInfo(self::$contact_id,
             "The contact is LOCKED because the comment with the ID ".self::$comment['comment_id']." was REJECTED.");
 
         // send a information to the contact
