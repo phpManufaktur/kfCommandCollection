@@ -116,6 +116,9 @@ class Rating extends Basic
         // no addition to the iFrame!
         $this->setFrameAdd(0);
 
+        // never track the rating iFrame!
+        $this->disableTracking();
+
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/Rating',
             "rating.twig",
