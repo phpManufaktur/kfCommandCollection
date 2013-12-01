@@ -6,7 +6,13 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
-**0.28**
+**0.29** - 2013-12-01
+
+* add function `countComments()`
+* simplified access to `Contact Control`
+* changed description of CommandCollection
+
+**0.28** - 2013-11-27
 
 * bugfix: update does not initialize RAL table
 

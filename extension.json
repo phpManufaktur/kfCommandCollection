@@ -19,8 +19,8 @@
   "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
   "namespace":"phpManufaktur\\CommandCollection",
   "release":{
-    "number":"0.28",
-    "date":"2013-11-27",
+    "number":"0.29",
+    "date":"2013-12-01",
     "status":"beta"
   },
   "description":{
@@ -33,7 +33,7 @@
     "de":{
       "title":"Sammlung von kitCommands für das kitFramework",
       "short":"Eine Sammlung von kitCommands für das kitFramework",
-      "long":"Eine Sammlung von kitCommands für das kitFramework sowie für die übergeordneten Content Management Systeme",
+      "long":"Eine Sammlung von kitCommands für die übergeordneten Content Management Systeme. Das Paket enthält unter anderem: Comments (Kommentarfunktion für das CMS), ExcelRead (Excel Tabellen einlesen und formatiert ausgeben), LoremIpsum (Lorem Ipsum Generator), RAL (RAL Farbtabellen verwenden) und Rating (Bewertungsfunktion für Artikel und Anwendungen)",
       "url":"https:\/\/kit2.phpmanufaktur.de"
     }
   },
