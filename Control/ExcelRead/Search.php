@@ -185,6 +185,7 @@ class Search
             $search['text'] = $search_result;
             $search['success'] = true;
         }
-        return base64_encode(json_encode(array('search' => $search)));
+        //return base64_encode(json_encode(array('search' => $search)));
+        return $app->json(array('search' => $search));
     }
 }
