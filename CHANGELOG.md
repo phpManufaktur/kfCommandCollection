@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.30** - 2014-01-13
+
+* general disable the page tracking for the rating iFrames!
+* changed the JSON handling for ExcelRead search integration
+
 **0.29** - 2013-12-01
 
 * add function `countComments()`
