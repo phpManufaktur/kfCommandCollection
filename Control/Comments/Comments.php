@@ -16,6 +16,8 @@ use Silex\Application;
 use phpManufaktur\CommandCollection\Data\Comments\Comments as CommentsData;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 use phpManufaktur\CommandCollection\Control\Comments\GravatarLib\Gravatar;
+use phpManufaktur\flexContent\Control\Command\Tools as flexContentTools;
+use phpManufaktur\flexContent\Data\Content\Content as flexContentData;
 
 class Comments extends Basic
 {
@@ -70,13 +72,13 @@ class Comments extends Basic
                     if (in_array(strtoupper(trim($key)), self::$publish_methods))
                         $publish[] = strtoupper(trim($key));
                 }
-                if (in_array('IMMEDIATE') && in_array(array('EMAIL', 'ADMIN'), $publish))
+                if (in_array('IMMEDIATE', $publish) && in_array(array('EMAIL', 'ADMIN'), $publish))
                     unset($publish[array_search('IMMEDIATE', $publish)]);
                 if (empty($publish)) {
                     $publish[] = 'ADMIN';
                 }
             }
-            elseif (in_array(strtoupper(trim($params['publish'])))) {
+            elseif (in_array(strtoupper(trim($params['publish'])), self::$publish_methods)) {
                 $publish[] = strtoupper(trim($params['publish']));
             }
             else {
@@ -173,7 +175,8 @@ class Comments extends Basic
             'id' => $id,
             'publish' => $publish,
             'gravatar' => $use_gravatar,
-            'rating' => $use_rating
+            'rating' => $use_rating,
+            'message' => (isset($params['message'])) ? $params['message'] : ''
         );
 
         if (false === (self::$idenfifier = $this->CommentsIdentifier->selectByTypeID(self::$parameter['type'], self::$parameter['id']))) {
@@ -509,10 +512,26 @@ class Comments extends Basic
             }
         }
 
+        $url = $this->getCMSpageURL();
+        if (self::$parameter['type'] == 'FLEXCONTENT') {
+            if ($this->app['filesystem']->exists(MANUFAKTUR_PATH.'/flexContent/extension.json')) {
+                $flexContentData = new flexContentData($this->app);
+                $flexContentTools = new flexContentTools($this->app);
+                if (false === ($flexcontent = $flexContentData->select(self::$parameter['id'], $this->getCMSlocale()))) {
+                    throw new \Exception('There exists no FLEXCONTENT record for the ID '.self::$parameter['id'].' in the language '.$this->getCMSlocale());
+                }
+                $base_url = $flexContentTools->getPermalinkBaseURL($this->getCMSlocale());
+                $url = $base_url.'/'.$flexcontent['permalink'];
+            }
+            else {
+                throw new \Exception('You have specified the reserved identifier FLEXCONTENT but flexContent is not installed! Please install flexContent or choose another identifer!');
+            }
+        }
+
         $comment = array(
             'identifier_id' => self::$identifier_id,
             'comment_parent' => self::$submit['comment_parent'],
-            'comment_url' => $this->getCMSpageURL(),
+            'comment_url' => $url,
             'comment_headline' => self::$submit['comment_headline'],
             'comment_content' => $content,
             'comment_status' => $status,
@@ -722,9 +741,10 @@ class Comments extends Basic
         }
 
         $GET = $this->getCMSgetParameters();
-        if (isset($GET['message'])) {
+        if (isset($GET['message']) || !empty(self::$parameter['message'])) {
             // message submitted as CMS parameter
-            $this->setMessage(base64_decode($GET['message']));
+            $msg = (!empty(self::$parameter['message'])) ? self::$parameter['message'] : $GET['message'];
+            $this->setMessage(base64_decode($msg));
             // if a message is prompted, scroll to it
             $this->setFrameScrollToID('comment_form');
         }
