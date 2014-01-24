@@ -1,0 +1,64 @@
+{#
+  kitFramework
+
+  @author Team phpManufaktur <team@phpmanufaktur.de>
+  @link https://kit2.phpmanufaktur.de
+  @link https://github.com/phpManufaktur/kitFramework/wiki
+  @copyright 2014 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
+  @license MIT License (MIT) http://www.opensource.org/licenses/MIT
+#}
+
+{% block text_row %}
+  {% set type = 'text' %}
+  {{ block('form_row_simple') }}
+{% endblock %}
+
+{% block url_row %}
+  {% set type = 'url' %}
+  {{ block('form_row_simple') }}
+{% endblock %}
+
+{% block email_row %}
+  {% set type = 'email' %}
+  {{ block('form_row_simple') }}
+{% endblock %}
+
+{% block checkbox_row %}
+  <div class="form-group">
+    <div class="col-sm-10 col-sm-offset-2">
+      {{ block('checkbox_widget') }}&nbsp;&nbsp;{% if label is empty %}{{ name|humanize }}{% else %}{{ label|trans }}{% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block form_row_simple %}
+  <div class="form-group">
+    {{ block('form_label') }}
+    <div class="col-sm-10">
+      <input type="{{ type }}" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    </div>
+  </div>
+{% endblock %}
+
+{% block checkbox_widget %}
+  {% spaceless %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+  {% endspaceless %}
+{% endblock checkbox_widget %}
+    
+{% block form_label %}
+  {% spaceless %}
+    {% if label is not sameas(false) %}
+      {% if not compound %}
+          {% set label_attr = label_attr|merge({'for': id}) %}
+      {% endif %}
+      {% if required %}
+          {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+      {% endif %}
+      {% if label is empty %}
+          {% set label = name|humanize %}
+      {% endif %}
+      <label class="col-sm-2 control-label{{ required ? ' required' : '' }}"{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+    {% endif %}
+  {% endspaceless %}
+{% endblock form_label %}
