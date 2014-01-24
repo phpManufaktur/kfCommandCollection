@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.31** - 2014-01-24
+
+* Comments support now also flexContent
+* changed Comments templates to Bootstrap 3
+
 **0.30** - 2014-01-13
 
 * general disable the page tracking for the rating iFrames!

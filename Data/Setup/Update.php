@@ -19,6 +19,15 @@ class Update
     protected $app = null;
 
     /**
+     * Release 0.16
+     */
+    protected function release_016()
+    {
+        // the helpfile graphics are moved to the 'PublicGraphics' repository
+        $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Data/Help');
+    }
+
+    /**
      * Release 0.27
      */
     protected function release_027()
@@ -30,12 +39,12 @@ class Update
     }
 
     /**
-     * Release 0.16
+     * Release 0.31
      */
-    protected function release_016()
+    protected function release_031()
     {
-        // the helpfile graphics are moved to the 'PublicGraphics' repository
-        $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Data/Help');
+        $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Template/Comments/white');
+        $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Template/Comments/default/message.twig');
     }
 
     public function exec(Application $app)
@@ -46,6 +55,8 @@ class Update
         $this->release_016();
         // Release 0.27
         $this->release_027();
+        // Release 0.31
+        $this->release_031();
 
         return $app['translator']->trans('Successfull updated the extension %extension%.',
             array('%extension%' => 'CommandCollection'));

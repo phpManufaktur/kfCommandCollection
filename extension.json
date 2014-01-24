@@ -19,8 +19,8 @@
   "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
   "namespace":"phpManufaktur\\CommandCollection",
   "release":{
-    "number":"0.30",
-    "date":"2014-01-13",
+    "number":"0.31",
+    "date":"2014-01-24",
     "status":"beta"
   },
   "description":{
