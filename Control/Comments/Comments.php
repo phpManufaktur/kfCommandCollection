@@ -52,7 +52,7 @@ class Comments extends Basic
         self::$hide_iframe = false;
 
         // clear all messages
-        $this->clearMessage();
+        $this->clearAlert();
 
         $this->CommentsData = new CommentsData($app);
         $this->CommentsIdentifier = new CommentsIdentifier($app);
@@ -131,7 +131,7 @@ class Comments extends Basic
                 }
                 else {
                     $id = -1;
-                    $this->setMessage('This is no TOPICS article, please check the usage of the magic TOPIC_ID.', array(), true);
+                    $this->setAlert('This is no TOPICS article, please check the usage of the magic TOPIC_ID.', array(), self::ALERT_TYPE_WARNING);
                 }
             }
             elseif (strtoupper($params['id']) == 'POST_ID') {
@@ -141,7 +141,7 @@ class Comments extends Basic
                 }
                 else {
                     $id = -1;
-                    $this->setMessage('This is no NEWS article, please check the usage of the magic POST_ID.', array(), true);
+                    $this->setAlert('This is no NEWS article, please check the usage of the magic POST_ID.', array(), self::ALERT_TYPE_WARNING);
                 }
             }
             elseif (strtoupper($params['id']) == 'EVENT_ID') {
@@ -155,13 +155,13 @@ class Comments extends Basic
             }
             else {
                 $id = -1;
-                $this->setMessage("Don't know how to handle the magic ID %magic_id%.", array('%magic_id%' => $params['id']), array(), true);
+                $this->setAlert("Don't know how to handle the magic ID %magic_id%.", array('%magic_id%' => $params['id']), self::ALERT_TYPE_DANGER);
             }
         }
         elseif (isset($params['id'])) {
             // missing the parameter 'type'
             $id = -1;
-            $this->setMessage('If you are using the parameter id[] you must also use type[]!', array(), true);
+            $this->setAlert('If you are using the parameter id[] you must also use type[]!', array(), self::ALERT_TYPE_WARNING);
         }
         else {
             // use the page ID as indicator
@@ -271,11 +271,9 @@ class Comments extends Basic
             'label' => 'Homepage',
             'required' => false
         ))
-        ->add('comment_update_info', 'choice', array(
-            'choices' => array(1 => 'send email at new comment'),
-            'multiple' => true,
-            'expanded' => true,
-            'required' => false
+        ->add('comment_update_info', 'checkbox', array(
+            'required' => false,
+            'label' => 'send email at new comment'
         ))
         ->getForm();
     }
@@ -538,7 +536,7 @@ class Comments extends Basic
             'comment_guid' => $this->app['utils']->createGUID(),
             'comment_guid_2' => $this->app['utils']->createGUID(),
             'comment_confirmation' => ($status != 'PENDING') ? date('Y-m-d H:i:s') : '0000-00-00 00:00:00',
-            'comment_update_info' => isset(self::$submit['comment_update_info'][0]) ? 1 : 0,
+            'comment_update_info' => (isset(self::$submit['comment_update_info']) && (self::$submit['comment_update_info'] == 1)) ? 1 : 0,
             'contact_id' => self::$contact_id,
             'contact_nick_name' => self::$submit['contact_nick_name'],
             'contact_email' => self::$submit['contact_email'],
@@ -570,14 +568,14 @@ class Comments extends Basic
             if (empty(self::$submit['comment_content']) ||
                 strlen(self::$submit['comment_content']) < self::$configuration['comments']['length']['minimum']) {
                 // empty comment or comment too short
-                $this->setMessage('Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).',
-                    array('%length%' => self::$configuration['comments']['length']['minimum']));
+                $this->setAlert('Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).',
+                    array('%length%' => self::$configuration['comments']['length']['minimum']), self::ALERT_TYPE_WARNING);
                 return $this->promptForm($form);
             }
             if (strlen(self::$submit['comment_content']) > self::$configuration['comments']['length']['maximum']) {
                 // comment exceed the maximum length
-                $this->setMessage('Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.',
-                    array('%length%' => self::$configuration['comments']['length']['maximum']));
+                $this->setAlert('Ooops, your comment exceeds the maximum length of %length% chars, please shorten it.',
+                    array('%length%' => self::$configuration['comments']['length']['maximum']), self::ALERT_TYPE_WARNING);
                 return $this->promptForm($form);
             }
             // comment is valid
@@ -619,8 +617,8 @@ class Comments extends Basic
                 );
                 self::$contact_id = -1;
                 if (!$this->app['contact']->insert($person, self::$contact_id)) {
-                    // something went wrong, return with a message
-                    $this->setMessage($this->app['contact']->getMessage());
+                    // something went wrong, return with a alert
+                    $this->setAlert($this->app['contact']->getMessage(), array(), self::ALERT_TYPE_DANGER);
                     return $this->promptForm($form);
                 }
                 self::$contact = $this->app['contact']->select(self::$contact_id);
@@ -634,8 +632,8 @@ class Comments extends Basic
 
             if (self::$contact['contact']['contact_status'] != 'ACTIVE') {
                 // contact exists but has no ACTIVE status
-                $this->setMessage('For the email address %email% exists a contact record, but the status does not allow you to post a comment. Please contact the <a href="mailto:%admin_email%">administrator</a>.',
-                    array('%email%' => self::$submit['contact_email'], '%admin_email%' => self::$configuration['administrator']['email']), true);
+                $this->setAlert('For the email address %email% exists a contact record, but the status does not allow you to post a comment. Please contact the <a href="mailto:%admin_email%">administrator</a>.',
+                    array('%email%' => self::$submit['contact_email'], '%admin_email%' => self::$configuration['administrator']['email']), self::ALERT_TYPE_WARNING);
                 return $this->promptForm($form);
             }
 
@@ -679,11 +677,11 @@ class Comments extends Basic
             // the form check failed
             if (!$recaptcha_check) {
                 // ReCaptcha error
-                $this->setMessage($app['recaptcha']->getLastError());
+                $this->setAlert($app['recaptcha']->getLastError(), array(), self::ALERT_TYPE_DANGER);
             }
             else {
                 // invalid form submission
-                $this->setMessage('The form is not valid, please check your input and try again!');
+                $this->setAlert('The form is not valid, please check your input and try again!', array(), self::ALERT_TYPE_DANGER);
             }
         }
 
@@ -737,16 +735,16 @@ class Comments extends Basic
         }
 
         if (!empty($message)) {
-            $this->setMessage($message);
+            $this->setAlert($message, array(), self::ALERT_TYPE_INFO);
         }
 
         $GET = $this->getCMSgetParameters();
         if (isset($GET['message']) || !empty(self::$parameter['message'])) {
             // message submitted as CMS parameter
             $msg = (!empty(self::$parameter['message'])) ? self::$parameter['message'] : $GET['message'];
-            $this->setMessage(base64_decode($msg));
+            $this->setAlert(base64_decode($msg), array(), self::ALERT_TYPE_INFO);
             // if a message is prompted, scroll to it
-            $this->setFrameScrollToID('comment_form');
+            $this->setFrameScrollToID('comment-form');
         }
 
         $form = $this->getCommentForm();
