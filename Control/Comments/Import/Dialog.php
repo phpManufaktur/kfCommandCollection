@@ -49,7 +49,7 @@ class Dialog {
     public function setMessage($message, $params=array())
     {
         self::$message .= $this->app['twig']->render($this->app['utils']->getTemplateFile(
-            '@phpManufaktur/CommandCollection/Template/Comments', 'message.twig'),
+            '@phpManufaktur/CommandCollection/Template/Comments', 'import/message.twig'),
             array('message' => $this->app['translator']->trans($message, $params)));
     }
 
