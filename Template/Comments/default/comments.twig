@@ -11,9 +11,9 @@
 {% block stylesheet %}
   {{ parent() }}
   {% if fileExists(MANUFAKTUR_PATH ~ '/CommandCollection/Template/Comments/' ~ FRAMEWORK_TEMPLATES.0 ~ '/css/comments.min.css') %}
-    <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/' ~ FRAMEWORK_TEMPLATES.0 ~ '/css/comments.css' }}" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/' ~ FRAMEWORK_TEMPLATES.0 ~ '/css/comments.min.css' }}" media="screen, projection" />
   {% else %}
-    <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/default/css/comments.css' }}" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL ~ '/CommandCollection/Template/Comments/default/css/comments.min.css' }}" media="screen, projection" />
   {% endif %}
 {% endblock %}
 {% block jquery %}
