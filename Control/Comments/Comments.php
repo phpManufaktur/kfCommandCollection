@@ -18,6 +18,7 @@ use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 use phpManufaktur\CommandCollection\Control\Comments\GravatarLib\Gravatar;
 use phpManufaktur\flexContent\Control\Command\Tools as flexContentTools;
 use phpManufaktur\flexContent\Data\Content\Content as flexContentData;
+use phpManufaktur\flexContent\Data\Content\CategoryType as flexContentCategoryTypeData;
 
 class Comments extends Basic
 {
@@ -511,15 +512,33 @@ class Comments extends Basic
         }
 
         $url = $this->getCMSpageURL();
-        if (self::$parameter['type'] == 'FLEXCONTENT') {
+        if ((self::$parameter['type'] == 'FLEXCONTENT') || (self::$parameter['type'] == 'FLEXCONTENT_CATEGORY') ||
+            (self::$parameter['type'] == 'FLEXCONTENT_FAQ')) {
             if ($this->app['filesystem']->exists(MANUFAKTUR_PATH.'/flexContent/extension.json')) {
-                $flexContentData = new flexContentData($this->app);
                 $flexContentTools = new flexContentTools($this->app);
-                if (false === ($flexcontent = $flexContentData->select(self::$parameter['id'], $this->getCMSlocale()))) {
-                    throw new \Exception('There exists no FLEXCONTENT record for the ID '.self::$parameter['id'].' in the language '.$this->getCMSlocale());
-                }
                 $base_url = $flexContentTools->getPermalinkBaseURL($this->getCMSlocale());
-                $url = $base_url.'/'.$flexcontent['permalink'];
+
+                if (self::$parameter['type'] == 'FLEXCONTENT') {
+                    // get the URL for a flexContent article
+                    $flexContentData = new flexContentData($this->app);
+                    if (false === ($flexcontent = $flexContentData->select(self::$parameter['id'], $this->getCMSlocale()))) {
+                        throw new \Exception('There exists no FLEXCONTENT record for the ID '.self::$parameter['id'].' in the language '.$this->getCMSlocale());
+                    }
+                    $url = $base_url.'/'.$flexcontent['permalink'];
+                }
+                elseif ((self::$parameter['type'] == 'FLEXCONTENT_CATEGORY') || (self::$parameter['type'] == 'FLEXCONTENT_FAQ')) {
+                    // get the URL for a flexContent CATEGORY or FAQ
+                    $flexContentCategoryTypeData = new flexContentCategoryTypeData($this->app);
+                    if (false === ($category = $flexContentCategoryTypeData->select(self::$parameter['id']))) {
+                        throw new \Exception('There exists no FLEXCONTENT CATEGORY for the ID '.self::$parameter['id']);
+                    }
+                    if (self::$parameter['type'] == 'FLEXCONTENT_FAQ') {
+                        $url = $base_url.'/faq/'.$category['category_permalink'];
+                    }
+                    else {
+                        $url = $base_url.'/category/'.$category['category_permalink'];
+                    }
+                }
             }
             else {
                 throw new \Exception('You have specified the reserved identifier FLEXCONTENT but flexContent is not installed! Please install flexContent or choose another identifer!');
