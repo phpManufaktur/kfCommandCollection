@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.32** - 2014-02-03
+
+* added support for `FLEXCONTENT_CATEGORY` and `FLEXCONTE_FAQ`
+
 **0.31** - 2014-01-24
 
 * Comments support now also flexContent
