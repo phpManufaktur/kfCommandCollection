@@ -16,8 +16,9 @@ use phpManufaktur\CommandCollection\Data\Comments\Import\FeedbackModule as Feedb
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 use phpManufaktur\Basic\Data\CMS\Page;
+use phpManufaktur\Basic\Control\Pattern\Alert;
 
-class FeedbackModule extends Dialog
+class FeedbackModule extends Alert
 {
     protected static $import_is_possible = false;
     protected $FeedbackModuleData = null;
@@ -53,15 +54,16 @@ class FeedbackModule extends Dialog
         $count = 0;
         if (!self::$import_is_possible) {
             // no import possible
-            $this->setMessage('There exists no FeedbackModule table for import!');
+            $this->setAlert('There exists no FeedbackModule table for import!', array(), self::ALERT_TYPE_WARNING);
         }
         else {
             $count = $this->FeedbackModuleData->countRecords();
         }
 
-        return $this->app['twig']->render($this->app['utils']->getTemplateFile('@phpManufaktur/CommandCollection/Template/Comments', 'import/start.feedbackmodule.twig'),
+        return $this->app['twig']->render($this->app['utils']->getTemplateFile(
+            '@phpManufaktur/CommandCollection/Template/Comments', 'import/start.feedbackmodule.twig'),
             array(
-                'message' => $this->getMessage(),
+                'alert' => $this->getAlert(),
                 'import_is_possible' => self::$import_is_possible,
                 'count' => $count
             ));
@@ -112,7 +114,7 @@ class FeedbackModule extends Dialog
         // insert the contact data
         $contact_id = -1;
         if (!$this->app['contact']->insert($data, $contact_id)) {
-            self::$message = $this->app['contact']->getMessage();
+            $this->setAlertUnformatted($this->app['contact']->getAlert());
             return false;
         }
         return true;
@@ -236,14 +238,14 @@ class FeedbackModule extends Dialog
 
         }
 
-        $this->setMessage('Imported %feedbacks% records and %comments% administrative comments from FeedbackModule',
-            array('%feedbacks%' => $imported_feedback, '%comments%' => $imported_comment));
+        $this->setAlert('Imported %feedbacks% records and %comments% administrative comments from FeedbackModule',
+            array('%feedbacks%' => $imported_feedback, '%comments%' => $imported_comment), self::ALERT_TYPE_INFO, array(), true);
 
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
             '@phpManufaktur/CommandCollection/Template/Comments',
             'import/execute.feedbackmodule.twig'),
             array(
-                'message' => $this->getMessage()
+                'alert' => $this->getAlert()
             ));
     }
 }

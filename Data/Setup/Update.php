@@ -47,6 +47,15 @@ class Update
         $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Template/Comments/default/message.twig');
     }
 
+    /**
+     * Release 0.33
+     */
+    protected function release_033()
+    {
+        $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Control/Comments/Import/Dialog.php');
+        $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Template/Comments/default/import/message.twig');
+    }
+
     public function exec(Application $app)
     {
         $this->app = $app;
@@ -57,6 +66,8 @@ class Update
         $this->release_027();
         // Release 0.31
         $this->release_031();
+        // Release 0.33
+        $this->release_033();
 
         return $app['translator']->trans('Successfull updated the extension %extension%.',
             array('%extension%' => 'CommandCollection'));

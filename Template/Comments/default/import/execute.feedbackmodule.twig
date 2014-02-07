@@ -16,8 +16,6 @@
 {% block content %}
   <h1>{{ 'Import comments from the FeedbackModule'|trans }}</h1>
   
-  {% if message|length > 0 %}
-    <div class="message">{{ message }}</div>
-  {% endif %}   
+  {{ alert }}  
 
 {% endblock content %}
