@@ -17,6 +17,8 @@ if ('á' != "\xc3\xa1") {
 return array(
     'Comment'
         => 'Kommentar',
+    'Comments'
+        => 'Kommentare',
     'Create a new comment'
         => 'Einen neuen Kommentar erstellen',
 
@@ -78,7 +80,8 @@ return array(
         => 'Es existieren %count% Datensätze des FeedbackModule die in <i>Comments</i> importiert werden können.',
     'There exists no FeedbackModule table for import!'
         => 'Es existiert keine FeedbackModule Tabelle, ein Import ist nicht möglich.',
-
+    "This Tag type is created by the kitCommand 'Comments' and will be set for persons who leave a comment."
+        => "Diese Markierung wurde durch das kitCommand 'Comments' angelegt und wird Personen zugewiesen, die einen Kommentar hinterlassen.",
 
     'vote'
         => 'Bewertung',
