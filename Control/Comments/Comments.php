@@ -544,6 +544,10 @@ class Comments extends Basic
                 throw new \Exception('You have specified the reserved identifier FLEXCONTENT but flexContent is not installed! Please install flexContent or choose another identifer!');
             }
         }
+        elseif (self::$parameter['type'] == 'EVENT') {
+            // this is a comment to an EVENT
+            $url = FRAMEWORK_URL.'/event/perma/id/'.self::$identifier_id;
+        }
 
         $comment = array(
             'identifier_id' => self::$identifier_id,
