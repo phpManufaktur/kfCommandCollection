@@ -7,8 +7,10 @@
   @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
-{% if app.translator.locale == 'dee' %}
+{% if app.translator.locale == 'de' %}
   {# GERMAN Version #}
+  <p>Hallo {{ comment.contact_nick_name }},</p>
+  <p>der Kommentar "{{ comment.comment_headline }}" den Sie auf <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a> veröffentlichen wollten, wurde durch den Administrator <b>zurückgewiesen</b>.</p>
 {% else %}
   {# ENGLISH Version #}
   <p>Hello {{ comment.contact_nick_name }},</p>

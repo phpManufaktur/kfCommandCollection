@@ -7,8 +7,11 @@
   @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
-{% if app.translator.locale == 'dee' %}
+{% if app.translator.locale == 'de' %}
   {# GERMAN Version #}
+  <p>Hallo {{ comment.contact_nick_name }},</p>
+  <p>Ihr Kommentar "{{ comment.comment_headline }}" wurde gerade freigegeben und unter <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a> veröffentlicht.</p>
+  <p>Vielen Dank!</p>
 {% else %}
   {# ENGLISH Version #}
   <p>Hello {{ comment.contact_nick_name }},</p>

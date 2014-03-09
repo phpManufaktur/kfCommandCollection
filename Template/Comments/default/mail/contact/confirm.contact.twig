@@ -7,8 +7,13 @@
   @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
-{% if app.translator.locale == 'dee' %}
+{% if app.translator.locale == 'de' %}
   {# GERMAN Version #}
+  <p>Hallo {{ comment.contact_nick_name }},</p>
+  <p>vielen Dank für Ihren Kommentar "{{ comment.comment_headline }}" auf der Seite <a href="{{ comment.comment_url }}">{{ comment.comment_url }}</a>.</p>
+  <p>Bevor wir den Kommentar veröffentlichen können, bestätigen Sie bitte Ihre E-Mail Adresse mit dem folgenden Link:</p>  
+  <p><a href="{{ activation_link }}">Die E-Mail Adresse ist korrekt</a>.</p>
+  <p>Vielen Dank!</p>
 {% else %}
   {# ENGLISH Version #}
   <p>Hello {{ comment.contact_nick_name }},</p>

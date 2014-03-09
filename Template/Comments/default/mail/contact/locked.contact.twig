@@ -7,8 +7,10 @@
   @copyright 2013 Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
-{% if app.translator.locale == 'dee' %}
+{% if app.translator.locale == 'de' %}
   {# GERMAN Version #}
+  <p>Hallo {{ comment.contact_nick_name }},</p>
+  <p>der Administrator hat Ihre E-Mail Adresse gesperrt, Sie können keine weiteren Kommentare über {{ comment.comment_url }} oder andere Seiten unserer Website veröffentlichen.</p>
 {% else %}
   {# ENGLISH Version #}
   <p>Hello {{ comment.contact_nick_name }},</p>
