@@ -6,6 +6,15 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.33** - 2014-03-10
+
+* changed import for the old FeedbackModule to usage of class `Alert`
+* added missing translations for tag `COMMENTS`
+* add template name as comment to support designers
+* added missing german translations to multiple email templates
+* For comments to EVENT redirect now to the permalink of the EVENT ID
+* add table `collection_comments_passed` and function to pass comments to a mapped identifier
+
 **0.32** - 2014-02-03
 
 * added support for `FLEXCONTENT_CATEGORY` and `FLEXCONTE_FAQ`
