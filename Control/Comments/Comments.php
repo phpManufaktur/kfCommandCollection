@@ -19,6 +19,7 @@ use phpManufaktur\CommandCollection\Control\Comments\GravatarLib\Gravatar;
 use phpManufaktur\flexContent\Control\Command\Tools as flexContentTools;
 use phpManufaktur\flexContent\Data\Content\Content as flexContentData;
 use phpManufaktur\flexContent\Data\Content\CategoryType as flexContentCategoryTypeData;
+use phpManufaktur\CommandCollection\Data\Comments\CommentsPassed;
 
 class Comments extends Basic
 {
@@ -146,7 +147,7 @@ class Comments extends Basic
                 }
             }
             elseif (strtoupper($params['id']) == 'EVENT_ID') {
-                if (null == ($id = $this->app['session']->get('EVENT_ID'))) {
+                if (null === ($id = $this->app['session']->get('EVENT_ID'))) {
                     $id = -1;
                     $app['monolog']->addInfo('The magic EVENT_ID is missing the session variable EVENT_ID (must be set by Event)',
                         array(__METHOD__, __LINE__));
@@ -169,10 +170,18 @@ class Comments extends Basic
             $id = $this->getCMSpageID();
         }
 
+        $type = (isset($params['type']) && !empty($params['type'])) ? strtoupper($params['type']) : 'PAGE';
+
+        // check if the ID is passed to another ID ...
+        $CommentsPassed = new CommentsPassed($app);
+        if (false !== ($passed_id = $CommentsPassed->selectPassTo($type, $id))) {
+            $id = $passed_id;
+        }
+
         // check the parameters and set defaults
         self::$parameter = array(
             'captcha' => (isset($params['captcha']) && (($params['captcha'] == '0') || (strtolower(trim($params['captcha'])) == 'false'))) ? false : true,
-            'type' => (isset($params['type']) && !empty($params['type'])) ? strtoupper($params['type']) : 'PAGE',
+            'type' => $type,
             'id' => $id,
             'publish' => $publish,
             'gravatar' => $use_gravatar,

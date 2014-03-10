@@ -13,6 +13,7 @@ namespace phpManufaktur\CommandCollection\Data\Setup;
 
 use Silex\Application;
 use phpManufaktur\CommandCollection\Data\RAL\RAL;
+use phpManufaktur\CommandCollection\Data\Comments\CommentsPassed;
 
 class Update
 {
@@ -54,7 +55,15 @@ class Update
     {
         $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Control/Comments/Import/Dialog.php');
         $this->app['filesystem']->remove(MANUFAKTUR_PATH.'/CommandCollection/Template/Comments/default/import/message.twig');
+
+        if (!$this->app['db.utils']->tableExists(FRAMEWORK_TABLE_PREFIX.'collection_comments_passed')) {
+            // add the table for passed Identifiers
+            $CommentsPassed = new CommentsPassed($this->app);
+            $CommentsPassed->createTable();
+        }
     }
+
+
 
     public function exec(Application $app)
     {

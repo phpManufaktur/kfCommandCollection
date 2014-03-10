@@ -16,6 +16,7 @@ use phpManufaktur\CommandCollection\Data\Rating\Rating;
 use phpManufaktur\CommandCollection\Data\Rating\RatingIdentifier;
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
+use phpManufaktur\CommandCollection\Data\Comments\CommentsPassed;
 
 class Uninstall
 {
@@ -33,6 +34,9 @@ class Uninstall
 
         $Comments = new Comments($app);
         $Comments->dropTable();
+
+        $CommentsPassed = new CommentsPassed($app);
+        $CommentsPassed->dropTable();
 
         return $app['translator']->trans('Successfull uninstalled the extension %extension%.',
             array('%extension%' => 'CommandCollection'));

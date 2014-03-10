@@ -17,6 +17,7 @@ use phpManufaktur\CommandCollection\Data\Rating\RatingIdentifier;
 use phpManufaktur\CommandCollection\Data\Comments\Comments;
 use phpManufaktur\CommandCollection\Data\Comments\CommentsIdentifier;
 use phpManufaktur\CommandCollection\Data\RAL\RAL;
+use phpManufaktur\CommandCollection\Data\Comments\CommentsPassed;
 
 class Setup
 {
@@ -37,6 +38,9 @@ class Setup
 
             $Comments = new Comments($app);
             $Comments->createTable();
+
+            $CommentsPassed = new CommentsPassed($app);
+            $CommentsPassed->createTable();
 
             $RAL = new RAL($app);
             $RAL->createTable();
