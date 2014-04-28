@@ -9,14 +9,6 @@
  * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
-// not needed - use only for syntax check!
-global $app, $admin, $command, $collection;
-
-// scan the /Locale directory and add all available languages
-$app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale');
-// scan the /Locale/Custom directory and add all available languages
-$app['utils']->addLanguageFiles(MANUFAKTUR_PATH.'/CommandCollection/Data/Locale/Custom');
-
 // use $collection for all CommandCollection routes
 $collection = $app['controllers_factory'];
 
