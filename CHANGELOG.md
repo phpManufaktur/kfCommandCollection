@@ -6,6 +6,10 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.34** - 2014-05-07
+
+* all language files are now loaded by the BASIC extension
+
 **0.33** - 2014-03-10
 
 * changed import for the old FeedbackModule to usage of class `Alert`
