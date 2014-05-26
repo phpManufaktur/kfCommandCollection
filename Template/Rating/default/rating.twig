@@ -8,6 +8,7 @@
   @license MIT License (MIT) http://www.opensource.org/licenses/MIT
 #}
 {% extends getTemplateFile('@phpManufaktur/Basic/Template', 'kitcommand/iframe.body.twig') %}
+{% block robots %}noindex,follow{% endblock %}
 {% block stylesheet %}
   {{ parent() }}
   <link rel="stylesheet" type="text/css" href="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/css/jRating.jquery.css" media="screen, projection" />
