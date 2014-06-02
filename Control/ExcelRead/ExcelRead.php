@@ -13,6 +13,8 @@ namespace phpManufaktur\CommandCollection\Control\ExcelRead;
 
 use phpManufaktur\Basic\Control\kitCommand\Basic;
 use Silex\Application;
+use phpManufaktur\flexContent\Control\Command\Tools;
+use phpManufaktur\flexContent\Data\Content\Content;
 
 require_once MANUFAKTUR_PATH.'/CommandCollection/Control/ExcelRead/BiffWorkbook/CompoundDocument.inc.php';
 require_once MANUFAKTUR_PATH.'/CommandCollection/Control/ExcelRead/BiffWorkbook/BiffWorkbook.inc.php';
@@ -316,6 +318,29 @@ class ExcelRead extends Basic
             // add the sheet
             $excel[] = $add_sheet;
         }
+
+        // we want to grant the "fold in" if the frame url is executed outside the CMS
+        if (!isset($parameter['url'])) {
+            $url = $this->getCMSpageURL();
+            if (empty($url) && !is_null($app['session']->get('FLEXCONTENT_EDIT_CONTENT_ID')) &&
+                !is_null($app['session']->get('FLEXCONTENT_EDIT_CONTENT_LANGUAGE'))) {
+                // this is a flexContent article!
+                $fcTools = new Tools($app);
+                $base_url = $fcTools->getPermalinkBaseURL($app['session']->get('FLEXCONTENT_EDIT_CONTENT_LANGUAGE'));
+                $fcData = new Content($app);
+                $data = $fcData->selectPermaLinkByContentID($app['session']->get('FLEXCONTENT_EDIT_CONTENT_ID'));
+                if (isset($data['permalink'])) {
+                    $url = $base_url.'/'.$data['permalink'];
+                }
+                $this->setCMSpageURL($url);
+            }
+            $parameter['url'] = $url;
+            $this->createParameterID($parameter);
+        }
+        else {
+            $this->setCMSpageURL($parameter['url']);
+        }
+        $this->setRedirectActive(true);
 
         // return the excel file
         return $this->app['twig']->render($this->app['utils']->getTemplateFile(
