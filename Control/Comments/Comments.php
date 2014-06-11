@@ -311,6 +311,7 @@ class Comments extends Basic
      */
     protected function promptForm($form)
     {
+
         // we want to grant the "fold in" if the frame url is executed outside the CMS
         if (!isset(self::$parameter['url'])) {
             $url = $this->getCMSpageURL();
@@ -327,7 +328,8 @@ class Comments extends Basic
                     $this->setCMSpageURL($url);
                 }
                 self::$parameter['url'] = $url;
-                $this->createParameterID(self::$parameter);
+                $this->createParameterID();
+                //$this->createParameterID(self::$parameter);
         }
         else {
             $this->setCMSpageURL(self::$parameter['url']);
