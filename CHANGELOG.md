@@ -6,6 +6,13 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.35** - 2014-06-11
+
+* changed `robots` directive for the kitCommand `rating`
+* fixed problem if iframe is opened external and target is a flexContent permanent link
+* changed formatting for Comments container
+* fixed a problem creating the parameter PID - conflict with the new created parameter array (?!)
+
 **0.34** - 2014-05-07
 
 * all language files are now loaded by the BASIC extension
