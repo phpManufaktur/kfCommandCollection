@@ -384,9 +384,10 @@ EOD;
         try {
             $comments_tbl = self::$table_name;
             $comments_idf = FRAMEWORK_TABLE_PREFIX.'collection_comments_identifier';
-            $SQL = "SELECT COUNT(comment_id) FROM `$comments_tbl`, `$comments_idf` WHERE ".
-                "`identifier_type_name`='$type_name' AND `identifier_type_id`='$type_id' AND ".
-                "$comments_idf.identifier_id=$comments_tbl.identifier_id AND `comment_status`='CONFIRMED'";
+            $SQL = "SELECT COUNT(comment_id) FROM `$comments_tbl` ".
+                "LEFT JOIN `$comments_idf` ON `$comments_idf`.`identifier_id`=`$comments_tbl`.`identifier_id` ".
+                "WHERE `identifier_type_name`='$type_name' AND `identifier_type_id`='$type_id' AND ".
+                "`comment_status`='CONFIRMED'";
             return $this->app['db']->fetchColumn($SQL);
         } catch (\Doctrine\DBAL\DBALException $e) {
             throw new \Exception($e);
