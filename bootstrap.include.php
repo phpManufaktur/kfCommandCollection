@@ -84,6 +84,14 @@ $collection->get('/comments/admin/lock/{guid}',
     // admin reject the comment and lock the contact
     'phpManufaktur\CommandCollection\Control\Comments\Comments::controllerAdminLockContact');
 
+// administrative routes for the comments
+$admin->get('/collection/comments/reject/id/{comment_id}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::ControllerAdminPublishedCommentReject');
+$admin->get('/collection/comments/remove/id/{comment_id}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::ControllerAdminPublishedCommentRemove');
+$admin->get('/collection/comments/confirm/id/{comment_id}',
+    'phpManufaktur\CommandCollection\Control\Comments\Comments::ControllerAdminPublishedCommentConfirm');
+
 // RAL colors
 $command->post('/ral',
     'phpManufaktur\CommandCollection\Control\RAL\RAL::controllerRAL')

@@ -62,6 +62,8 @@ return array(
         => 'Vielen Dank für den neuen Kommentar!',
     'Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.'
         => 'Vielen Dank für Ihren Kommentar. Wir haben Ihnen einen Aktivierungslink gesendet um Ihre E-Mail Adresse zu bestätigen. Nach der Aktivierung veröffentlichen wir Ihren Kommentar.',
+    'The comment with the ID %id% does not exists!'
+        => 'Es existiert kein Kommentar mit der ID %id%!',
     'The comment with the ID %id% has confirmed and published.'
         => 'Der Kommentar mit der ID %id% wurde bestätigt und veröffentlicht.',
     'The comment with the ID %id% is already marked as REJECTED!'
@@ -74,6 +76,8 @@ return array(
         => 'Der Kommentar mit der ID %comment_id% wurde <b>zurückgewiesen</b> und darüber hinaus wurde der Kontakt mit der ID %contact_id% <b>gesperrt</b>.',
     'The comment with the ID %id% is marked as REJECTED!!'
         => 'Der Kommentar mit der ID %id% ist als <b>REJECTED</b> gekennzeichnet.',
+    'The comment with the ID %id% was successful removed (physically deleted)'
+        => 'Der Kommentar mit der ID %id% wurde entfernt (physikalisch gelöscht)',
     'The RAL number %number% does not exists!'
         => 'Die RAL Nummer %number% wurde nicht gefunden!',
     'There exists %count% records of the FeedbackModule which can be imported into the Comments.'

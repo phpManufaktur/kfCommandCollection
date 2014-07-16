@@ -36,6 +36,7 @@
     <ul class="media-list">
       {% for comment in thread %}
         {# loop through the comments in this thread #}
+        <!-- Comment ID: {{ comment.main.comment_id }} [{{ comment.main.contact_nick_name }}]-->
         <li class="media" id="comment_id_{{ comment.main.comment_id }}">
           {% if parameter.gravatar and configuration.gravatar.comment.main.enabled %}
             <div class="pull-left">
@@ -62,6 +63,7 @@
               <ul class="media-list">
                 {% for reply in comment.sub %}
                   {# loop through the replies #}
+                  <!-- Comment ID: {{ reply.comment_id }} [{{ reply.contact_nick_name }}] -->
                   <li class="media">
                     {% if parameter.gravatar and configuration.gravatar.comment.reply.enabled %}
                       <div class="pull-left">

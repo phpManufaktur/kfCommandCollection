@@ -246,6 +246,39 @@ EOD;
     }
 
     /**
+     * Check if the given Comment ID exists
+     *
+     * @param integer $comment_id
+     * @throws \Exception
+     * @return boolean
+     */
+    public function existsCommentID($comment_id)
+    {
+        try {
+            $SQL = "SELECT `comment_id` FROM `".self::$table_name."` WHERE `comment_id`=$comment_id";
+            $result = $this->app['db']->fetchColumn($SQL);
+            return ($result === $comment_id);
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
+     * Remove, physically delete the given Comment ID
+     *
+     * @param integer $comment_id
+     * @throws \Exception
+     */
+    public function removeCommentID($comment_id)
+    {
+        try {
+            $this->app['db']->delete(self::$table_name, array('comment_id' => $comment_id));
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            throw new \Exception($e);
+        }
+    }
+
+    /**
      * Select a comment by the given GUID
      *
      * @param string $guid

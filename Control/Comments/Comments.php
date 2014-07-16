@@ -661,7 +661,7 @@ class Comments extends Basic
                         array(
                             'communication_id' => -1,
                             'communication_type' => 'EMAIL',
-                            'communication_usage' => 'PRIVATE',
+                            'communication_usage' => 'PRIMARY',
                             'communication_value' => strtolower(self::$submit['contact_email'])
                         )
                     ),
@@ -675,7 +675,6 @@ class Comments extends Basic
                 self::$contact_id = -1;
                 if (!$this->app['contact']->insert($person, self::$contact_id)) {
                     // something went wrong, return with a alert
-                    $this->setAlert($this->app['contact']->getMessage(), array(), self::ALERT_TYPE_DANGER);
                     return $this->promptForm($form);
                 }
                 self::$contact = $this->app['contact']->select(self::$contact_id);
@@ -1128,6 +1127,73 @@ class Comments extends Basic
         $this->setFrameScrollToID('comment_form');
         return $this->promptForm($form);
 
+    }
+
+    /**
+     * Administrative Controller to reject an already published comment
+     *
+     * @param Application $app
+     * @param integer $comment_id
+     * @return string
+     */
+    public function ControllerAdminPublishedCommentReject(Application $app, $comment_id)
+    {
+        $CommentsData = new CommentsData($app);
+        if (!$CommentsData->existsCommentID($comment_id)) {
+            return $app['translator']->trans('The comment with the ID %id% does not exists!',
+                array('%id%' => $comment_id));
+        }
+        $data = array(
+            'comment_status' => 'REJECTED'
+        );
+        $CommentsData->update($data, $comment_id);
+        $message = $app['translator']->trans('The comment with the ID %id% is REJECTED.', array('%id%' => $comment_id));
+        $app['monolog']->addDebug($message);
+        return $message;
+    }
+
+    /**
+     * Administrative Controller to confirm/publish an existing comment
+     *
+     * @param Application $app
+     * @param integer $comment_id
+     * @return string
+     */
+    public function ControllerAdminPublishedCommentConfirm(Application $app, $comment_id)
+    {
+        $CommentsData = new CommentsData($app);
+        if (!$CommentsData->existsCommentID($comment_id)) {
+            return $app['translator']->trans('The comment with the ID %id% does not exists!',
+                array('%id%' => $comment_id));
+        }
+        $data = array(
+            'comment_status' => 'CONFIRMED'
+        );
+        $CommentsData->update($data, $comment_id);
+        $message = $app['translator']->trans('The comment with the ID %id% has confirmed and published.', array('%id%' => $comment_id));
+        $app['monolog']->addDebug($message);
+        return $message;
+    }
+
+    /**
+     * Administrative Controller to remove (physically delete) an already published comment
+     *
+     * @param Application $app
+     * @param integer $comment_id
+     * @return string
+     */
+    public function ControllerAdminPublishedCommentRemove(Application $app, $comment_id)
+    {
+        $CommentsData = new CommentsData($app);
+        if (!$CommentsData->existsCommentID($comment_id)) {
+            return $app['translator']->trans('The comment with the ID %id% does not exists!',
+                array('%id%' => $comment_id));
+        }
+        $CommentsData->removeCommentID($comment_id);
+        $message = $app['translator']->trans('The comment with the ID %id% was successful removed (physically deleted)',
+            array('%id%' => $comment_id));
+        $app['monolog']->addDebug($message);
+        return $message;
     }
 
 }
