@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.36** - 2014-07-16
+
+* changed SQL query to count comments
+* add administrative links to reject, remove and confirm already published comments
+
 **0.35** - 2014-06-11
 
 * changed `robots` directive for the kitCommand `rating`
