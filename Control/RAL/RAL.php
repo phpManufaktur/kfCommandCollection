@@ -15,24 +15,14 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use phpManufaktur\CommandCollection\Data\RAL\RAL as dataRAL;
+use phpManufaktur\Basic\Control\Pattern\Alert;
 
-class RAL
+class RAL extends Alert
 {
     protected $app = null;
     protected static $cms = null;
     protected static $parameter = null;
     protected $dataRAL = null;
-
-    protected function promptMessage($message, $params=array())
-    {
-        return $this->app['twig']->render($this->app['utils']->getTemplateFile(
-            '@phpManufaktur/CommandCollection/Template/RAL',
-            'message.twig', self::$parameter['template']),
-            array(
-                'parameter' => self::$parameter,
-                'message' => $this->app['translator']->trans($message, $params)
-            ));
-    }
 
     /**
      * Calculate the contrast color to the given one
@@ -81,7 +71,8 @@ class RAL
             }
         }
         if (false === ($items = $this->dataRAL->selectRALcolors($colors))) {
-            return $this->promptMessage('No hits for the color(s) %colors%!', array('%colors%' => implode(',', $colors)));
+            $this->setAlert('No hits for the color(s) %colors%!', array('%colors%' => implode(',', $colors)));
+            return $this->getAlert();
         }
 
         if (!isset(self::$parameter['width']) ||

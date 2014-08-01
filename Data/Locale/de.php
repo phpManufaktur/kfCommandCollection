@@ -74,12 +74,8 @@ return array(
         => 'Der Kommentar mit der ID %id% wurde <b>zurückgewiesen</b>.',
     'The comment with the ID %comment_id% is REJECTED and too, the contact with the ID %contact_id% has LOCKED.'
         => 'Der Kommentar mit der ID %comment_id% wurde <b>zurückgewiesen</b> und darüber hinaus wurde der Kontakt mit der ID %contact_id% <b>gesperrt</b>.',
-    'The comment with the ID %id% is marked as REJECTED!!'
-        => 'Der Kommentar mit der ID %id% ist als <b>REJECTED</b> gekennzeichnet.',
     'The comment with the ID %id% was successful removed (physically deleted)'
         => 'Der Kommentar mit der ID %id% wurde entfernt (physikalisch gelöscht)',
-    'The RAL number %number% does not exists!'
-        => 'Die RAL Nummer %number% wurde nicht gefunden!',
     'There exists %count% records of the FeedbackModule which can be imported into the Comments.'
         => 'Es existieren %count% Datensätze des FeedbackModule die in <i>Comments</i> importiert werden können.',
     'There exists no FeedbackModule table for import!'
@@ -87,10 +83,6 @@ return array(
     "This Tag type is created by the kitCommand 'Comments' and will be set for persons who leave a comment."
         => "Diese Markierung wurde durch das kitCommand 'Comments' angelegt und wird Personen zugewiesen, die einen Kommentar hinterlassen.",
 
-    'vote'
-        => 'Bewertung',
-    'votes'
-        => 'Bewertungen',
     'Votes: %count% - Average: %average%'
         => 'Bewertungen: %count% - Durchschnitt: %average%',
 

@@ -378,9 +378,8 @@ class Comments extends Basic
         // send the message
         $this->app['mailer']->send($message);
 
-        $msg = 'Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.';
-
-        return $this->ControllerView($this->app, $msg);
+        return $this->ControllerView($this->app,
+            $this->app['translator']->trans('Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.'));
     }
 
     /**
@@ -714,14 +713,14 @@ class Comments extends Basic
                 // the administrator must confirm the comment
                 $this->createCommentRecord();
                 $this->adminConfirmComment();
-                $message = 'Your comment will be checked and published as soon as possible.';
+                $message = $this->app['translator']->trans('Your comment will be checked and published as soon as possible.');
                 return $this->controllerView($this->app, $message);
             }
             elseif (self::$idenfifier['identifier_publish'] == 'IMMEDIATE') {
                 // publish the comment immediate
                 $this->createCommentRecord('CONFIRMED');
                 $this->infoCommentPublished();
-                $message = 'Thank you for the comment!';
+                $message = $this->app['translator']->trans('Thank you for the comment!');
                 return $this->controllerView($this->app, $message);
             }
             else {
