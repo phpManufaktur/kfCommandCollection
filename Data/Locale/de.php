@@ -51,6 +51,10 @@ return array(
     => 'Kommentare aus dem FeedbackModule importieren',
   'Imported %feedbacks% records and %comments% administrative comments from FeedbackModule'
     => 'Es wurden %feedbacks% Feedbacks sowie %comments% administrative Kommentare aus dem FeedbackModule in <i>Comments</i> importiert.',
+  'jump to this comment'
+    => 'zu diesem Kommentar springen',
+  'Nickname'
+    => 'Nickname',
   'No hits for the color(s) %colors%!'
     => 'Kein(e) Treffer für die Farbe(n) %colors%!',
   'Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).'
@@ -59,8 +63,12 @@ return array(
     => 'Oh, Ihr Kommentar ist leider etwas zu lang geworden, erlaubt sind %length% Zeichen, bitte kürzen Sie Ihren Beitrag.',
   'Rating'
     => 'Bewertung',
+  'recaptcha'
+    => 'reCaptcha',
   'Reply to this comment'
     => 'Auf diesen Kommentar antworten',
+  'send email at new comment'
+    => 'bei neuen Kommentaren per E-Mail benachrichtigen',
   'Start import from FeedbackModule'
     => 'Import aus dem FeedbackModule starten',
   'Thank you for submitting the comment %headline%!'
@@ -77,18 +85,22 @@ return array(
     => 'Es existiert kein Kommentar mit der ID %id%!',
   'The comment with the ID %id% has confirmed and published.'
     => 'Der Kommentar mit der ID %id% wurde bestätigt und veröffentlicht.',
-  'The comment with the ID %id% is REJECTED.'
-    => 'Der Kommentar mit der ID %id% wurde <b>zurückgewiesen</b>.',
   'The comment with the ID %id% is already marked as REJECTED!'
     => 'Der Kommentar mit der ID %id% ist bereits als <b>REJECTED</b> gekennzeichnet!',
   'The comment with the ID %id% is already published!'
     => 'Der Kommentar mit der ID %id% wurde bereits veröffentlicht!',
+  'The comment with the ID %id% is REJECTED.'
+    => 'Der Kommentar mit der ID %id% wurde <b>zurückgewiesen</b>.',
   'The comment with the ID %id% was successful removed (physically deleted)'
     => 'Der Kommentar mit der ID %id% wurde entfernt (physikalisch gelöscht)',
   'There exists %count% records of the FeedbackModule which can be imported into the Comments.'
     => 'Es existieren %count% Datensätze des FeedbackModule die in <i>Comments</i> importiert werden können.',
   'There exists no FeedbackModule table for import!'
     => 'Es existiert keine FeedbackModule Tabelle, ein Import ist nicht möglich.',
+  'This is no NEWS article, please check the usage of the magic POST_ID.'
+    => 'Dies ist kein <strong>NEWS</strong> Artikel, bitte prüfen Sie die Verwendung der magischen <em>POST_ID</em>.',
+  'This is no TOPICS article, please check the usage of the magic TOPIC_ID.'
+    => 'Dies ist kein <strong>TOPICS</strong> Artikel, bitte prüfen Sie die Verwendung der magischen <em>TOPIC_ID</em>.',
   'This Tag type is created by the kitCommand \'Comments\' and will be set for persons who leave a comment.'
     => 'Diese Markierung wurde durch das kitCommand \'Comments\' angelegt und wird Personen zugewiesen, die einen Kommentar hinterlassen.',
   'Votes: %count% - Average: %average%'
@@ -97,6 +109,8 @@ return array(
     => 'Sie antworten auf den Kommentar <i>%headline%</i>',
   'You are unsubscribed from this thread.'
     => 'Sie erhalten keine Benachrichtigungen mehr über neue Kommentare.',
+  'You comment will be confirmed by the administrator and published as soon as possible.'
+    => 'Ihr Kommentar wird durch einen Administrator geprüft und so rasch wie möglich veröffentlicht.',
   'Your comment'
     => 'Ihr Kommentar',
   'Your comment "%headline% is already published, the activation link is no longer valid'
@@ -105,9 +119,5 @@ return array(
     => 'Ihr Kommentar wird geprüft und so rasch wie möglich veröffentlicht.',
   'Your contact status is not as expected PENDING - please contact the <a href="mailto:%admin_email%">administrator</a>.'
     => 'Ihr Kontakt Status ist nicht wie erwartet auf <i>PENDING</i> gesetzt, das Programm kann ihre Anfrage nicht bearbeiten. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.',
-  'jump to this comment'
-    => 'zu diesem Kommentar springen',
-  'send email at new comment'
-    => 'bei neuen Kommentaren per E-Mail benachrichtigen',
   
 );
