@@ -255,12 +255,10 @@ class Comments extends Basic
         ))
         ->add('comment_headline', 'text', array(
             'data' => isset($data['comment_headline']) ? $data['comment_headline'] : '',
-            'label' => 'Headline',
             'required' => true
         ))
         ->add('comment_content', 'textarea', array(
             'data' => isset($data['comment_content']) ? $data['comment_content'] : '',
-            'label' => 'Comment',
             'required' => true
         ))
         ->add('contact_id', 'hidden', array(
@@ -268,22 +266,18 @@ class Comments extends Basic
         ))
         ->add('contact_nick_name', 'text', array(
             'data' => isset($data['contact_nick_name']) ? $data['contact_nick_name'] : '',
-            'label' => 'Nickname',
             'required' => true
         ))
         ->add('contact_email', 'email', array(
             'data' => isset($data['contact_email']) ? $data['contact_email'] : '',
-            'label' => 'E-Mail',
             'required' => true
         ))
         ->add('contact_url', 'url', array(
             'data' => isset($data['contact_homepage']) ? $data['contact_homepage'] : '',
-            'label' => 'Homepage',
             'required' => false
         ))
         ->add('comment_update_info', 'checkbox', array(
-            'required' => false,
-            'label' => 'send email at new comment'
+            'required' => false
         ))
         ->getForm();
     }

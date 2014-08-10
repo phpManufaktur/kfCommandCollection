@@ -17,14 +17,14 @@ if ('á' != "\xc3\xa1") {
 }
 
 return array(
-  'Comment'
-    => 'Kommentar',
   'Comment content'
     => 'Kommentar',
   'Comment headline'
     => 'Schlagzeile',
   'Comment id'
     => 'ID',
+  'Comment update info'
+    => 'bei neuen Kommentaren per E-Mail benachrichtigen',
   'Comments'
     => 'Kommentare',
   'Contact email'
@@ -39,8 +39,6 @@ return array(
     => 'Weiß nicht, wie ich die magische ID %magic_id% behandeln soll!',
   'For the email address %email% exists a contact record, but the status does not allow you to post a comment. Please contact the <a href="mailto:%admin_email%">administrator</a>.'
     => 'Für die E-Mail Adresse %email% existiert ein Datensatz, der Status erlaubt es Ihnen jedoch nicht einen Kommentar zu veröffentlichen. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.',
-  'Headline'
-    => 'Schlagzeile',
   'Homepage'
     => 'Homepage',
   'Identifier id'
@@ -53,8 +51,6 @@ return array(
     => 'Es wurden %feedbacks% Feedbacks sowie %comments% administrative Kommentare aus dem FeedbackModule in <i>Comments</i> importiert.',
   'jump to this comment'
     => 'zu diesem Kommentar springen',
-  'Nickname'
-    => 'Nickname',
   'No hits for the color(s) %colors%!'
     => 'Kein(e) Treffer für die Farbe(n) %colors%!',
   'Ooops, you have forgotten to post a comment or your comment is too short (minimum: %length% characters).'
@@ -67,8 +63,6 @@ return array(
     => 'reCaptcha',
   'Reply to this comment'
     => 'Auf diesen Kommentar antworten',
-  'send email at new comment'
-    => 'bei neuen Kommentaren per E-Mail benachrichtigen',
   'Start import from FeedbackModule'
     => 'Import aus dem FeedbackModule starten',
   'Thank you for submitting the comment %headline%!'
@@ -119,5 +113,5 @@ return array(
     => 'Ihr Kommentar wird geprüft und so rasch wie möglich veröffentlicht.',
   'Your contact status is not as expected PENDING - please contact the <a href="mailto:%admin_email%">administrator</a>.'
     => 'Ihr Kontakt Status ist nicht wie erwartet auf <i>PENDING</i> gesetzt, das Programm kann ihre Anfrage nicht bearbeiten. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.',
-  
+
 );
