@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.37** - 2014-08-11
+
+* improved translation handling, added support for i18nEditor
+* generate extended debug information if the form submission is not valid 
+
 **0.36** - 2014-07-16
 
 * changed SQL query to count comments
@@ -33,7 +38,7 @@ kitFramework - <https://kit2.phpmanufaktur.de>
 
 **0.32** - 2014-02-03
 
-* added support for `FLEXCONTENT_CATEGORY` and `FLEXCONTE_FAQ`
+* added support for `FLEXCONTENT_CATEGORY` and `FLEXCONTET_FAQ`
 
 **0.31** - 2014-01-24
 
