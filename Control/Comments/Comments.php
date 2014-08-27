@@ -277,7 +277,8 @@ class Comments extends Basic
             'required' => false
         ))
         ->add('comment_update_info', 'checkbox', array(
-            'required' => false
+            'required' => false,
+            'label' => 'Comment update info'
         ))
         ->getForm();
     }
