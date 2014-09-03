@@ -49,7 +49,7 @@ class Comments
         `comment_parent` INT(11) NOT NULL DEFAULT '0',
         `comment_url` TEXT NOT NULL,
         `comment_headline` VARCHAR(64) NOT NULL DEFAULT '',
-        `comment_content` TEXT NOT NULL DEFAULT '',
+        `comment_content` TEXT NOT NULL,
         `comment_status` ENUM ('CONFIRMED', 'PENDING', 'REJECTED') NOT NULL DEFAULT 'PENDING',
         `comment_guid` VARCHAR(128) NOT NULL DEFAULT '',
         `comment_guid_2` VARCHAR(128) NOT NULL DEFAULT '',
