@@ -190,7 +190,11 @@
   <script type="text/javascript" src="{{ MANUFAKTUR_URL }}/CommandCollection/Template/Rating/default/jquery/jRating.jquery.js"></script>
 {% endblock footer_jquery %}
 {% block footer %}
-  {% set iframe_add_height = 140 %}
+  {% if parameter.captcha and reCaptchaIsActive() %}
+    {% set iframe_add_height = 280 %}
+  {% else %}
+    {% set iframe_add_height = 140 %}
+  {% endif %}
   {{ parent() }} 
   {% if parameter.rating %}
     <script type="text/javascript">
