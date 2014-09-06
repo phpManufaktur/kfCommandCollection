@@ -403,7 +403,7 @@ class Comments extends Basic
         // send the message
         $this->app['mailer']->send($message);
 
-        $msg = 'Thank you for your comment. We have send you an activation link to confirm the publishing of the comment.';
+        $msg = $this->app['translator']->trans('Thank you for your comment. We have send you an activation link to confirm the publishing of the comment.');
         return $this->ControllerView($this->app, $msg);
     }
 

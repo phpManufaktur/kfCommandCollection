@@ -71,6 +71,8 @@ return array(
     => 'Vielen Dank für die Aktivierung Ihrer E-Mail Adresse. Ihr Kommentar wird gerade von einem Administrator geprüft und so rasch wie möglich veröffentlicht.',
   'Thank you for the comment!'
     => 'Vielen Dank für den neuen Kommentar!',
+  'Thank you for your comment. We have send you an activation link to confirm the publishing of the comment.'
+    => 'Vielen Dank für Ihren Kommentar. Wir haben Ihnen einen Aktivierungslink zugesendet mit dem Sie die Veröffentlichung des Kommentars bestätigen können.',
   'Thank you for your comment. We have send you an activation link to confirm your email address. The email address will never published.'
     => 'Vielen Dank für Ihren Kommentar. Wir haben Ihnen einen Aktivierungslink gesendet um Ihre E-Mail Adresse zu bestätigen. Nach der Aktivierung veröffentlichen wir Ihren Kommentar.',
   'The comment with the ID %comment_id% is REJECTED and too, the contact with the ID %contact_id% has LOCKED.'
@@ -113,5 +115,5 @@ return array(
     => 'Ihr Kommentar wird geprüft und so rasch wie möglich veröffentlicht.',
   'Your contact status is not as expected PENDING - please contact the <a href="mailto:%admin_email%">administrator</a>.'
     => 'Ihr Kontakt Status ist nicht wie erwartet auf <i>PENDING</i> gesetzt, das Programm kann ihre Anfrage nicht bearbeiten. Bitte nehmen Sie Kontakt mit dem <a href="mailto:%admin_email%">Administrator</a> auf.',
-
+  
 );
