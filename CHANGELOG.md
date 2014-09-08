@@ -6,6 +6,12 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.39** - 2014-09-08
+
+* Comments: corrected iFrame height if reCaptcha is active
+* Comments: removed not needed `return false;` (causes problems in some browsers)
+* Comments: missing translation command and assigned translation
+
 **0.38** - 2014-09-03
 
 * not SET DEFAULT for TEXT fields! (table collection_comments)
