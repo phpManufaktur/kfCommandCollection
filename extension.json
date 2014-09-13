@@ -21,7 +21,8 @@
   "release":{
     "number":"0.39",
     "date":"2014-09-08",
-    "status":"beta"
+    "status":"beta",
+    "changelog":"https:\/\/github.com\/phpManufaktur\/kfCommandCollection\/blob\/master\/CHANGELOG.md"
   },
   "description":{
     "en":{
