@@ -28,13 +28,13 @@
       "title":"Collection of kitCommands for the kitFramework",
       "short":"A collection of usefull kitCommands for the kitFramework",
       "long":"A collection of usefull kitCommands for the kitFramework and for the parent Content Management System",
-      "url":"https:\/\/kit2.phpmanufaktur.de"
+      "url":"https:\/\/kit2.phpmanufaktur.de/CommandCollection"
     },
     "de":{
       "title":"Sammlung von kitCommands für das kitFramework",
       "short":"Eine Sammlung von kitCommands für das kitFramework",
       "long":"Eine Sammlung von kitCommands für die übergeordneten Content Management Systeme. Das Paket enthält unter anderem: Comments (Kommentarfunktion für das CMS), ExcelRead (Excel Tabellen einlesen und formatiert ausgeben), LoremIpsum (Lorem Ipsum Generator), RAL (RAL Farbtabellen verwenden) und Rating (Bewertungsfunktion für Artikel und Anwendungen)",
-      "url":"https:\/\/kit2.phpmanufaktur.de"
+      "url":"https:\/\/kit2.phpmanufaktur.de/CommandCollection"
     }
   },
   "require":{
