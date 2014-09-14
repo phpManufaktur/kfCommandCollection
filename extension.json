@@ -19,8 +19,8 @@
   "path":"\/extension\/phpmanufaktur\/phpManufaktur\/CommandCollection",
   "namespace":"phpManufaktur\\CommandCollection",
   "release":{
-    "number":"0.39",
-    "date":"2014-09-08",
+    "number":"0.40",
+    "date":"2014-09-14",
     "status":"beta",
     "changelog":"https:\/\/github.com\/phpManufaktur\/kfCommandCollection\/blob\/master\/CHANGELOG.md"
   },
@@ -45,13 +45,13 @@
     "extension": {
         "phpmanufaktur":{
             "Basic":{
-                "release":"1.0.10"
+                "release":"1.0.12"
             },
             "Contact":{
                 "release":"2.0.41"
             },
             "CKEditor":{
-                "release":"0.28"
+                "release":"0.30"
             }
         }
     }

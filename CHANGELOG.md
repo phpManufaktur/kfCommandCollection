@@ -6,6 +6,11 @@ MIT License (MIT) - <http://www.opensource.org/licenses/MIT>
 
 kitFramework - <https://kit2.phpmanufaktur.de>
 
+**0.40** - 2014-09-14
+
+* updated `@link` references
+* added URL for the changelog in the CMS Tool
+
 **0.39** - 2014-09-08
 
 * Comments: corrected iFrame height if reCaptcha is active
