@@ -32,7 +32,7 @@ class Comments extends Basic
     protected static $configuration = null;
     protected static $contact = null;
     protected static $contact_id = -1;
-    protected static $idenfifier = null;
+    protected static $identifier = null;
     protected static $identifier_id = -1;
     protected static $submit = null;
     protected static $comment = null;
@@ -189,7 +189,7 @@ class Comments extends Basic
             'message' => (isset($params['message'])) ? $params['message'] : ''
         );
 
-        if (false === (self::$idenfifier = $this->CommentsIdentifier->selectByTypeID(self::$parameter['type'], self::$parameter['id']))) {
+        if (false === (self::$identifier = $this->CommentsIdentifier->selectByTypeID(self::$parameter['type'], self::$parameter['id']))) {
             // create a new identifier
             if (in_array('IMMEDIATE', self::$parameter['publish'])) {
                 $publish_type = 'IMMEDIATE';
@@ -213,9 +213,9 @@ class Comments extends Basic
             );
             // insert the new identifier
             $this->CommentsIdentifier->insert($data, self::$identifier_id);
-            self::$idenfifier = $this->CommentsIdentifier->select(self::$identifier_id);
+            self::$identifier = $this->CommentsIdentifier->select(self::$identifier_id);
         }
-        self::$identifier_id = self::$idenfifier['identifier_id'];
+        self::$identifier_id = self::$identifier['identifier_id'];
 
         // check if the contact tag type 'COMMENTS' exists
         if (!$this->app['contact']->existsTagName('COMMENTS')) {
@@ -699,19 +699,19 @@ class Comments extends Basic
             }
 
             // contact is checked and can post, now check the handling for new comments
-            if ((self::$idenfifier['identifier_publish'] == 'CONFIRM_EMAIL') ||
-                (self::$idenfifier['identifier_publish'] == 'CONFIRM_EMAIL_ADMIN')) {
+            if ((self::$identifier['identifier_publish'] == 'CONFIRM_EMAIL') ||
+                (self::$identifier['identifier_publish'] == 'CONFIRM_EMAIL_ADMIN')) {
                 // the contact must confirm the comment with an activation link
                 return $this->contactConfirmComment();
             }
-            elseif (self::$idenfifier['identifier_publish'] == 'CONFIRM_ADMIN') {
+            elseif (self::$identifier['identifier_publish'] == 'CONFIRM_ADMIN') {
                 // the administrator must confirm the comment
                 $this->createCommentRecord();
                 $this->adminConfirmComment();
                 $message = $this->app['translator']->trans('Your comment will be checked and published as soon as possible.');
                 return $this->controllerView($this->app, $message);
             }
-            elseif (self::$idenfifier['identifier_publish'] == 'IMMEDIATE') {
+            elseif (self::$identifier['identifier_publish'] == 'IMMEDIATE') {
                 // publish the comment immediate
                 $this->createCommentRecord('CONFIRMED');
                 $this->infoCommentPublished();
@@ -720,7 +720,7 @@ class Comments extends Basic
             }
             else {
                 // Ooops, the handling is not defined?
-                throw new \Exception("Unknown handling for 'identifier_publish' => ".self::$idenfifier['identifier_publish']);
+                throw new \Exception("Unknown handling for 'identifier_publish' => ".self::$identifier['identifier_publish']);
             }
         }
         else {
