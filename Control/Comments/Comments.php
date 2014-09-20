@@ -1106,6 +1106,14 @@ class Comments extends Basic
         }
     }
 
+    /**
+     * Controller for replies - set the parent comment ID and the headline as
+     * hidden field
+     *
+     * @param Application $app
+     * @param integer $comment_id parent comment ID
+     * @return string
+     */
     public function controllerReply(Application $app, $comment_id)
     {
         $this->initParameters($app);
@@ -1116,13 +1124,12 @@ class Comments extends Basic
 
         $data = array(
             'comment_parent' => $reply_data['comment_id'],
-            'comment_headline' => $reply_data['comment_headline']
+            'comment_headline' => $app['utils']->sanitizeText($reply_data['comment_headline'])
         );
 
         $form = $this->getCommentForm($data);
         $this->setFrameScrollToID('comment_form');
         return $this->promptForm($form);
-
     }
 
     /**
